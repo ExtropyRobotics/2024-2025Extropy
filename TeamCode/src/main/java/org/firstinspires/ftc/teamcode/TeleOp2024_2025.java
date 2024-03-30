@@ -78,7 +78,7 @@ public class TeleOp2024_2025 extends LinearOpMode {
             motor2.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
             servoJos1.setPosition(0.2);
-            servoJos2.setPosition(0.2);
+            servoJos2.setPosition(0);
         }
 
     }
