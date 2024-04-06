@@ -59,6 +59,7 @@ public class Teleop_Robot_2024_2025 extends LinearOpMode {
             stickleftx = gamepad1.left_stick_x;
             stickrightx = gamepad1.right_stick_x;
 
+
             if(gamepad2.x){
                 servoSus1.setPosition(1);
                 servoSus2.setPosition(1);
@@ -67,38 +68,35 @@ public class Teleop_Robot_2024_2025 extends LinearOpMode {
                 servoSus1.setPosition(0.7);
                 servoSus2.setPosition(0.55);
             }
-            double distantasus;
-            double distantajos;
-            waitForStart();
-            while (opModeIsActive()) {
-                distantasus=servoJos1.setPosition(0.5);
-                distantasus=servoJos2.setPosition(0.5);
-                distantajos=servoJos1.setPosition(0);
-                distantajos=servoJos2.setPosition(0);
-            }
+            if(gamepad2.left_stick_y<0){
+                   servoJos1.setPosition(0.5);
+                    servoJos2.setPosition(0.5);
+           }
+            if(gamepad2.left_stick_y>0){
+                servoJos1.setPosition(0);
+                servoJos2.setPosition(0);
+                    }
+
+
 
             motorStangaFata.setPower(sticklefty+stickleftx+stickrightx);
             motorDreaptaFata.setPower(sticklefty-stickleftx-stickrightx);
             motorDreaptaSpate.setPower(sticklefty+stickleftx-stickrightx);
             motorStangaSpate.setPower(sticklefty-stickleftx+stickrightx);
 
-            if(gamepad2.left_stick_y > 0){
+            if(gamepad2.right_stick_y > 0){
                 targetPoz += 1;
             }
-            if(gamepad2.left_stick_y < 0){
+            if(gamepad2.right_stick_y < 0){
                 targetPoz -= 1;
             }
             motorBrat1.setTargetPosition(targetPoz);
             motorBrat2.setTargetPosition(targetPoz);
-            motorBrat1.setPower(0);
-            motorBrat2.setPower(0);
+            motorBrat1.setPower(0.5);
+            motorBrat2.setPower(0.5);
             motorBrat1.setMode(DcMotor.RunMode.RUN_TO_POSITION);
             motorBrat2.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-//
-//              servoJos1.setPosition(1);
-//              servoJos2.setPosition(1);
-//              servoSus1.setPosition(1);
-//              servoSus2.setPosition(1);
+
 
 
         }
