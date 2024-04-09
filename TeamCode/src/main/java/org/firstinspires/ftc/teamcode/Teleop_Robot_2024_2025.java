@@ -1,15 +1,18 @@
 package org.firstinspires.ftc.teamcode;
 
+import com.acmerobotics.dashboard.FtcDashboard;
+import com.acmerobotics.dashboard.telemetry.MultipleTelemetry;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.Servo;
 
+import org.firstinspires.ftc.robotcore.external.Telemetry;
+
 @TeleOp(name="Teleop_Robot_2024-2025")
 
 public class Teleop_Robot_2024_2025 extends LinearOpMode {
-
     DcMotor motorStangaFata = null;
     DcMotor motorDreaptaFata = null;
     DcMotor motorStangaSpate = null;
@@ -25,9 +28,10 @@ public class Teleop_Robot_2024_2025 extends LinearOpMode {
     double stickrightx = 0;
 
     int targetPoz = 0;
-
+    double targetPoz2 = 0;
     @Override
     public void runOpMode() {
+        telemetry = new MultipleTelemetry(telemetry, FtcDashboard.getInstance().getTelemetry());
         motorStangaFata = hardwareMap.get(DcMotor.class, "motorStangaFata");
         motorDreaptaFata = hardwareMap.get(DcMotor.class, "motorDreaptaFata");
         motorStangaSpate = hardwareMap.get(DcMotor.class, "motorStangaSpate");
@@ -74,26 +78,37 @@ public class Teleop_Robot_2024_2025 extends LinearOpMode {
             motorStangaSpate.setPower(sticklefty - stickleftx + stickrightx);
 
             if (gamepad2.right_stick_y < 0) {
-                targetPoz += 1;
+                targetPoz += 2;
             }
             if (gamepad2.right_stick_y > 0) {
-                targetPoz -= 1;
+                targetPoz -= 4;
             }
+            if (targetPoz<0)
+                targetPoz = 0;
+            if (targetPoz>669)
+                targetPoz = 669;
             motorBrat1.setTargetPosition(targetPoz);
             motorBrat2.setTargetPosition(targetPoz);
-            motorBrat1.setPower(0.55);
-            motorBrat2.setPower(0.55);
+            motorBrat1.setPower(0.25);
+            motorBrat2.setPower(0.25);
             motorBrat1.setMode(DcMotor.RunMode.RUN_TO_POSITION);
             motorBrat2.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-            if (gamepad2.right_stick_y < 0){
-                servoJos2.setPosition(0.5);
-                servoJos1.setPosition(0.5);}
-                if (gamepad2.right_stick_y > 0){
-                    servoJos2.setPosition(0.25);
-                    servoJos1.setPosition(0.25);
-                }
+            if (gamepad2.left_stick_y < 0)
+                targetPoz2 += 0.00125;
+            if (gamepad2.left_stick_y > 0)
+                targetPoz2 -= 0.00125;
+            if (targetPoz2 < 0.385)
+                targetPoz2 = 0.385;
+            if (targetPoz2 > 0.5)
+                targetPoz2 = 0.5;
+            servoJos1.setPosition(targetPoz2);
+            servoJos2.setPosition(targetPoz2);
+
+            telemetry.addData("",targetPoz2);
+            telemetry.update();
         }
     }
+}
 
 
 
