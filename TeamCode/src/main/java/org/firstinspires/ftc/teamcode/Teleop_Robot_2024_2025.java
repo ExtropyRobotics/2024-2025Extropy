@@ -52,14 +52,12 @@ public class Teleop_Robot_2024_2025 extends LinearOpMode {
         servoJos1.setDirection(Servo.Direction.REVERSE);
         servoSus1.setDirection(Servo.Direction.REVERSE);
 
-
         waitForStart();
 
         while (opModeIsActive()) {
             sticklefty = -gamepad1.left_stick_y;
             stickleftx = gamepad1.left_stick_x;
             stickrightx = gamepad1.right_stick_x;
-
 
             if (gamepad2.x) {
                 servoSus1.setPosition(1);
@@ -69,15 +67,6 @@ public class Teleop_Robot_2024_2025 extends LinearOpMode {
                 servoSus1.setPosition(0.7);
                 servoSus2.setPosition(0.55);
             }
-//            if (gamepad2.left_stick_y < 0) {
-//                servoJos1.setPosition(0.5);
-//                servoJos2.setPosition(0.5);
-//            }
-//            if (gamepad2.left_stick_y > 0) {
-//                servoJos1.setPosition(0.25);
-//                servoJos2.setPosition(0.25);
-//            }
-
 
             motorStangaFata.setPower(sticklefty + stickleftx + stickrightx);
             motorDreaptaFata.setPower(sticklefty - stickleftx - stickrightx);
@@ -103,9 +92,9 @@ public class Teleop_Robot_2024_2025 extends LinearOpMode {
                     servoJos2.setPosition(0.25);
                     servoJos1.setPosition(0.25);
                 }
-
-
         }
     }
 
-}
+
+
+
