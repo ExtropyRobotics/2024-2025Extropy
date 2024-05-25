@@ -23,10 +23,11 @@ public class Teleop_Robot_2024_2025 extends LinearOpMode {
     Servo servoSus2 = null;
     Servo servoJos1 = null;
     Servo servoJos2 = null;
+    Servo servoAvion = null;
+    Servo servoHang = null;
     double sticklefty = 0;
     double stickleftx = 0;
     double stickrightx = 0;
-
     int targetPoz = 0;
     double targetPoz2 = 0;
     @Override
@@ -43,6 +44,9 @@ public class Teleop_Robot_2024_2025 extends LinearOpMode {
         servoSus2 = hardwareMap.get(Servo.class, "servoSus2");
         servoJos1 = hardwareMap.get(Servo.class, "servoJos1");
         servoJos2 = hardwareMap.get(Servo.class, "servoJos2");
+
+        servoHang = hardwareMap.get(Servo.class,"servoHang");
+        servoAvion = hardwareMap.get(Servo.class,"servoAvion");
 
         motorBrat1.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         motorBrat2.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
@@ -62,6 +66,10 @@ public class Teleop_Robot_2024_2025 extends LinearOpMode {
             sticklefty = -gamepad1.left_stick_y;
             stickleftx = gamepad1.left_stick_x;
             stickrightx = gamepad1.right_stick_x;
+
+            if (gamepad1.y) {
+                servoAvion.setPosition(0);
+            }
 
             if (gamepad2.x) {
                 servoSus1.setPosition(1);
@@ -106,8 +114,12 @@ public class Teleop_Robot_2024_2025 extends LinearOpMode {
 
             telemetry.addData("",targetPoz2);
             telemetry.update();
+
+            servoHang.setPosition(0);
+
         }
     }
+
 }
 
 
