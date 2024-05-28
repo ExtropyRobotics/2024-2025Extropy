@@ -1,14 +1,21 @@
 package org.firstinspires.ftc.teamcode;
 
+import android.graphics.Color;
+
 import com.acmerobotics.dashboard.FtcDashboard;
 import com.acmerobotics.dashboard.telemetry.MultipleTelemetry;
+import com.qualcomm.hardware.rev.Rev2mDistanceSensor;
+import com.qualcomm.hardware.rev.RevBlinkinLedDriver;
+import com.qualcomm.hardware.rev.RevColorSensorV3;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+import com.qualcomm.robotcore.hardware.ColorSensor;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.Servo;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
+import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 
 @TeleOp(name="Teleop_Robot_2024-2025")
 
@@ -25,6 +32,9 @@ public class Teleop_Robot_2024_2025 extends LinearOpMode {
     Servo servoJos2 = null;
     Servo servoAvion = null;
     Servo servoHang = null;
+    // RevColorSensorV3 color1 = null;
+    Rev2mDistanceSensor color2 = null;
+    RevBlinkinLedDriver led =null;
     double sticklefty = 0;
     double stickleftx = 0;
     double stickrightx = 0;
@@ -47,6 +57,11 @@ public class Teleop_Robot_2024_2025 extends LinearOpMode {
 
         servoHang = hardwareMap.get(Servo.class,"servoHang");
         servoAvion = hardwareMap.get(Servo.class,"servoAvion");
+
+        //color1 = hardwareMap.get(RevColorSensorV3.class,"color1");
+        color2 = hardwareMap.get(Rev2mDistanceSensor.class,"color2");
+
+        RevBlinkinLedDriver led = hardwareMap.get(RevBlinkinLedDriver.class,"led");
 
         motorBrat1.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         motorBrat2.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
@@ -116,6 +131,13 @@ public class Teleop_Robot_2024_2025 extends LinearOpMode {
             telemetry.update();
 
             servoHang.setPosition(0);
+
+            //color1.getDistance(DistanceUnit.CM);
+            color2.getDistance(DistanceUnit.CM);
+            //if(color1.getDistance(DistanceUnit.CM) < 5)
+                //led.setPattern(RevBlinkinLedDriver.BlinkinPattern.BLUE);
+            if(color2.getDistance(DistanceUnit.CM) < 5)
+                led.setPattern(RevBlinkinLedDriver.BlinkinPattern.GREEN);
 
         }
     }
