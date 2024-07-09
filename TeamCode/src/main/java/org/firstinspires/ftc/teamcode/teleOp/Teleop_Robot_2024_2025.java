@@ -40,6 +40,9 @@ public class Teleop_Robot_2024_2025 extends LinearOpMode {
     double stickrightx = 0;
     int targetPoz = 0;
     double targetPoz2 = 1;
+
+    double dist1 = 0;
+    double dist2 = 0;
     @Override
     public void runOpMode() {
         telemetry = new MultipleTelemetry(telemetry, FtcDashboard.getInstance().getTelemetry());
@@ -78,6 +81,9 @@ public class Teleop_Robot_2024_2025 extends LinearOpMode {
         servoSus1.setDirection(Servo.Direction.REVERSE);
         servoHang.setDirection(Servo.Direction.REVERSE);
 
+        motorBrat1.setPower(0.5);
+        motorBrat2.setPower(0.5);
+
         waitForStart();
 
         while (opModeIsActive()) {
@@ -85,10 +91,15 @@ public class Teleop_Robot_2024_2025 extends LinearOpMode {
             stickleftx = gamepad1.left_stick_x;
             stickrightx = gamepad1.right_stick_x;
 
+            motorStangaFata.setPower(+sticklefty + stickleftx + stickrightx);
+            motorDreaptaSpate.setPower(+sticklefty - stickleftx + stickrightx);
+            motorDreaptaFata.setPower(-sticklefty + stickleftx + stickrightx);
+            motorStangaSpate.setPower(+sticklefty + stickleftx + stickrightx);
+
+
             if (gamepad1.y) {
                 servoAvion.setPosition(0);
             }
-
             if (gamepad2.x) {
                 servoSus1.setPosition(0);
                 servoSus2.setPosition(0.1);
@@ -103,52 +114,67 @@ public class Teleop_Robot_2024_2025 extends LinearOpMode {
             if (gamepad2.y) {
                 motorHang.setPower(0.5);
             }
-            motorStangaFata.setPower(+sticklefty+stickleftx+stickrightx);
-            motorDreaptaSpate.setPower(+sticklefty-stickleftx+stickrightx);
-            motorDreaptaFata.setPower(-sticklefty+stickleftx+stickrightx);
-            motorStangaSpate.setPower(+sticklefty+stickleftx+stickrightx);
 
             if (gamepad2.right_stick_y < 0) {
-                targetPoz += 2;
+                targetPoz += 4;
+                setPozMotor(targetPoz);
             }
             if (gamepad2.right_stick_y > 0) {
-                targetPoz -= 4;
+                targetPoz -= 8;
+                setPozMotor(targetPoz);
             }
-            if (targetPoz<0)
+            if (targetPoz < 0) {
                 targetPoz = 0;
-            if (targetPoz>1500)
+                setPozMotor(targetPoz);
+            }
+            if (targetPoz > 1500) {
                 targetPoz = 1500;
-            motorBrat1.setTargetPosition(targetPoz);
-            motorBrat2.setTargetPosition(targetPoz);
-            motorBrat1.setPower(0.25);
-            motorBrat2.setPower(0.25);
-            motorBrat1.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-            motorBrat2.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                setPozMotor(targetPoz);
+            }
 
-            if (gamepad2.left_stick_y < 0)
+
+            if (gamepad2.left_stick_y < 0) {
                 targetPoz2 += 0.00125;
-            if (gamepad2.left_stick_y > 0)
+                setPozServo(targetPoz2);
+            }
+            if (gamepad2.left_stick_y > 0) {
                 targetPoz2 -= 0.00125;
-            if (targetPoz2 < 0.9)
+                setPozServo(targetPoz2);
+            }
+            if (targetPoz2 < 0.9) {
                 targetPoz2 = 0.9;
-            if (targetPoz2 > 1)
+                setPozServo(targetPoz2);
+            }
+            if (targetPoz2 > 1) {
                 targetPoz2 = 1;
-            servoJos1.setPosition(targetPoz2);
-            servoJos2.setPosition(targetPoz2);
-            telemetry.addData("",targetPoz2);
-            telemetry.update();
+                setPozServo(targetPoz2);
+            }
 
-            color2.getDistance(DistanceUnit.CM);
-            if(color2.getDistance(DistanceUnit.CM) < 5)
+
+            dist1 = color1.getDistance(DistanceUnit.CM);
+            dist2 = color2.getDistance(DistanceUnit.CM);
+
+            if (dist1 < 7 && dist2 < 5)
                 led.setPattern(RevBlinkinLedDriver.BlinkinPattern.GREEN);
-            if(color2.getDistance(DistanceUnit.CM)>5)
+            if (dist1 > 7 && dist2 > 5)
                 led.setPattern(RevBlinkinLedDriver.BlinkinPattern.RED);
-            if(color1.getDistance(DistanceUnit.CM)<5)
-                led.setPattern(RevBlinkinLedDriver.BlinkinPattern.BLUE_GREEN);
-            if(color1.getDistance(DistanceUnit.CM)>5)
-                led.setPattern(RevBlinkinLedDriver.BlinkinPattern.RED);
-           //if((color2.getDistance(DistanceUnit.CM) < 5)& (color1.getDistance(DistanceUnit.CM)<5));
-        }           //led.setPattern(RevBlinkinLedDriver.BlinkinPattern.GREEN);
+            if ((dist1 < 7 || dist2 < 5) && !(dist1 < 7 && dist2 < 5))
+                led.setPattern(RevBlinkinLedDriver.BlinkinPattern.BLUE);
 
+            telemetry.addData("dist1: ", dist1);
+            telemetry.addData("dist2: ", dist2);
+
+            telemetry.update();
+        }
+    }
+    public void setPozMotor(int targetPoz){
+        motorBrat1.setTargetPosition(targetPoz);
+        motorBrat2.setTargetPosition(targetPoz);
+        motorBrat1.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        motorBrat2.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+    }
+    public void setPozServo(double targetPoz){
+        servoJos1.setPosition(targetPoz);
+        servoJos2.setPosition(targetPoz);
     }
 }
