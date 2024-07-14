@@ -3,22 +3,18 @@ package org.firstinspires.ftc.teamcode.teleOp;
 import com.acmerobotics.dashboard.FtcDashboard;
 import com.acmerobotics.dashboard.telemetry.MultipleTelemetry;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
-import android.graphics.Color;
 import com.qualcomm.hardware.rev.Rev2mDistanceSensor;
 import com.qualcomm.hardware.rev.RevBlinkinLedDriver;
-import com.qualcomm.hardware.rev.RevColorSensorV3;
-import com.qualcomm.robotcore.hardware.ColorSensor;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.Servo;
 
-import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 
 @TeleOp(name="Teleop_Robot_2024-2025")
 
-public class Teleop_Robot_2024_2025 extends LinearOpMode {
+public class Working_Teleop_Robot_2024_2025 extends LinearOpMode {
     DcMotor motorStangaFata = null;
     DcMotor motorDreaptaFata = null;
     DcMotor motorStangaSpate = null;
@@ -39,10 +35,12 @@ public class Teleop_Robot_2024_2025 extends LinearOpMode {
     double stickleftx = 0;
     double stickrightx = 0;
     int targetPoz = 0;
-    double targetPoz2 = 1;
-
+    int targetPoz3 = 1200;
+    double targetPozServo ;
     double dist1 = 0;
     double dist2 = 0;
+    double unghiMotor;
+    double unghiServo;
     @Override
     public void runOpMode() {
         telemetry = new MultipleTelemetry(telemetry, FtcDashboard.getInstance().getTelemetry());
@@ -79,10 +77,11 @@ public class Teleop_Robot_2024_2025 extends LinearOpMode {
         motorBrat1.setDirection(DcMotorSimple.Direction.REVERSE);
         servoJos1.setDirection(Servo.Direction.REVERSE);
         servoSus1.setDirection(Servo.Direction.REVERSE);
-        servoHang.setDirection(Servo.Direction.REVERSE);
-
+        servoHang.setDirection(Servo.Direction.REVERSE);;
         motorBrat1.setPower(0.5);
         motorBrat2.setPower(0.5);
+
+        servoAvion.setPosition(0.69);
 
         waitForStart();
 
@@ -92,13 +91,14 @@ public class Teleop_Robot_2024_2025 extends LinearOpMode {
             stickrightx = gamepad1.right_stick_x;
 
             motorStangaFata.setPower(+sticklefty + stickleftx + stickrightx);
-            motorDreaptaSpate.setPower(+sticklefty - stickleftx + stickrightx);
+            motorStangaSpate.setPower(+sticklefty - stickleftx + stickrightx);
             motorDreaptaFata.setPower(-sticklefty + stickleftx + stickrightx);
-            motorStangaSpate.setPower(+sticklefty + stickleftx + stickrightx);
+            motorDreaptaSpate.setPower(+sticklefty + stickleftx - stickrightx);
 
 
             if (gamepad1.y) {
                 servoAvion.setPosition(0);
+
             }
             if (gamepad2.x) {
                 servoSus1.setPosition(0);
@@ -109,18 +109,25 @@ public class Teleop_Robot_2024_2025 extends LinearOpMode {
                 servoSus2.setPosition(0.3);
             }
             if (gamepad1.x) {
-                servoHang.setPosition(0.4);
+                servoHang.setPosition(0);
+            }
+            if(gamepad1.b){
+                servoHang.setPosition(1);
             }
             if (gamepad2.y) {
-                motorHang.setPower(0.5);
+                motorHang.setPower(1);
+                motorHang.setTargetPosition(targetPoz3);
+                motorBrat1.setPower(1);
+                motorBrat2.setPower(1);
+                motorBrat1.setTargetPosition(0);
+                motorBrat2.setTargetPosition(0);
             }
-
             if (gamepad2.right_stick_y < 0) {
-                targetPoz += 4;
+                targetPoz += 8;
                 setPozMotor(targetPoz);
             }
             if (gamepad2.right_stick_y > 0) {
-                targetPoz -= 8;
+                targetPoz -= 10;
                 setPozMotor(targetPoz);
             }
             if (targetPoz < 0) {
@@ -130,24 +137,6 @@ public class Teleop_Robot_2024_2025 extends LinearOpMode {
             if (targetPoz > 1500) {
                 targetPoz = 1500;
                 setPozMotor(targetPoz);
-            }
-
-
-            if (gamepad2.left_stick_y < 0) {
-                targetPoz2 += 0.00125;
-                setPozServo(targetPoz2);
-            }
-            if (gamepad2.left_stick_y > 0) {
-                targetPoz2 -= 0.00125;
-                setPozServo(targetPoz2);
-            }
-            if (targetPoz2 < 0.9) {
-                targetPoz2 = 0.9;
-                setPozServo(targetPoz2);
-            }
-            if (targetPoz2 > 1) {
-                targetPoz2 = 1;
-                setPozServo(targetPoz2);
             }
 
 
@@ -161,8 +150,10 @@ public class Teleop_Robot_2024_2025 extends LinearOpMode {
             if ((dist1 < 7 || dist2 < 5) && !(dist1 < 7 && dist2 < 5))
                 led.setPattern(RevBlinkinLedDriver.BlinkinPattern.BLUE);
 
-            telemetry.addData("dist1: ", dist1);
-            telemetry.addData("dist2: ", dist2);
+            setPozServo();
+
+            telemetry.addData("unghi motor  ", unghiMotor);
+            telemetry.addData("unghi servo  ", unghiServo);
 
             telemetry.update();
         }
@@ -173,8 +164,19 @@ public class Teleop_Robot_2024_2025 extends LinearOpMode {
         motorBrat1.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         motorBrat2.setMode(DcMotor.RunMode.RUN_TO_POSITION);
     }
-    public void setPozServo(double targetPoz){
-        servoJos1.setPosition(targetPoz);
-        servoJos2.setPosition(targetPoz);
+    public void setPozServo(){
+        unghiMotor = (targetPoz * 90)/452.0;
+        if(unghiMotor >= 70){
+            targetPozServo = (237-unghiMotor)/150*(-0.1)+1;
+        };
+        if (gamepad2.left_stick_y < 0) {
+            targetPozServo = 1;
+        }
+        if (gamepad2.left_stick_y > 0) {
+            targetPozServo = 0.9;
+        }
+        servoJos1.setPosition(targetPozServo);
+        servoJos2.setPosition(targetPozServo);
     }
+    //unghiServo = (targetPozServo-1)/(-0.1)*150+unghiMotor+30;
 }
