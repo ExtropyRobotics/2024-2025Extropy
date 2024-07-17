@@ -6,7 +6,7 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.Servo;
 
-@TeleOp(name="Teleop-Incepatori")
+@TeleOp(name="TeleOp_Gresit")
 
 public class TeleOp2024_2025 extends LinearOpMode {
     DcMotor motorFataStanga = null;
