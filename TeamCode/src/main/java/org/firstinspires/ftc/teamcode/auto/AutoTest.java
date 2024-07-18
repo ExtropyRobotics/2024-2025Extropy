@@ -31,9 +31,9 @@ public class AutoTest extends LinearOpMode {
     @Override
     public void runOpMode() throws InterruptedException{
 
-//        randomMotor = hardwareMap.get(DcMotor.class, "randomMotor");
-//        randomMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-//        randomMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        randomMotor = hardwareMap.get(DcMotor.class, "randomMotor");
+        randomMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        randomMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
 
 //        Pose2d startingPose = new Pose2d(0,0,0);
