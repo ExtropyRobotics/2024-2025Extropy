@@ -25,7 +25,7 @@ import java.util.Calendar;
 public class AutoTest extends LinearOpMode {
 
     MecanumDrive drive;
-    DcMotor randomMotor = null;
+    DcMotor randomMotor;
 
     Point location;
     @Override
