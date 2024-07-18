@@ -28,7 +28,7 @@ public class ArmController{
     double outPosLOW = 0.40;
     double armPos = outPosLOW;
 
-    int highLift = 1850;
+    int highLift = 1860;
     int midLift = 1400;
     int lowLift = 900;
     int defaultLift = 0;
