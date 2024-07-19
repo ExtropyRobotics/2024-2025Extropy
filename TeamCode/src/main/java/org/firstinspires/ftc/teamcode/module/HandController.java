@@ -14,13 +14,13 @@ public class HandController {
     Servo svWristRight;
 
     double closePos = 0.1;
-    double openPos = 0.35;
+    double openPos = 0.28;
 
-    double highPos = 0.4;
-    double midPos = 0.5;
-    double lowPos = 0.6;
-    double carryPos = 0.75;
-    double getPos = 0.97;
+    double highPos = 0.25;
+    double midPos = 0.4;
+    double lowPos = 0.35;
+    double carryPos = 0.65;
+    double getPos = 0.975;
 
     public HandController(HardwareMap hardwareMap, Telemetry telemetry){
         this.telemetry = telemetry;
@@ -70,7 +70,7 @@ public class HandController {
         // 0.32 up max
         // 1 down max
 
-        // high:
+        // high:h
         // mid:
         // low:
         // default: 1 -> down

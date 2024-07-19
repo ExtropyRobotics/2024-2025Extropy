@@ -14,8 +14,8 @@ import org.openftc.easyopencv.OpenCvPipeline;
 import java.util.ArrayList;
 import java.util.List;
 
-public class AlbastruPipeline extends OpenCvPipeline
-{
+public class AlbastruPipeline extends OpenCvPipeline{
+
     Telemetry telemetry;
     int cx = 0;
     int cy = 0;
@@ -25,6 +25,7 @@ public class AlbastruPipeline extends OpenCvPipeline
 
     @Override
     public Mat processFrame(Mat input){
+
         Mat start = new Mat();
         input.copyTo(start);
         Mat mask = input;
@@ -38,6 +39,7 @@ public class AlbastruPipeline extends OpenCvPipeline
 
         Mat destination = new Mat();
         Core.bitwise_and(input , input , destination , mask);
+
         Imgproc.Canny(destination , edges , 400 , 500);
         List<MatOfPoint> contours = new ArrayList<>();
         Mat hierarchy = new Mat();

@@ -5,6 +5,8 @@ import static org.firstinspires.ftc.teamcode.camera.CazState.*;
 import androidx.annotation.HalfFloat;
 import androidx.annotation.NonNull;
 
+import com.acmerobotics.dashboard.FtcDashboard;
+import com.acmerobotics.dashboard.telemetry.MultipleTelemetry;
 import com.acmerobotics.dashboard.telemetry.TelemetryPacket;
 import com.acmerobotics.roadrunner.Action;
 import com.acmerobotics.roadrunner.ParallelAction;
@@ -24,16 +26,17 @@ import java.util.Calendar;
 @Autonomous(name = "AutoTestDANI", group = "!Test")
 public class AutoTest extends LinearOpMode {
 
-    MecanumDrive drive;
-    DcMotor randomMotor;
+//    MecanumDrive drive;
+//    DcMotor randomMotor;
 
     Point location;
     @Override
     public void runOpMode() throws InterruptedException{
+        telemetry = new MultipleTelemetry(telemetry, FtcDashboard.getInstance().getTelemetry());
 
-        randomMotor = hardwareMap.get(DcMotor.class, "randomMotor");
-        randomMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        randomMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+//        randomMotor = hardwareMap.get(DcMotor.class, "randomMotor");
+//        randomMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+//        randomMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
 
 //        Pose2d startingPose = new Pose2d(0,0,0);
@@ -61,7 +64,7 @@ public class AutoTest extends LinearOpMode {
 //                })
 //                .build();
 
-        Camera camera = new Camera(hardwareMap,telemetry,RED);
+        Camera camera = new Camera(hardwareMap,telemetry,BLUE);
 
         while(opModeInInit()){
             location = camera.getDetectionLocation();

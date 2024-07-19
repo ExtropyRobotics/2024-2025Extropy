@@ -14,8 +14,7 @@ import org.openftc.easyopencv.OpenCvPipeline;
 import java.util.ArrayList;
 import java.util.List;
 
-public class RosuPipeline extends OpenCvPipeline
-{
+public class RosuPipeline extends OpenCvPipeline {
     Telemetry telemetry;
     int cx = 0;
     int cy = 0;

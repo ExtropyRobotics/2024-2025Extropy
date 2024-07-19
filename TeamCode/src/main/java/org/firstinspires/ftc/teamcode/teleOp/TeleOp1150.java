@@ -21,18 +21,20 @@ import org.firstinspires.ftc.teamcode.drive.MecanumDrive;
 @TeleOp(name = "teleOp1150")
 public class TeleOp1150 extends LinearOpMode {
 
+    @Override
     public void runOpMode() throws InterruptedException {
         telemetry = new MultipleTelemetry(telemetry, FtcDashboard.getInstance().getTelemetry());
         LiftState liftState = DEFAULT;
         HandState handState = CARRY;
 
         MecanumDrive drive = new MecanumDrive(hardwareMap,new Pose2d(0,0,0));
-        ArmController arm = new ArmController(hardwareMap, telemetry);
         HandController hand = new HandController(hardwareMap, telemetry);
-//        int liftPos = 0;
-//        double wristPos = 0;
-//        double armPos = 0.08;
-//        double handPos = 0;
+        ArmController arm = new ArmController(hardwareMap, telemetry, hand);
+
+        int liftPos = 0;
+        double wristPos = 0;
+        double armPos = 0.08;
+        double handPos = 0;
 
         waitForStart();
         while(opModeIsActive()){
@@ -56,20 +58,20 @@ public class TeleOp1150 extends LinearOpMode {
                 liftState = LOW;
                 handState = CLOSE;
             }
-            if(gamepad1.dpad_right)liftState = DEFAULT;
-
+            if(gamepad1.dpad_right) {
+                liftState = DEFAULT;
+                handState = CLOSE;
+            }
             if(gamepad1.right_bumper)handState = OPEN;
             if(gamepad1.left_bumper)handState = CLOSE;
             if(gamepad1.x && liftState == DEFAULT)handState = CARRY;
             if(gamepad1.a && liftState == DEFAULT)handState = GET;
-            if(gamepad1.b && liftState != DEFAULT)handState = PLACE_HIGH;
-            if(gamepad1.y && liftState != DEFAULT)handState = PLACE_LOW;
 
             arm.setState(liftState);
             hand.setState(handState);
 
 
-            // TODO: For *MANUAL* testing purposes
+////             TODO: For *MANUAL* testing purposes
 //            if(gamepad2.left_stick_y>0)liftPos+=1;
 //            if(gamepad2.left_stick_y<0)liftPos-=1;
 //            if(gamepad2.dpad_up)armPos+=0.001;
@@ -78,7 +80,7 @@ public class TeleOp1150 extends LinearOpMode {
 //            if(gamepad2.dpad_right)wristPos+=0.001;
 //            if(gamepad2.left_bumper)handPos+=0.001;
 //            if(gamepad2.right_bumper)handPos-=0.001;
-
+//
 //            arm.setWristPos(wristPos);
 //            arm.setArmPos(armPos);
 //            arm.setHandPos(handPos);
