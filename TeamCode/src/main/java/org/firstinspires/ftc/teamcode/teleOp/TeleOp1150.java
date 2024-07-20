@@ -2,6 +2,7 @@ package org.firstinspires.ftc.teamcode.teleOp;
 
 import static org.firstinspires.ftc.teamcode.module.LiftState.*;
 import static org.firstinspires.ftc.teamcode.module.HandState.*;
+import static org.firstinspires.ftc.teamcode.module.PlaneState.*;
 
 import com.acmerobotics.dashboard.FtcDashboard;
 import com.acmerobotics.dashboard.telemetry.MultipleTelemetry;
@@ -11,6 +12,9 @@ import com.acmerobotics.roadrunner.Vector2d;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
+import org.firstinspires.ftc.teamcode.module.LedController;
+import org.firstinspires.ftc.teamcode.module.PlaneController;
+import org.firstinspires.ftc.teamcode.module.PlaneState;
 import org.firstinspires.ftc.teamcode.module.ArmController;
 import org.firstinspires.ftc.teamcode.module.HandController;
 import org.firstinspires.ftc.teamcode.module.LiftState;
@@ -18,7 +22,7 @@ import org.firstinspires.ftc.teamcode.module.HandState;
 
 import org.firstinspires.ftc.teamcode.drive.MecanumDrive;
 
-@TeleOp(name = "teleOp1150")
+@TeleOp(name = "!!!!teleOp1150", group = "!")
 public class TeleOp1150 extends LinearOpMode {
 
     @Override
@@ -26,15 +30,18 @@ public class TeleOp1150 extends LinearOpMode {
         telemetry = new MultipleTelemetry(telemetry, FtcDashboard.getInstance().getTelemetry());
         LiftState liftState = DEFAULT;
         HandState handState = CARRY;
+        PlaneState planeState = HOLD;
 
         MecanumDrive drive = new MecanumDrive(hardwareMap,new Pose2d(0,0,0));
         HandController hand = new HandController(hardwareMap, telemetry);
         ArmController arm = new ArmController(hardwareMap, telemetry, hand);
+        PlaneController plane = new PlaneController(hardwareMap,telemetry);
+        LedController led = new LedController(hardwareMap,telemetry);
 
-        int liftPos = 0;
-        double wristPos = 0;
-        double armPos = 0.08;
-        double handPos = 0;
+//        int liftPos = 0;
+//        double wristPos = 0;
+//        double armPos = 0.08;
+//        double handPos = 0;
 
         waitForStart();
         while(opModeIsActive()){
@@ -66,10 +73,13 @@ public class TeleOp1150 extends LinearOpMode {
             if(gamepad1.left_bumper)handState = CLOSE;
             if(gamepad1.x && liftState == DEFAULT)handState = CARRY;
             if(gamepad1.a && liftState == DEFAULT)handState = GET;
+            if(gamepad1.b)planeState = RELEASE;
+            if(gamepad1.y)planeState = HOLD;
 
             arm.setState(liftState);
             hand.setState(handState);
-
+            plane.setState(planeState);
+            led.run();
 
 ////             TODO: For *MANUAL* testing purposes
 //            if(gamepad2.left_stick_y>0)liftPos+=1;
