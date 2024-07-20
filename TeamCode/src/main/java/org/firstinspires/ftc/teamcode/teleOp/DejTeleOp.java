@@ -19,7 +19,7 @@ import org.firstinspires.ftc.teamcode.module.HandState;
 import org.firstinspires.ftc.teamcode.drive.MecanumDrive;
 
 @TeleOp(name = "teleOp1150")
-public class DejTeleOp extends LinearOpMode {
+public class TeleOp1150 extends LinearOpMode {
 
     @Override
     public void runOpMode() throws InterruptedException {
