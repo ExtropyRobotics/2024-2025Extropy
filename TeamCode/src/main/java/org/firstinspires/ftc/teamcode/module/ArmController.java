@@ -29,6 +29,7 @@ public class ArmController{
     double outPosMID = 0.7;
     double outPosLOW = 0.55;
     double armPos = outPosLOW;
+
     int highLift = 1860;
     int midLift = 1400;
     int lowLift = 900;
@@ -73,10 +74,10 @@ public class ArmController{
             case HIGH:{
                 if(cState == DEFAULT) // if was previously default go into avoidPos
                     armPos = avoidPos;
-                else {
-                    if(timeElapsed.time()-time>=0) // if time has passed go into outPosHIGH
-                        armPos = outPosHIGH;
-                }
+//                else {
+//                    if(timeElapsed.time()-time>=0) // if time has passed go into outPosHIGH
+//                        armPos = outPosHIGH;
+//                }
 
                 liftPos = highLift;
                 if(timeElapsed.time()-time>=0) // if time has passed go into outPosHIGH
@@ -90,10 +91,10 @@ public class ArmController{
             case MID:{
                 if(cState == DEFAULT) // if was previously default go into avoidPos
                     armPos = avoidPos;
-                else {
-                    if(timeElapsed.time()-time>=0) // if time has passed go into outPosMID
-                        armPos = outPosMID;
-                }
+//                else {
+//                    if(timeElapsed.time()-time>=0) // if time has passed go into outPosMID
+//                        armPos = outPosMID;
+//                }
                 if(timeElapsed.time()-time>=0) // if time has passed go into outPosMID
                     armPos = outPosMID;
 
@@ -107,10 +108,10 @@ public class ArmController{
             case LOW:{
                 if(cState == DEFAULT) // if was previously default go into avoidPos
                     armPos = avoidPos;
-                else {
-                    if(timeElapsed.time()-time>=0) // if time has passed go into outPosLOW
-                        armPos = outPosLOW;
-                }
+//                else {
+//                    if(timeElapsed.time()-time>=0) // if time has passed go into outPosLOW
+//                        armPos = outPosLOW;
+//                }
                 liftPos = lowLift;
                 if(timeElapsed.time()-2>=0) // if time has passed go into outPosLow
                     armPos = outPosLOW;
@@ -123,9 +124,9 @@ public class ArmController{
             case DEFAULT: {
                 if(cState != DEFAULT) // arm goes into avoid zone when first into here
                     armPos = avoidPos;
-
                 else if(armLeft.getCurrentPosition()<=liftPos+20)
                     armPos = inPos;
+
                 // if pos of arm is 20 ticks around liftPos
                 // set arm to go into inPos
 
