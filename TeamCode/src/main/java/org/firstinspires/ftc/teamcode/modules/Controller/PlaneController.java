@@ -1,6 +1,7 @@
-package org.firstinspires.ftc.teamcode.module;
+package org.firstinspires.ftc.teamcode.modules.Controller;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
+import org.firstinspires.ftc.teamcode.modules.State.PlaneState;
 
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
@@ -27,7 +28,7 @@ public class PlaneController {
             }
         }
     }
-    public void setPlanePos (double pos){
+    private void setPlanePos (double pos){
         telemetry.addData("planePos",pos);
         plane.setPosition(pos);
     }

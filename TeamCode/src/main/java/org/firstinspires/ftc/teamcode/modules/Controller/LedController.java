@@ -1,8 +1,7 @@
-package org.firstinspires.ftc.teamcode.module;
-
-import static org.firstinspires.ftc.teamcode.module.LedState.*;
+package org.firstinspires.ftc.teamcode.modules.Controller;
 
 
+import static org.firstinspires.ftc.teamcode.modules.State.LedState.*;
 
 import com.qualcomm.hardware.rev.Rev2mDistanceSensor;
 import com.qualcomm.hardware.rev.RevBlinkinLedDriver;
@@ -10,6 +9,7 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
+import org.firstinspires.ftc.teamcode.modules.State.LedState;
 
 public class LedController {
     Telemetry telemetry;
@@ -20,6 +20,8 @@ public class LedController {
 
     double distLeft = 0;
     double distRight = 0;
+
+    boolean swap = true;
 
     public LedController(HardwareMap hardwareMap, Telemetry telemetry) {
         this.telemetry = telemetry;
@@ -47,14 +49,17 @@ public class LedController {
     public void setPattern(RevBlinkinLedDriver.BlinkinPattern pattern) {
         led.setPattern(pattern);
     }
-    public void run(){
-//        distLeft = left.getDistance(DistanceUnit.CM);
-//        distRight = right.getDistance(DistanceUnit.CM);
-//        if (distLeft < 7 && distRight < 5)
-//            setState(GREEN);
-//        if (distLeft > 7 && distRight > 5)
-//            setState(RED);
-//        if ((distLeft < 7 || distRight < 5) && !(distLeft < 7 && distRight < 5))
-//           setState(BLUE);
+    public void runDetection(){
+        if(swap)distLeft = left.getDistance(DistanceUnit.CM);
+        if(!swap)distRight = right.getDistance(DistanceUnit.CM);
+
+        if (distLeft < 7 && distRight < 5)
+            setState(GREEN);
+        if (distLeft > 7 && distRight > 5)
+            setState(RED);
+        if ((distLeft < 7 || distRight < 5) && !(distLeft < 7 && distRight < 5))
+           setState(BLUE);
+
+        swap = !swap;
     }
 }
