@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode.modules.Controller;
 
+import static org.firstinspires.ftc.teamcode.modules.State.HandState.*;
 import static org.firstinspires.ftc.teamcode.modules.State.WristState.*;
 import static org.firstinspires.ftc.teamcode.modules.State.LiftState.*;
 import static org.firstinspires.ftc.teamcode.modules.State.ActionState.*;
@@ -12,12 +13,14 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.teamcode.modules.State.ActionState;
+import org.firstinspires.ftc.teamcode.modules.State.HandState;
 import org.firstinspires.ftc.teamcode.modules.State.LiftState;
 import org.firstinspires.ftc.teamcode.modules.State.WristState;
 
 public class ArmController{
     Telemetry telemetry;
     WristController wrist;
+    HandController hand;
 
     Servo svArmLeft;
     Servo svArmRight;
@@ -27,7 +30,9 @@ public class ArmController{
 
     LiftState cState;
     WristState wristState;
+    HandState handState;
     ActionState actionState;
+
 
     double avoidPos = 0.1;
     double inPos = 0.2;
@@ -45,10 +50,12 @@ public class ArmController{
     public ElapsedTime timeElapsed = new ElapsedTime(); // to get time since start of opMode
     double time = 1; // time between actions
 
-    public ArmController(HardwareMap hardwareMap, Telemetry telemetry, WristState wristState){
+    public ArmController(HardwareMap hardwareMap, Telemetry telemetry){
         this.telemetry = telemetry;
-        this.wristState = wristState;
+        this.wristState = CARRY;
+        this.handState = CLOSE;
         this.wrist = new WristController(hardwareMap, telemetry);
+        this.hand = new HandController(hardwareMap, telemetry);
 
         svArmLeft = hardwareMap.get(Servo.class, "svArmLeft");
         svArmRight = hardwareMap.get(Servo.class, "svArmRight");
@@ -69,9 +76,9 @@ public class ArmController{
         armRight.setPower(1);
 
         cState = DEFAULT;
-        this.wristState = CARRY;
 
         setWristState(wristState);
+        setHandState(handState);
         setState(cState);
     }
     public void setState(LiftState state){
@@ -87,6 +94,7 @@ public class ArmController{
                 if(cState == DEFAULT){ // if was previously default go into avoidPos
                     armPos = avoidPos;
                     wristState = CARRY;
+                    handState = CLOSE;
                 }
                 else if(timeElapsed.time()-time>=0 || armLeft.getCurrentPosition()>=liftPos-20){ // if time has passed go into outPosHIGH
                     wristState = PLACE_HIGH;
@@ -101,6 +109,7 @@ public class ArmController{
                 if(cState == DEFAULT){ // if was previously default go into avoidPos
                     armPos = avoidPos;
                     wristState = CARRY;
+                    handState = CLOSE;
                 }
                 else if(timeElapsed.time()-time>=0 || armLeft.getCurrentPosition()>=liftPos-20) { // if time has passed go into outPosMID
                     armPos = outPosMID;
@@ -116,6 +125,7 @@ public class ArmController{
                 if (cState == DEFAULT) { // if was previously default go into avoidPos
                     armPos = avoidPos;
                     wristState = CARRY;
+                    handState = CLOSE;
                 }
                 else if (timeElapsed.time() - 2 >= 0 || armLeft.getCurrentPosition()>=liftPos-20){ // if time has passed go into outPosLow
                     armPos = outPosLOW;
@@ -130,6 +140,7 @@ public class ArmController{
                 if(cState != DEFAULT){ // arm goes into avoid zone when first into here
                     armPos = avoidPos;
                     wristState = CARRY;
+                    handState = CLOSE;
                 }
                 else if(armLeft.getCurrentPosition()<=20) {
                     armPos = inPos;
@@ -150,11 +161,21 @@ public class ArmController{
             setArmPos(armPos); // set arm servos pos
             setLiftPos(liftPos); // set lift motors pos
             setWristState(wristState); // set wrist servos pos
+            setHandState(handState); // set hand servo pos
             actionState = FINISHED;
         }
         telemetry.addData("actionState ", actionState); // display current this.state
         telemetry.addData("liftState ", cState); // display current this.state
         telemetry.addData("wristState ", wristState); // display current this.state
+        telemetry.addData("handState ", handState); // display current this.state
+    }
+    public void setHandState(HandState state){
+        this.handState = state;
+        hand.setState(handState);
+    }
+    public void setWristState(WristState state){
+        wristState = state;
+        wrist.setState(wristState);
     }
     private void setLiftPos(int pos){
         liftPos = pos;
@@ -168,8 +189,5 @@ public class ArmController{
         svArmLeft.setPosition(pos);
         svArmRight.setPosition(pos);
     }
-    public void setWristState(WristState state){
-        wristState = state;
-        wrist.setState(wristState);
-    }
+
 }

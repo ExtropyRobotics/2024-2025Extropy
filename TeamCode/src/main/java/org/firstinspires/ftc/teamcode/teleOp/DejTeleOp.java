@@ -7,21 +7,19 @@ import static org.firstinspires.ftc.teamcode.modules.State.PlaneState.*;
 
 import com.acmerobotics.dashboard.FtcDashboard;
 import com.acmerobotics.dashboard.telemetry.MultipleTelemetry;
-import com.acmerobotics.roadrunner.Pose2d;
-import com.acmerobotics.roadrunner.PoseVelocity2d;
-import com.acmerobotics.roadrunner.Vector2d;
+import com.acmerobotics.roadrunner.geometry.Pose2d;
+import com.acmerobotics.roadrunner.geometry.Vector2d;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
+import org.firstinspires.ftc.teamcode.drive.SampleMecanumDrive;
 import org.firstinspires.ftc.teamcode.modules.Controller.ArmController;
 import org.firstinspires.ftc.teamcode.modules.Controller.HandController;
 import org.firstinspires.ftc.teamcode.modules.State.HandState;
-import org.firstinspires.ftc.teamcode.modules.Controller.WristController;
-import org.firstinspires.ftc.teamcode.modules.Controller.LedController;
+//import org.firstinspires.ftc.teamcode.modules.Controller.LedController;
 import org.firstinspires.ftc.teamcode.modules.State.LiftState;
 import org.firstinspires.ftc.teamcode.modules.State.WristState;
 
-import org.firstinspires.ftc.teamcode.drive.MecanumDrive;
 import org.firstinspires.ftc.teamcode.modules.Controller.PlaneController;
 import org.firstinspires.ftc.teamcode.modules.State.PlaneState;
 
@@ -35,11 +33,10 @@ public class DejTeleOp extends LinearOpMode {
         HandState handState = CLOSE;
         PlaneState planeState = HOLD;
 
-        MecanumDrive drive = new MecanumDrive(hardwareMap,new Pose2d(0,0,0));
-        HandController hand = new HandController(hardwareMap, telemetry);
-        ArmController arm = new ArmController(hardwareMap, telemetry, wristState);
+        SampleMecanumDrive drive = new SampleMecanumDrive(hardwareMap);
+        ArmController arm = new ArmController(hardwareMap, telemetry);
         PlaneController plane = new PlaneController(hardwareMap, telemetry);
-        LedController led = new LedController(hardwareMap, telemetry);
+//        LedController led = new LedController(hardwareMap, telemetry);
 
 //        int liftPos = 0;
 //        double wristPos = 0;
@@ -48,7 +45,7 @@ public class DejTeleOp extends LinearOpMode {
 
         waitForStart();
         while(opModeIsActive()){
-            drive.setDrivePowers(new PoseVelocity2d(
+            drive.setWeightedDrivePower(new Pose2d(
                     new Vector2d(
                             -gamepad1.left_stick_y,
                             -gamepad1.left_stick_x
@@ -61,18 +58,18 @@ public class DejTeleOp extends LinearOpMode {
             if(gamepad1.dpad_down)liftState = LOW;
             if(gamepad1.dpad_right)liftState = DEFAULT;
 
-            if(gamepad1.right_bumper)handState = OPEN;
-            if(gamepad1.left_bumper)handState = CLOSE;
+            if(gamepad1.right_bumper)arm.setHandState(OPEN);
+            if(gamepad1.left_bumper)arm.setHandState(CLOSE);
             if(gamepad1.x && liftState == DEFAULT)wristState = CARRY;
             if(gamepad1.a && liftState == DEFAULT)wristState = GET;
             if(gamepad1.b)planeState = RELEASE;
             if(gamepad1.y)planeState = HOLD;
             if(liftState == DEFAULT)arm.setWristState(wristState);
 
+
             arm.setState(liftState);
-            hand.setState(handState);
             plane.setState(planeState);
-            led.runDetection();
+//            led.runDetection();
 
 
 ////             TODO: For *MANUAL* testing purposes

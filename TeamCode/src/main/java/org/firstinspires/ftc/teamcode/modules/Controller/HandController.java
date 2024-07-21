@@ -12,7 +12,7 @@ public class HandController {
     Servo handRight;
 
     double closePos = 0.1;
-    double openPos = 0.28;
+    double openPos = 0.27;
     public HandController(HardwareMap hardwareMap, Telemetry telemetry){
         this.telemetry = telemetry;
         handLeft = hardwareMap.get(Servo.class, "handLeft");
