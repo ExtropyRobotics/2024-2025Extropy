@@ -22,7 +22,6 @@ import org.firstinspires.ftc.teamcode.modules.TeleOpConstants;
 public class ArmController extends Thread{
     LinearOpMode opMode;
     OpModeType opModeType;
-
     Constants CONSTANTS;
 
     Telemetry telemetry;
