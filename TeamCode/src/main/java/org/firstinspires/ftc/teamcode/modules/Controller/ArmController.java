@@ -1,14 +1,5 @@
 package org.firstinspires.ftc.teamcode.modules.Controller;
 
-import static org.firstinspires.ftc.teamcode.modules.State.HandState.*;
-import static org.firstinspires.ftc.teamcode.modules.State.WristState.*;
-import static org.firstinspires.ftc.teamcode.modules.State.LiftState.*;
-import static org.firstinspires.ftc.teamcode.modules.State.ActionState.*;
-
-import android.system.ErrnoException;
-
-import com.acmerobotics.dashboard.FtcDashboard;
-import com.acmerobotics.dashboard.telemetry.MultipleTelemetry;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
@@ -18,15 +9,20 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
-import org.checkerframework.checker.units.qual.A;
 import org.firstinspires.ftc.robotcore.external.Telemetry;
+import org.firstinspires.ftc.teamcode.modules.AutoOpConstants;
+import org.firstinspires.ftc.teamcode.modules.Constants;
 import org.firstinspires.ftc.teamcode.modules.State.ActionState;
 import org.firstinspires.ftc.teamcode.modules.State.HandState;
 import org.firstinspires.ftc.teamcode.modules.State.LiftState;
+import org.firstinspires.ftc.teamcode.modules.State.OpModeType;
 import org.firstinspires.ftc.teamcode.modules.State.WristState;
+import org.firstinspires.ftc.teamcode.modules.TeleOpConstants;
 
 public class ArmController extends Thread{
     LinearOpMode opMode;
+    OpModeType opModeType;
+    Constants CONSTANTS;
 
     Telemetry telemetry;
     WristController wrist;
@@ -38,24 +34,11 @@ public class ArmController extends Thread{
     DcMotor armLeft;
     DcMotor armRight;
 
-    LiftState cState;
+    LiftState currentState;
     LiftState givenState;
     WristState wristState;
     HandState handState;
     ActionState actionState;
-
-    double avoidPos = 0.1;
-    double inPos = 0.2;
-    double outPosHIGH = 0.925;
-    double outPosMID = 0.875;
-    double outPosLOW = 0.8;
-    double armPos = inPos;
-
-    int highLift = 1860;
-    int midLift = 1550;
-    int lowLift = 1200;
-    int defaultLift = 0;
-    int liftPos = defaultLift;
 
     boolean startedAuto = false;
 
@@ -63,12 +46,32 @@ public class ArmController extends Thread{
     double time = 1; // time between actions
 
     public ArmController(HardwareMap hardwareMap, Telemetry telemetry, LinearOpMode mode){
+        if(opMode.getClass().getAnnotation(TeleOp.class) != null && opMode.getClass().getAnnotation(TeleOp.class).group().equals("TeleOp")){
+            opModeType = OpModeType.TELE_OP;
+            CONSTANTS = new TeleOpConstants();
+        }else if(opMode.getClass().getAnnotation(Autonomous.class) != null && opMode.getClass().getAnnotation(Autonomous.class).group().equals("Autonomous")){
+            opModeType = OpModeType.AUTO_OP;
+            CONSTANTS = new AutoOpConstants();
+        }
+        else{
+            throw new RuntimeException("NOT AN OFFICIAL GROUP!!!\n" +
+                    "Try something like : \n" +
+                    "@Autonomous(name = 'someOpModeName', group = 'Autonomous')\n" +
+                    "or\n" +
+                    "@TeleOp(name = 'someOpModeName', group = 'TeleOp')\n");
+        }
+
         this.opMode = mode;
         this.telemetry = telemetry;
-        this.wristState = CARRY;
-        this.handState = CLOSE;
+
         this.wrist = new WristController(hardwareMap, telemetry);
         this.hand = new HandController(hardwareMap, telemetry);
+
+        this.wristState = WristState.CARRY;
+        this.handState = HandState.CLOSE;
+
+        this.currentState = LiftState.DEFAULT;
+        this.givenState = LiftState.DEFAULT;
 
         svArmLeft = hardwareMap.get(Servo.class, "svArmLeft");
         svArmRight = hardwareMap.get(Servo.class, "svArmRight");
@@ -88,122 +91,120 @@ public class ArmController extends Thread{
         armLeft.setPower(0.8);
         armRight.setPower(0.8);
 
-        cState = DEFAULT;
-        givenState = DEFAULT;
-
         setWristState(wristState);
         setHandState(handState);
-        setState(cState);
+        setState(currentState);
     }
 
     public void run(){
         while(!opMode.isStopRequested()){
-            setTeleOpState(givenState);
+            setLiftState(givenState);
         }
     }
 
     public void setState(LiftState state) throws Error {
-        if (opMode.getClass().getAnnotation(TeleOp.class) != null && opMode.getClass().getAnnotation(TeleOp.class).group().equals("TeleOp")) {
-            setTeleOpState(state);
-        }else if(opMode.getClass().getAnnotation(Autonomous.class) != null && opMode.getClass().getAnnotation(Autonomous.class).group().equals("Autonomous")){
-            if(!startedAuto) {
+        if(opModeType == OpModeType.TELE_OP)
+            setLiftState(state);
+        if(opModeType == OpModeType.AUTO_OP){
+            if(!startedAuto){
                 this.start();
                 startedAuto = true;
             }
             givenState = state;
         }
-        else {
-            throw new RuntimeException("NOT AN OFFICIAL GROUP!!!\n" +
-                            "Try something like : \n" +
-                            "@Autonomous(name = 'someOpModeName', group = 'Autonomous')\n" +
-                            "or\n" +
-                            "@TeleOp(name = 'someOpModeName', group = 'TeleOp')\n");
-        }
     }
-    public void setTeleOpState(LiftState state){
-        telemetry.addData("rememberedState ", cState);
+    public void setLiftState(LiftState state){
+        telemetry.addData("rememberedState ", currentState);
         telemetry.addData("functionState ", state);
         telemetry.addData("givenState ", givenState);
-        if (state != cState) { // time = 0 when first into a state
+        if(state != currentState){ // time = 0 when first into a state
             timeElapsed.reset();
-            actionState = ONGOING;
-        } else {
-            actionState = FINISHED;
+            actionState = ActionState.ONGOING; // remember the action is started
+        }else{
+            actionState = ActionState.FINISHED;
         }
-        switch (state) {
+        switch(state){
             case HIGH: {
-                if (cState == DEFAULT) { // if was previously default go into avoidPos
-                    armPos = avoidPos;
-                    wristState = CARRY;
-                    handState = CLOSE;
-                } else if (timeElapsed.time() - time >= 0 || armLeft.getCurrentPosition() >= liftPos - 20) { // if time has passed go into outPosHIGH
-                    wristState = PLACE_HIGH;
-                    armPos = outPosHIGH;
-                    actionState = ONGOING;
+                if (currentState == LiftState.DEFAULT) { // if was previously default go into avoidPos
+                    CONSTANTS.armPos = CONSTANTS.avoidPos;
+
+                    wristState = WristState.CARRY;
+                    handState = HandState.CLOSE;
+                } else if (timeElapsed.time() - time >= 0 || armLeft.getCurrentPosition() >= CONSTANTS.liftPos - 20) { // if time has passed go into outPosHIGH
+                    CONSTANTS.armPos = CONSTANTS.outPosHIGH;
+
+                    wristState = WristState.PLACE_HIGH;
+                    actionState = ActionState.FINISHED;
                 }
-                liftPos = highLift;
-                cState = HIGH; // set the current state to match the one we are on
+                CONSTANTS.liftPos = CONSTANTS.highLift;
+                currentState = LiftState.HIGH; // set the current state to match the one we are on
                 break;
             }
             case MID: {
-                if (cState == DEFAULT) { // if was previously default go into avoidPos
-                    armPos = avoidPos;
-                    wristState = CARRY;
-                    handState = CLOSE;
-                } else if (timeElapsed.time() - time >= 0 || armLeft.getCurrentPosition() >= liftPos - 20) { // if time has passed go into outPosMID
-                    armPos = outPosMID;
-                    wristState = PLACE_MID;
-                    actionState = ONGOING;
+                if (currentState == LiftState.DEFAULT) { // if was previously default go into avoidPos
+                    CONSTANTS.armPos = CONSTANTS.avoidPos;
+
+                    wristState = WristState.CARRY;
+                    handState = HandState.CLOSE;
+                } else if (timeElapsed.time() - time >= 0 || armLeft.getCurrentPosition() >= CONSTANTS.liftPos - 20) { // if time has passed go into outPosMID
+                    CONSTANTS.armPos = CONSTANTS.outPosMID;
+
+                    wristState = WristState.PLACE_MID;
+                    actionState = ActionState.FINISHED;
                 }
 
-                liftPos = midLift;
-                cState = MID; // set the current state to match the one we are on
+                CONSTANTS.liftPos = CONSTANTS.midLift;
+                currentState = LiftState.MID; // set the current state to match the one we are on
                 break;
             }
             case LOW: {
-                if (cState == DEFAULT) { // if was previously default go into avoidPos
-                    armPos = avoidPos;
-                    wristState = CARRY;
-                    handState = CLOSE;
-                } else if (timeElapsed.time() - 2 >= 0 || armLeft.getCurrentPosition() >= liftPos - 20) { // if time has passed go into outPosLow
-                    armPos = outPosLOW;
-                    wristState = PLACE_LOW;
-                    actionState = ONGOING;
+                if (currentState == LiftState.DEFAULT) { // if was previously default go into avoidPos
+                    CONSTANTS.armPos = CONSTANTS.avoidPos;
+
+                    wristState = WristState.CARRY;
+                    handState = HandState.CLOSE;
+                } else if (timeElapsed.time() - 2 >= 0 || armLeft.getCurrentPosition() >= CONSTANTS.liftPos - 20) { // if time has passed go into outPosLow
+                    CONSTANTS.armPos = CONSTANTS.outPosLOW;
+
+                    wristState = WristState.PLACE_LOW;
+                    actionState = ActionState.FINISHED;
                 }
-                liftPos = lowLift;
-                cState = LOW; // set the current state to match the one we are on
+                CONSTANTS.liftPos = CONSTANTS.lowLift;
+                currentState = LiftState.LOW; // set the current state to match the one we are on
                 break;
             }
             case DEFAULT: {
-                if (cState != DEFAULT) { // arm goes into avoid zone when first into here
-                    armPos = avoidPos;
-                    wristState = CARRY;
-                    handState = CLOSE;
+                if (currentState != LiftState.DEFAULT) { // arm goes into avoid zone when first into here
+                    CONSTANTS.armPos = CONSTANTS.avoidPos;
+
+                    wristState = WristState.CARRY;
+                    handState = HandState.CLOSE;
                 } else if (armLeft.getCurrentPosition() <= 20) {
-                    armPos = inPos;
-                    actionState = ONGOING;
+                    CONSTANTS.armPos = CONSTANTS.inPos;
+
+                    actionState = ActionState.ONGOING;
                 }
                 // if pos of arm is 20 ticks around liftPos
                 // set arm to go into inPos
 
-                if (timeElapsed.time() - 1 >= 0) { // after 1 sec set the liftPos to default
-                    liftPos = defaultLift;
-                    actionState = ONGOING;
+                if (timeElapsed.time() >= 1) { // after 1 sec set the liftPos to default
+                    CONSTANTS.liftPos = CONSTANTS.defaultLift;
+                    actionState = ActionState.FINISHED;
                 }
-                cState = DEFAULT; // set the current state to match the one we are on
+                currentState = LiftState.DEFAULT; // set the current state to match the one we are on
                 break;
             }
         }
-        if (actionState == ONGOING) {
-            setArmPos(armPos); // set arm servos pos
-            setLiftPos(liftPos); // set lift motors pos
+        if(actionState == ActionState.ONGOING){
+            setArmPos(CONSTANTS.armPos); // set arm servos pos
+            setLiftPos(CONSTANTS.liftPos); // set lift motors pos
             setWristState(wristState); // set wrist servos pos
             setHandState(handState); // set hand servo pos
-            actionState = FINISHED;
+            actionState = ActionState.FINISHED;
         }
         if(!this.isAlive()){
             telemetry.addData("actionState ", actionState); // display current this.state
-            telemetry.addData("liftState ", cState); // display current this.state
+            telemetry.addData("liftState ", currentState); // display current this.state
             telemetry.addData("wristState ", wristState); // display current this.state
             telemetry.addData("handState ", handState); // display current this.state
         }
@@ -218,16 +219,15 @@ public class ArmController extends Thread{
         wrist.setState(wristState);
     }
     private void setLiftPos(int pos){
-        liftPos = pos;
+        CONSTANTS.liftPos = pos;
         armLeft.setTargetPosition(pos);
         armRight.setTargetPosition(pos);
         armLeft.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         armRight.setMode(DcMotor.RunMode.RUN_TO_POSITION);
     }
     private void setArmPos(double pos){
-        armPos = pos;
+        CONSTANTS.armPos = pos;
         svArmLeft.setPosition(pos);
         svArmRight.setPosition(pos);
     }
-
 }
