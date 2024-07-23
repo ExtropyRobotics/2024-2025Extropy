@@ -1,319 +1,292 @@
 package com.example.meepmeep;
 
-import com.acmerobotics.dashboard.telemetry.TelemetryPacket;
-import com.acmerobotics.roadrunner.Pose2d;
-import com.acmerobotics.roadrunner.Action;
-import com.acmerobotics.roadrunner.Pose2d;
-import com.acmerobotics.roadrunner.Vector2d;
 import com.noahbres.meepmeep.MeepMeep;
 import com.noahbres.meepmeep.roadrunner.DefaultBotBuilder;
 import com.noahbres.meepmeep.roadrunner.entity.RoadRunnerBotEntity;
+import com.acmerobotics.roadrunner.geometry.Pose2d;
+import com.acmerobotics.roadrunner.geometry.Vector2d;
 
-
-import org.jetbrains.annotations.NotNull;
-
-public class MeepMeepTesting {
+    public class MeepMeepTesting {
     public static void main(String[] args) {
         MeepMeep meepMeep = new MeepMeep(700);
-        System.setProperty("sun.java2d.opengl", "true");
+
         RoadRunnerBotEntity caz1 = new DefaultBotBuilder(meepMeep)
                 // Set bot constraints: maxVel, maxAccel, maxAngVel, maxAngAccel, track width
-                .setConstraints(60, 60, Math.toRadians(180), Math.toRadians(180), 10)
+                .setConstraints(60, 60, Math.toRadians(180), Math.toRadians(180), 15)
+                .followTrajectorySequence(drive ->
+                        drive.trajectorySequenceBuilder(new Pose2d(-35, -59,Math.toRadians(90)))
+                                .UNSTABLE_addTemporalMarkerOffset(1,() -> {})
+                                .splineToLinearHeading(new Pose2d(-35, -36, Math.toRadians(0)), Math.toRadians(90))
+                                .waitSeconds(0.5)
+                                .strafeTo(new Vector2d(-35,-12))
+                                .UNSTABLE_addTemporalMarkerOffset(0,() -> {})
+                                .strafeTo(new Vector2d(-50,-12))
+                                .waitSeconds(0.5)
+                                .splineToConstantHeading(new Vector2d(16, -12), Math.toRadians(0))
+                                .UNSTABLE_addTemporalMarkerOffset(0,() -> {})
+                                .splineToConstantHeading(new Vector2d(42, -30), Math.toRadians(0))
+                                .waitSeconds(1)
+                                .splineToConstantHeading(new Vector2d(58, -9), Math.toRadians(0))
+                                .build());
 
-                .build();
         RoadRunnerBotEntity caz2 = new DefaultBotBuilder(meepMeep)
                 // Set bot constraints: maxVel, maxAccel, maxAngVel, maxAngAccel, track width
-                .setConstraints(60, 60, Math.toRadians(180), Math.toRadians(180), 10)
-                .build();
+                .setConstraints(60, 60, Math.toRadians(180), Math.toRadians(180), 15)
+                .followTrajectorySequence(drive ->
+                               drive.trajectorySequenceBuilder(new Pose2d(-35, -59,Math.toRadians(90)))
+                                       .UNSTABLE_addTemporalMarkerOffset(1,() -> {})
+                                       .splineToLinearHeading(new Pose2d(-35, -35, Math.toRadians(180)), Math.toRadians(0))
+                                       .waitSeconds(0.5)//lasa pixelul mov
+                                       .turn(Math.toRadians(180))
+                                       .strafeTo(new Vector2d(-50,-35))
+                                       .waitSeconds(0.5)//ia pixel alb
+                                       .splineToConstantHeading(new Vector2d(-21, -10), Math.toRadians(0))
+                                       .UNSTABLE_addTemporalMarkerOffset(1,() -> {})
+                                       .splineToConstantHeading(new Vector2d(23, -10), Math.toRadians(0))
+                                       .splineToConstantHeading(new Vector2d(42, -40), Math.toRadians(0))
+                                       .waitSeconds(0.5)
+                                       .splineToConstantHeading(new Vector2d(50, -12), Math.toRadians(0))
+                                               .build());
+
         RoadRunnerBotEntity caz3 = new DefaultBotBuilder(meepMeep)
                 // Set bot constraints: maxVel, maxAccel, maxAngVel, maxAngAccel, track width
-                .setConstraints(60, 60, Math.toRadians(180), Math.toRadians(180), 10)
-                .build();
+                .setConstraints(60, 60, Math.toRadians(180), Math.toRadians(180), 15)
+                .followTrajectorySequence(drive ->
+                                drive.trajectorySequenceBuilder(new Pose2d(-35, -60,Math.toRadians(90)))
+                                        .UNSTABLE_addTemporalMarkerOffset(1,() -> {})
+                                        //lasa pixelul mov
+                                        .splineToLinearHeading(new Pose2d(-35, -12, Math.toRadians(90)), Math.toRadians(90))
+                                        .waitSeconds(0.5)
+                                        .turn(Math.toRadians(-90))
+                                        .UNSTABLE_addTemporalMarkerOffset(0,() -> {})
+                                        .strafeTo(new Vector2d(-49,-12))
+                                        //ia pixelul alb
+                                        .waitSeconds(0.5)
+                                        .splineToConstantHeading(new Vector2d(23,-12), Math.toRadians(0))
+                                        .UNSTABLE_addTemporalMarkerOffset(0,() -> {})
+                                        .splineToConstantHeading(new Vector2d(44, -32), Math.toRadians(0))
+                                        .waitSeconds(0.5)
+                                        .splineToConstantHeading(new Vector2d(50, -12), Math.toRadians(0))
+                                        .build());
+
         RoadRunnerBotEntity caz4 = new DefaultBotBuilder(meepMeep)
                 // Set bot constraints: maxVel, maxAccel, maxAngVel, maxAngAccel, track width
-                .setConstraints(60, 60, Math.toRadians(180), Math.toRadians(180), 10)
-                .build();
+                .setConstraints(60, 60, Math.toRadians(180), Math.toRadians(180), 15)
+                .followTrajectorySequence(drive ->
+                                drive.trajectorySequenceBuilder(new Pose2d(12, -60,Math.toRadians(90)))
+                                        .UNSTABLE_addTemporalMarkerOffset(0,() -> {})
+                                        .splineToLinearHeading(new Pose2d(12, -35, Math.toRadians(0)), Math.toRadians(90))
+                                        .waitSeconds(0.5)//lasa pixel mov
+                                        .UNSTABLE_addTemporalMarkerOffset(0,() -> {})
+                                        .splineToConstantHeading(new Vector2d(42, -28), Math.toRadians(0))
+                                        .waitSeconds(0.5)//lasa pixel galben
+                                        .splineToConstantHeading(new Vector2d(35, -57), Math.toRadians(180))
+                                        .splineToConstantHeading(new Vector2d(-32, -57), Math.toRadians(180))
+                                        .UNSTABLE_addTemporalMarkerOffset(0,() -> {})
+                                        .splineToConstantHeading(new Vector2d(-51, -36), Math.toRadians(90))
+                                        .waitSeconds(0.5)//ia pixel alb
+                                        .splineToConstantHeading(new Vector2d(-27, -57), Math.toRadians(0))
+                                        .strafeTo(new Vector2d(32,-57))
+                                        .UNSTABLE_addTemporalMarkerOffset(0,() -> {})
+                                        .splineToConstantHeading(new Vector2d(42, -28), Math.toRadians(180))
+                                        .waitSeconds(0.5)
+                                        .strafeTo(new Vector2d(44,-60))
+
+
+                                        .build());
+
         RoadRunnerBotEntity caz5 = new DefaultBotBuilder(meepMeep)
                 // Set bot constraints: maxVel, maxAccel, maxAngVel, maxAngAccel, track width
-                .setConstraints(60, 60, Math.toRadians(180), Math.toRadians(180), 10)
-                .build();
+                .setConstraints(60, 60, Math.toRadians(180), Math.toRadians(180), 15)
+                .followTrajectorySequence(drive ->
+                                drive.trajectorySequenceBuilder(new Pose2d(12, -60,Math.toRadians(90)))
+                                        .UNSTABLE_addTemporalMarkerOffset(0,() -> {})
+                                        .splineToLinearHeading(new Pose2d(12, -34, Math.toRadians(180)), Math.toRadians(90))
+                                        .waitSeconds(0.5)//lasa pixelul mov
+                                        .turn(Math.toRadians(180))
+                                        .UNSTABLE_addTemporalMarkerOffset(0,() -> {})
+                                        .splineToConstantHeading(new Vector2d(43, -41), Math.toRadians(0))
+                                        .waitSeconds(0.5)//pune pixel galben
+                                        .splineToConstantHeading(new Vector2d(34, -58), Math.toRadians(180))
+                                        .splineToConstantHeading(new Vector2d(-36, -58), Math.toRadians(180))
+                                        .UNSTABLE_addTemporalMarkerOffset(0,() -> {})
+                                        .splineToConstantHeading(new Vector2d(-50, -35), Math.toRadians(90))
+                                        .waitSeconds(0.5)
+                                        .splineToConstantHeading(new Vector2d(-24, -58), Math.toRadians(0))
+                                        .UNSTABLE_addTemporalMarkerOffset(0,() -> {})
+                                        .splineToConstantHeading(new Vector2d(34, -58), Math.toRadians(0))
+                                        .splineToConstantHeading(new Vector2d(44, -39), Math.toRadians(0))
+                                        .waitSeconds(0.5)
+                                        .strafeTo(new Vector2d(44,-60))
+                                                .build());
         RoadRunnerBotEntity caz6 = new DefaultBotBuilder(meepMeep)
                 // Set bot constraints: maxVel, maxAccel, maxAngVel, maxAngAccel, track width
-                .setConstraints(60, 60, Math.toRadians(180), Math.toRadians(180), 10)
-                .build();
+                .setConstraints(60, 60, Math.toRadians(180), Math.toRadians(180), 15)
+                .followTrajectorySequence(drive ->
+                                drive.trajectorySequenceBuilder(new Pose2d(12, -60,Math.toRadians(90)))
+                                        .UNSTABLE_addTemporalMarkerOffset(0,() -> {})
+                                        .splineToConstantHeading(new Vector2d(12, -10), Math.toRadians(90))
+                                        .UNSTABLE_addTemporalMarkerOffset(1,() -> {})
+                                        .waitSeconds(0.5)
+                                        .splineToLinearHeading(new Pose2d(40, -35, Math.toRadians(0)), Math.toRadians(270))
+                                        .waitSeconds(0.5)
+                                        .splineToConstantHeading(new Vector2d(15, -57), Math.toRadians(180))
+                                        .UNSTABLE_addTemporalMarkerOffset(1,() -> {})
+                                        .splineToConstantHeading(new Vector2d(-38, -57), Math.toRadians(180))
+                                        .splineToConstantHeading(new Vector2d(-50, -35), Math.toRadians(90))
+                                        .waitSeconds(0.5)
+                                        .splineToConstantHeading(new Vector2d(-25, -57), Math.toRadians(0))
+                                        .splineToConstantHeading(new Vector2d(24, -57), Math.toRadians(0))
+                                        .UNSTABLE_addTemporalMarkerOffset(0,() -> {})
+                                        .splineToConstantHeading(new Vector2d(44, -36), Math.toRadians(90))
+                                        .waitSeconds(0.5)
+                                        .strafeTo(new Vector2d(44,-60))
+                                        .build());
         RoadRunnerBotEntity caz7 = new DefaultBotBuilder(meepMeep)
                 // Set bot constraints: maxVel, maxAccel, maxAngVel, maxAngAccel, track width
-                .setConstraints(60, 60, Math.toRadians(180), Math.toRadians(180), 10)
-
-                .build();
+                .setConstraints(60, 60, Math.toRadians(180), Math.toRadians(180), 15)
+                .followTrajectorySequence(drive ->
+                        drive.trajectorySequenceBuilder(new Pose2d(-35, 59,Math.toRadians(-90)))
+                                .UNSTABLE_addTemporalMarkerOffset(1,() -> {})
+                                .splineToLinearHeading(new Pose2d(-35, 36, Math.toRadians(180)), Math.toRadians(90))
+                                .waitSeconds(0.5)
+                                .turn(Math.toRadians(180))
+                                .strafeTo(new Vector2d(-35,12))
+                                .UNSTABLE_addTemporalMarkerOffset(0,() -> {})
+                                .strafeTo(new Vector2d(-50,12))
+                                .waitSeconds(0.5)
+                                .splineToConstantHeading(new Vector2d(16, 12), Math.toRadians(0))
+                                .UNSTABLE_addTemporalMarkerOffset(0,() -> {})
+                                .splineToConstantHeading(new Vector2d(42, 42), Math.toRadians(0))
+                                .waitSeconds(1)
+                                .splineToConstantHeading(new Vector2d(54, 9), Math.toRadians(0))
+                                .build ());
         RoadRunnerBotEntity caz8 = new DefaultBotBuilder(meepMeep)
                 // Set bot constraints: maxVel, maxAccel, maxAngVel, maxAngAccel, track width
-                .setConstraints(60, 60, Math.toRadians(180), Math.toRadians(180), 10)
+                .setConstraints(60, 60, Math.toRadians(180), Math.toRadians(180), 15)
+                .followTrajectorySequence(drive ->
+                                drive.trajectorySequenceBuilder(new Pose2d(-35, 59,Math.toRadians(-90)))
+                                        .UNSTABLE_addTemporalMarkerOffset(1,() -> {})
+                                        .splineToLinearHeading(new Pose2d(-35, 36, Math.toRadians(0)), Math.toRadians(90))
+                                        .waitSeconds(0.5)
+                                        .strafeTo(new Vector2d(-35,12))
+                                        .UNSTABLE_addTemporalMarkerOffset(0,() -> {})
+                                        .strafeTo(new Vector2d(-50,12))
+                                        .waitSeconds(0.5)
+                                        .splineToConstantHeading(new Vector2d(16, 12), Math.toRadians(0))
+                                        .UNSTABLE_addTemporalMarkerOffset(0,() -> {})
+                                        .splineToConstantHeading(new Vector2d(42, 30), Math.toRadians(0))
+                                        .waitSeconds(1)
+                                        .splineToConstantHeading(new Vector2d(54, 9), Math.toRadians(0))
+                                                .build());
+        RoadRunnerBotEntity caz9 = new DefaultBotBuilder(meepMeep)
+                // Set bot constraints: maxVel, maxAccel, maxAngVel, maxAngAccel, track width
+                .setConstraints(60, 60, Math.toRadians(180), Math.toRadians(180), 15)
+                .followTrajectorySequence(drive ->
+                                drive.trajectorySequenceBuilder(new Pose2d(-35, 59,Math.toRadians(-90)))
+                                        .UNSTABLE_addTemporalMarkerOffset(1,() -> {})
+                                        //lasa pixelul mov
+                                        .splineToConstantHeading(new Vector2d(-35, 12), Math.toRadians(-90))
+                                        .waitSeconds(0.5)
+                                        .turn(Math.toRadians(90))
+                                        .UNSTABLE_addTemporalMarkerOffset(0,() -> {})
+                                        .strafeTo(new Vector2d(-49,12))
+                                        //ia pixelul alb
+                                        .waitSeconds(0.5)
+                                        .splineToConstantHeading(new Vector2d(23,12), Math.toRadians(0))
+                                        .UNSTABLE_addTemporalMarkerOffset(0,() -> {})
+                                        .splineToConstantHeading(new Vector2d(44, 32), Math.toRadians(0))
+                                        .waitSeconds(0.5)
+                                        .splineToConstantHeading(new Vector2d(50, 12), Math.toRadians(0))
+                                        .build());
 
-                .build();
+        RoadRunnerBotEntity caz10 = new DefaultBotBuilder(meepMeep)
+                // Set bot constraints: maxVel, maxAccel, maxAngVel, maxAngAccel, track width
+                .setConstraints(60, 60, Math.toRadians(180), Math.toRadians(180), 15)
+                .followTrajectorySequence(drive ->
+                                drive.trajectorySequenceBuilder(new Pose2d(12, 60,Math.toRadians(-90)))
+                                        .UNSTABLE_addTemporalMarkerOffset(0,() -> {})
+                                        .splineToLinearHeading(new Pose2d(12, 35, Math.toRadians(180)), Math.toRadians(-90))
+                                        .waitSeconds(0.5)//lasa pixel mov
+                                        .UNSTABLE_addTemporalMarkerOffset(0,() -> {})
+                                        .turn(Math.toRadians(180))
+                                        .splineToConstantHeading(new Vector2d(41, 41), Math.toRadians(0))
+                                        .waitSeconds(0.5)//lasa pixel galben
+                                        .splineToConstantHeading(new Vector2d(35, 57), Math.toRadians(180))
+                                        .splineToConstantHeading(new Vector2d(-32, 57), Math.toRadians(180))
+                                        .UNSTABLE_addTemporalMarkerOffset(0,() -> {})
+                                        .splineToConstantHeading(new Vector2d(-50, 35), Math.toRadians(-90))
+                                        .waitSeconds(0.5)
+                                        .splineToConstantHeading(new Vector2d(-24, 58), Math.toRadians(0))
+                                        .UNSTABLE_addTemporalMarkerOffset(0,() -> {})
+                                        .splineToConstantHeading(new Vector2d(34, 58), Math.toRadians(0))
+                                        .splineToConstantHeading(new Vector2d(44, 39), Math.toRadians(0))
+                                        .waitSeconds(0.5)
+                                        .strafeTo(new Vector2d(44,60))
+                                                .build());
+        RoadRunnerBotEntity caz11 = new DefaultBotBuilder(meepMeep)
+                // Set bot constraints: maxVel, maxAccel, maxAngVel, maxAngAccel, track width
+                .setConstraints(60, 60, Math.toRadians(180), Math.toRadians(180), 15)
+                .followTrajectorySequence(drive ->
+                                drive.trajectorySequenceBuilder(new Pose2d(12, 60,Math.toRadians(-90)))
+                                        .UNSTABLE_addTemporalMarkerOffset(0,() -> {})
+                                        .splineToLinearHeading(new Pose2d(12, 34, Math.toRadians(0)), Math.toRadians(-90))
+                                        .waitSeconds(0.5)//lasa pixelul mov
+                                        .UNSTABLE_addTemporalMarkerOffset(0,() -> {})
+                                        .splineToConstantHeading(new Vector2d(43, 29), Math.toRadians(0))
+                                        .waitSeconds(0.5)//pune pixel galben
+                                        .splineToConstantHeading(new Vector2d(34, 58), Math.toRadians(180))
+                                        .splineToConstantHeading(new Vector2d(-36, 58), Math.toRadians(180))
+                                        .UNSTABLE_addTemporalMarkerOffset(0,() -> {})
+                                        .splineToConstantHeading(new Vector2d(-50, 35), Math.toRadians(-90))
+                                        .waitSeconds(0.5)
+                                        .splineToConstantHeading(new Vector2d(-25, 57), Math.toRadians(0))
+                                        .splineToConstantHeading(new Vector2d(24, 57), Math.toRadians(0))
+                                        .UNSTABLE_addTemporalMarkerOffset(0,() -> {})
+                                        .splineToConstantHeading(new Vector2d(44, 36), Math.toRadians(-90))
+                                        .waitSeconds(0.5)
+                                        .strafeTo(new Vector2d(44,60))
+                                                .build());
+        RoadRunnerBotEntity caz12 = new DefaultBotBuilder(meepMeep)
+                // Set bot constraints: maxVel, maxAccel, maxAngVel, maxAngAccel, track width
+                .setConstraints(60, 60, Math.toRadians(180), Math.toRadians(180), 15)
+                .followTrajectorySequence(drive ->
+                                drive.trajectorySequenceBuilder(new Pose2d(12, 60,Math.toRadians(-90)))
+                                        .UNSTABLE_addTemporalMarkerOffset(0,() -> {})
+                                        .splineToConstantHeading(new Vector2d(12, 10), Math.toRadians(-90))
+                                        .UNSTABLE_addTemporalMarkerOffset(1,() -> {})
+                                        .waitSeconds(0.5)
+                                        .splineToLinearHeading(new Pose2d(40, 35, Math.toRadians(0)), Math.toRadians(-270))
+                                        .waitSeconds(0.5)
+                                        .splineToConstantHeading(new Vector2d(15, 57), Math.toRadians(180))
+                                        .UNSTABLE_addTemporalMarkerOffset(1,() -> {})
+                                        .splineToConstantHeading(new Vector2d(-38, 57), Math.toRadians(180))
+                                        .splineToConstantHeading(new Vector2d(-50, 35), Math.toRadians(-90))
+                                        .waitSeconds(0.5)
+                                        .splineToConstantHeading(new Vector2d(-25, 57), Math.toRadians(0))
+                                        .splineToConstantHeading(new Vector2d(24, 57), Math.toRadians(0))
+                                        .UNSTABLE_addTemporalMarkerOffset(0,() -> {})
+                                        .splineToConstantHeading(new Vector2d(44, 36), Math.toRadians(-90))
+                                        .waitSeconds(0.5)
+                                        .strafeTo(new Vector2d(44,60))
+                                                .build());
 
-        caz4.runAction(caz1.getDrive().actionBuilder(new Pose2d(11, -56, Math.toRadians(90)))
-                .splineToLinearHeading(new Pose2d(11, -34, Math.toRadians(0)), Math.toRadians(90))
-                .afterTime(0, new Action() {
-                    @Override
-                    public boolean run(@NotNull TelemetryPacket telemetryPacket) {
-                        //lasa pixelul mov
-                        return false;
-                    }
-                })
-                .waitSeconds(0.5)
-                .splineToConstantHeading(new Vector2d(43, -29), Math.toRadians(0))
-                .afterTime(0, new Action() {
-                    @Override
-                    public boolean run(@NotNull TelemetryPacket telemetryPacket) {
-                        //pune pixelul galben pe tabla
-                        return false;
-                    }
-                })
-                .waitSeconds(1)
-                .strafeTo(new Vector2d(43, -12))
-                .strafeTo(new Vector2d(-51,-12))
-                .afterTime(0, new Action() {
-                    @Override
-                    public boolean run(@NotNull TelemetryPacket telemetryPacket) {
-                        //ia pixelul alb
-                        return false;
-                    }
-                })
-                .waitSeconds(0.5)
-                .splineToConstantHeading(new Vector2d(-35, -37), Math.toRadians(0))
-                .strafeTo(new Vector2d(45,-37))
-                .afterTime(0, new Action() {
-                    @Override
-                    public boolean run(@NotNull TelemetryPacket telemetryPacket) {
-                        //pune pixelul alb pe tabla
-                        return false;
-                    }
-                })
-                .waitSeconds(1)
-                .strafeTo(new Vector2d(45,-57))
-                .build());
-        caz5.runAction(caz1.getDrive().actionBuilder(new Pose2d(11, -56, Math.toRadians(90)))
-                .splineToLinearHeading(new Pose2d(34, -33, Math.toRadians(0)), Math.toRadians(90))
-                .afterTime(0, new Action() {
-                    @Override
-                    public boolean run(@NotNull TelemetryPacket telemetryPacket) {
-                        //lasa pixelul mov
-                        return false;
-                    }
-                })
-                .waitSeconds(0.5)
-                .strafeTo(new Vector2d(44,-41))
-                .afterTime(0, new Action() {
-                    @Override
-                    public boolean run(@NotNull TelemetryPacket telemetryPacket) {
-                        //pune pixelul galben pe tabla
-                        return false;
-                    }
-                })
-                .waitSeconds(1)
-                .strafeTo(new Vector2d(44,-12))
-                .strafeTo(new Vector2d(-48,-12))
-                        .afterTime(0, new Action() {
-                            @Override
-                            public boolean run(@NotNull TelemetryPacket telemetryPacket) {
-                                //ia pixel alb
-                                return false;
-                            }
-                        })
-                        .waitSeconds(0.5)
-                .strafeTo(new Vector2d(44,-12))
-                .strafeTo(new Vector2d(44,-33))
-                        .afterTime(0, new Action() {
-                            @Override
-                            public boolean run(@NotNull TelemetryPacket telemetryPacket) {
-                                //pune pixelul alb pe panou
-                                return false;
-                            }
-                        })
-                        .waitSeconds(1)
-                        .strafeTo(new Vector2d(44,-19))
-                .build());
-
-        caz6.runAction(caz1.getDrive().actionBuilder(new Pose2d(11, -56, Math.toRadians(90)))
-                .splineToConstantHeading(new Vector2d(11, -11), Math.toRadians(90))
-                        .afterTime(0, new Action() {
-                            @Override
-                            public boolean run(@NotNull TelemetryPacket telemetryPacket) {
-                                //lasa pixelul mov
-                                return false;
-                            }
-                        })
-                        .waitSeconds(0.5)
-                .turn(Math.toRadians(-90))
-                .splineToConstantHeading(new Vector2d(43, -34), Math.toRadians(0))
-                        .afterTime(0, new Action() {
-                            @Override
-                            public boolean run(@NotNull TelemetryPacket telemetryPacket) {
-                                //lasa pixelul galben pe panou
-                                return false;
-                            }
-                        })
-                        .waitSeconds(1)
-                        .strafeTo(new Vector2d(43,-12))
-                .strafeTo(new Vector2d(-49,-12))
-                        .afterTime(0, new Action() {
-                            @Override
-                            public boolean run(@NotNull TelemetryPacket telemetryPacket) {
-                                //ia pixelul alb
-                                return false;
-                            }
-                        })
-                        .waitSeconds(0.5)
-                .splineToConstantHeading(new Vector2d(-36, -36), Math.toRadians(0))
-                .strafeTo(new Vector2d(43,-36))
-                        .afterTime(0, new Action() {
-                            @Override
-                            public boolean run(@NotNull TelemetryPacket telemetryPacket) {
-                                //lasa pixelul alb
-                                return false;
-                            }
-                        })
-                        .waitSeconds(1)
-                .strafeTo(new Vector2d(43,-50))
-                        .build());
-
-        caz7.runAction(caz1.getDrive().actionBuilder(new Pose2d(-35, -58, Math.toRadians(90)))
-                .splineToLinearHeading(new Pose2d(-35, -36, Math.toRadians(0)), Math.toRadians(0))
-
-                .afterTime(0, new Action() {
-                    @Override
-                    public boolean run(@NotNull TelemetryPacket telemetryPacket) {
-                        //plasare pixel mov servo1
-                        return false;
-
-                    }
-                })
-                .waitSeconds(0.5)
-                        .strafeTo(new Vector2d(-35,-12))
-                        .strafeTo(new Vector2d(-50,-12))
-                        .afterTime(0, new Action() {
-                            @Override
-                            public boolean run(@NotNull TelemetryPacket telemetryPacket) {
-                                //ia pixel alb
-                                //coordonate -37,-56
-                                return false;
-                            }
-                        })
-                        .waitSeconds(0.5)
-                .splineToConstantHeading(new Vector2d(11, -12), Math.toRadians(0))
-                .splineToConstantHeading(new Vector2d(38, -29), Math.toRadians(0))
-
-                        .afterTime(0, new Action() {
-                            @Override
-                            public boolean run(@NotNull TelemetryPacket telemetryPacket) {
-                                //lasa ambi pixeli pe tabla
-                                return false;
-                            }
-                        })
-                        .waitSeconds(0.5)
-                .splineToConstantHeading(new Vector2d(56, -13), Math.toRadians(-50))
-                .build());
-
-        caz8.runAction(caz1.getDrive().actionBuilder(new Pose2d(-35, -58, Math.toRadians(90)))
-                .splineToLinearHeading(new Pose2d(-35, -35, Math.toRadians(180)), Math.toRadians(0))
-                        .afterTime(0, new Action() {
-                            @Override
-                            public boolean run(@NotNull TelemetryPacket telemetryPacket) {
-                                //lasa pixelul mov
-                                return false;
-                            }
-                        })
-                        .turn(Math.toRadians(180))
-                        .strafeTo(new Vector2d(-50,-35))
-                        .afterTime(0, new Action() {
-                            @Override
-                            public boolean run(@NotNull TelemetryPacket telemetryPacket) {
-                                //ia pixel alb
-                                return false;
-                            }
-                        })
-                        .waitSeconds(0.5)
-                .splineToConstantHeading(new Vector2d(-29, -59), Math.toRadians(0))
-                .splineToConstantHeading(new Vector2d(10, -59), Math.toRadians(0))
-                .splineToConstantHeading(new Vector2d(43, -40), Math.toRadians(0))
-                        .afterTime(0, new Action() {
-                            @Override
-                            public boolean run(@NotNull TelemetryPacket telemetryPacket) {
-                                //lasa ambi pixeli
-                                return false;
-                            }
-                        })
-                        .strafeTo(new Vector2d(43,-50))
-                        .build());
-
-        caz1.runAction(caz1.getDrive().actionBuilder(new Pose2d(-35, -58, Math.toRadians(90)))
-                .splineToConstantHeading(new Vector2d(-35, -12), Math.toRadians(90))
-                        .afterTime(0, new Action() {
-                            @Override
-                            public boolean run(@NotNull TelemetryPacket telemetryPacket) {
-                                //lasa pixelul mov
-                                return false;
-                            }
-                        })
-                        .waitSeconds(0.5)
-                        .turn(Math.toRadians(-90))
-                        .strafeTo(new Vector2d(-49,-12))
-                        .afterTime(0, new Action() {
-                            @Override
-                            public boolean run(@NotNull TelemetryPacket telemetryPacket) {
-                                //ia pixel alb
-                                return false;
-                            }
-                        })
-                        .waitSeconds(0.5)
-                .splineToConstantHeading(new Vector2d(-23, -58), Math.toRadians(360))
-                .splineToConstantHeading(new Vector2d(14, -58), Math.toRadians(0))
-                .splineToConstantHeading(new Vector2d(43, -37), Math.toRadians(0))
-                .afterTime(0, new Action() {
-                    @Override
-                    public boolean run(@NotNull TelemetryPacket telemetryPacket) {
-                        //lasa ambi pixeli pe tabla
-                        return false;
-                    }
-                })
-                .waitSeconds(0.5)
-                .strafeTo(new Vector2d(43,-50))
-                        .build());
-
-//-36,-12
-
-
-//=======
-//public class MeepMeepTesting {
-//    public static void main(String[] args) {
-//        MeepMeep meepMeep = new MeepMeep(800);
-//
-//        RoadRunnerBotEntity myBot = new DefaultBotBuilder(meepMeep)
-//                // Set bot constraints: maxVel, maxAccel, maxAngVel, maxAngAccel, track width
-//                .setConstraints(60, 60, Math.toRadians(180), Math.toRadians(180), 15)
-//                .followTrajectorySequence(drive ->
-//                        drive.trajectorySequenceBuilder(new Pose2d(0, 0, 0))
-//                                .forward(30)
-//                                .turn(Math.toRadians(90))
-//                                .forward(30)
-//                                .turn(Math.toRadians(90))
-//                                .forward(30)
-//                                .turn(Math.toRadians(90))
-//                                .forward(30)
-//                                .turn(Math.toRadians(90))
-//                                .build()
-//                );
 
         meepMeep.setBackground(MeepMeep.Background.FIELD_CENTERSTAGE_JUICE_DARK)
                 .setDarkMode(true)
                 .setBackgroundAlpha(0.95f)
-//                .addEntity(caz4)//stanga2
-//                .addEntity(caz5)//dreapta2
-//                .addEntity(caz6)//mijloc2
-                .addEntity(caz7)//stanga1
-//                .addEntity(caz8)//dreapta1
-//                .addEntity(caz1)//mijloc1
+//               .addEntity(caz1)//stanga1 rosu
+//   ->DE REFACUT MUSAI<-      .addEntity(caz2)//dreapta1 rosu
+//                .addEntity(caz3)//mijloc1 rosu
+//                .addEntity(caz4)//stanga2 rosu
+//                .addEntity(caz5)//dreapta2 rosu
+//                .addEntity(caz6)//mijloc2 rosu
+//                .addEntity(caz7)//stanga1 albastru
+//                .addEntity(caz8)//dreapta1 albastru
+//                .addEntity(caz9)//mijloc1 albastru
+//                .addEntity(caz10)//stanga2 albastru
+//                .addEntity(caz11)//dreapta2 albastru
+                .addEntity(caz12)//mijloc2 albastru
 
                 .start();
     }
