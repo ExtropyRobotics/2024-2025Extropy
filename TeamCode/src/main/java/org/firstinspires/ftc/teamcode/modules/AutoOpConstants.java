@@ -2,17 +2,13 @@ package org.firstinspires.ftc.teamcode.modules;
 
 public class AutoOpConstants extends Constants{
     public AutoOpConstants(){
-        avoidPos = 0.1;
-        inPos = 0.2;
-        outPosHIGH = 0.925;
-        outPosMID = 0.875;
-        outPosLOW = 0.8;
-        armPos = inPos;
+        armAVOID = 0.1;
+        armDEFAULT = 0.2;
+        armLOW = 0.8;
+        armPos = armDEFAULT;
 
-        highLift = 1860;
-        midLift = 1550;
-        lowLift = 1200;
-        defaultLift = 0;
-        liftPos = defaultLift;
+        liftLOW = 1200;
+        liftDEFAULT = 0;
+        liftPos = liftDEFAULT;
     }
 }

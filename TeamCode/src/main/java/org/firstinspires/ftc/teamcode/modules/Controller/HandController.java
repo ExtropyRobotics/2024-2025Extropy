@@ -4,16 +4,31 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
+import org.firstinspires.ftc.teamcode.modules.AutoOpConstants;
+import org.firstinspires.ftc.teamcode.modules.Constants;
 import org.firstinspires.ftc.teamcode.modules.State.HandState;
+import org.firstinspires.ftc.teamcode.modules.State.OpModeType;
+import org.firstinspires.ftc.teamcode.modules.TeleOpConstants;
 
 public class HandController {
+    Constants CONSTANTS;
     Telemetry telemetry;
     Servo handLeft;
     Servo handRight;
 
-    double closePos = 0.1;
-    double openPos = 0.27;
-    public HandController(HardwareMap hardwareMap, Telemetry telemetry){
+    public HandController(HardwareMap hardwareMap, Telemetry telemetry, OpModeType type){
+        if(type == OpModeType.TELE_OP){
+            CONSTANTS = new TeleOpConstants();
+        }else if(type == OpModeType.AUTO_OP){
+            CONSTANTS = new AutoOpConstants();
+        }
+        else{
+            throw new RuntimeException("NOT AN OFFICIAL GROUP!!!\n" +
+                    "Try something like : \n" +
+                    "@Autonomous(name = 'someOpModeName', group = 'Autonomous')\n" +
+                    "or\n" +
+                    "@TeleOp(name = 'someOpModeName', group = 'TeleOp')\n");
+        }
         this.telemetry = telemetry;
         handLeft = hardwareMap.get(Servo.class, "handLeft");
         handRight = hardwareMap.get(Servo.class, "handRight");
@@ -22,11 +37,11 @@ public class HandController {
     public void setState(HandState state){
         switch(state){
             case OPEN:{
-                setHandPos(openPos);
+                setHandPos(CONSTANTS.handOPEN);
                 break;
             }
             case CLOSE: {
-                setHandPos(closePos);
+                setHandPos(CONSTANTS.handCLOSE);
                 break;
             }
             default: break;
