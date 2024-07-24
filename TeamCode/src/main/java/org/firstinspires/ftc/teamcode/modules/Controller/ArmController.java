@@ -10,14 +10,11 @@ import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
-import org.firstinspires.ftc.teamcode.modules.AutoOpConstants;
 import org.firstinspires.ftc.teamcode.modules.Constants;
-import org.firstinspires.ftc.teamcode.modules.State.ActionState;
 import org.firstinspires.ftc.teamcode.modules.State.HandState;
 import org.firstinspires.ftc.teamcode.modules.State.LiftState;
 import org.firstinspires.ftc.teamcode.modules.State.OpModeType;
 import org.firstinspires.ftc.teamcode.modules.State.WristState;
-import org.firstinspires.ftc.teamcode.modules.TeleOpConstants;
 
 public class ArmController extends Thread{
     LinearOpMode opMode;
@@ -46,13 +43,12 @@ public class ArmController extends Thread{
 
     public ArmController(HardwareMap hardwareMap, Telemetry telemetry, LinearOpMode mode){
         this.opMode = mode;
+        CONSTANTS = new Constants();
 
         if(opMode.getClass().getAnnotation(TeleOp.class) != null && opMode.getClass().getAnnotation(TeleOp.class).group().equals("TeleOp")){
             opModeType = OpModeType.TELE_OP;
-            CONSTANTS = new TeleOpConstants();
         }else if(opMode.getClass().getAnnotation(Autonomous.class) != null && opMode.getClass().getAnnotation(Autonomous.class).group().equals("Autonomous")){
             opModeType = OpModeType.AUTO_OP;
-            CONSTANTS = new AutoOpConstants();
         }
         else{
             throw new RuntimeException("NOT AN OFFICIAL GROUP!!!\n" +

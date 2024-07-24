@@ -4,11 +4,9 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
-import org.firstinspires.ftc.teamcode.modules.AutoOpConstants;
 import org.firstinspires.ftc.teamcode.modules.Constants;
 import org.firstinspires.ftc.teamcode.modules.State.HandState;
 import org.firstinspires.ftc.teamcode.modules.State.OpModeType;
-import org.firstinspires.ftc.teamcode.modules.TeleOpConstants;
 
 public class HandController {
     Constants CONSTANTS;
@@ -17,10 +15,8 @@ public class HandController {
     Servo handRight;
 
     public HandController(HardwareMap hardwareMap, Telemetry telemetry, OpModeType type){
-        if(type == OpModeType.TELE_OP){
-            CONSTANTS = new TeleOpConstants();
-        }else if(type == OpModeType.AUTO_OP){
-            CONSTANTS = new AutoOpConstants();
+        if(type == OpModeType.TELE_OP || type == OpModeType.AUTO_OP) {
+            CONSTANTS = new Constants();
         }
         else{
             throw new RuntimeException("NOT AN OFFICIAL GROUP!!!\n" +
