@@ -36,20 +36,24 @@ import org.openftc.easyopencv.OpenCvCamera;
 import org.openftc.easyopencv.OpenCvCameraFactory;
 import org.openftc.easyopencv.OpenCvCameraRotation;
 public class Camera{
+    Telemetry telemetry;
     OpenCvCamera camera;
     RosuPipeline DetectRosu;
     AlbastruPipeline DetectAlbastru;
+    public boolean isOK = false;
+
     Point location = new Point(0,0);
 
     CazState state;
 
     public Camera(HardwareMap hardwareMap ,Telemetry telemetry,CazState state){
         this.state = state;
+        this.telemetry = telemetry;
         int cameraMonitorViewId = hardwareMap.appContext.getResources().getIdentifier("cameraMonitorViewId", "id", hardwareMap.appContext.getPackageName());
         camera = OpenCvCameraFactory.getInstance().createWebcam(hardwareMap.get(WebcamName.class, "Webcam 1"), cameraMonitorViewId);
 
-        DetectAlbastru = new AlbastruPipeline(telemetry);
-        DetectRosu = new RosuPipeline(telemetry);
+        DetectAlbastru = new AlbastruPipeline(this.telemetry);
+        DetectRosu = new RosuPipeline(this.telemetry);
 
         if(state == RED)camera.setPipeline(DetectRosu);
         if(state == BLUE)camera.setPipeline(DetectAlbastru);
@@ -60,10 +64,12 @@ public class Camera{
                 camera.startStreaming(320,240, OpenCvCameraRotation.UPRIGHT);
                 FtcDashboard.getInstance().startCameraStream(camera, 0);
                 telemetry.addLine("oppened succesfully");
+                isOK = true;
             }
             @Override
             public void onError(int errorCode) {
                 telemetry.addLine("error");
+                isOK = false;
             }
         });
     }
