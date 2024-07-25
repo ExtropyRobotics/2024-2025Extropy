@@ -174,13 +174,13 @@ import com.acmerobotics.roadrunner.geometry.Vector2d;
                                 .splineToSplineHeading(new Pose2d(-35, 30, Math.toRadians(0)), Math.toRadians(-90))
                                 .waitSeconds(0.5)
                                 .setTangent(Math.toRadians(-90))
-                                .splineToSplineHeading(new Pose2d(-50,12, Math.toRadians(0)),Math.toRadians(-180))
+                                .splineToSplineHeading(new Pose2d(-61,12, Math.toRadians(0)),Math.toRadians(-180))
                                 .UNSTABLE_addTemporalMarkerOffset(0,() -> {})
                                 .waitSeconds(0.5)
                                 .setTangent(0)
-                                .splineToSplineHeading(new Pose2d(16, 12, Math.toRadians(0)), Math.toRadians(0))
+                                .splineToSplineHeading(new Pose2d(18, 12, Math.toRadians(0)), Math.toRadians(0))
                                 .UNSTABLE_addTemporalMarkerOffset(0,() -> {})
-                                .splineToSplineHeading(new Pose2d(42, 30,Math.toRadians(0)), Math.toRadians(-60))
+                                .splineToSplineHeading(new Pose2d(42, 30,Math.toRadians(0)), Math.toRadians(0))
                                 .waitSeconds(1)
                                 .setTangent(Math.toRadians(-90))
                                 .splineToSplineHeading(new Pose2d(58, 9,Math.toRadians(180)), Math.toRadians(0))
@@ -191,20 +191,19 @@ import com.acmerobotics.roadrunner.geometry.Vector2d;
                 .followTrajectorySequence(drive ->
                                 drive.trajectorySequenceBuilder(new Pose2d(-35, 59,Math.toRadians(-90)))
                                         .UNSTABLE_addTemporalMarkerOffset(1,() -> {})
-                                        .setTangent(Math.toRadians(-90))
-                                        .splineToSplineHeading(new Pose2d(-35, 35, Math.toRadians(-180)), Math.toRadians(-90))
+                                        .setTangent(Math.toRadians(-120))
+                                        .splineToSplineHeading(new Pose2d(-46, 21, Math.toRadians(-90)), Math.toRadians(-90))
                                         .waitSeconds(0.5)//lasa pixelul mov
-                                        .UNSTABLE_addDisplacementMarkerOffset(1,()->{})
                                         .setTangent(Math.toRadians(-90))
-                                        .splineToSplineHeading(new Pose2d(-50, 12, Math.toRadians(0)), Math.toRadians(-90))
-                                        .waitSeconds(0.5)//ia pixel alb
-                                        .setTangent(Math.toRadians(0))
-                                        .UNSTABLE_addDisplacementMarkerOffset(1,()->{})
-                                        .splineToSplineHeading(new Pose2d(14, 12, Math.toRadians(0)),Math.toRadians(0))
-                                        .splineToSplineHeading(new Pose2d(40, 42, Math.toRadians(0)),Math.toRadians(-90))
+                                        .splineToSplineHeading(new Pose2d(-61,12, Math.toRadians(0)),Math.toRadians(-180))
                                         .waitSeconds(0.5)
+                                        .setTangent(0)
+                                        .splineToSplineHeading(new Pose2d(18, 12, Math.toRadians(0)), Math.toRadians(0))
+                                        .UNSTABLE_addTemporalMarkerOffset(0,() -> {})
+                                        .splineToSplineHeading(new Pose2d(42, 30,Math.toRadians(0)), Math.toRadians(0))
+                                        .waitSeconds(1)
                                         .setTangent(Math.toRadians(-90))
-                                        .splineToSplineHeading(new Pose2d(50, 12, Math.toRadians(180)),Math.toRadians(0))
+                                        .splineToSplineHeading(new Pose2d(58, 9,Math.toRadians(180)), Math.toRadians(0))
                                         .build());
         RoadRunnerBotEntity caz9 = new DefaultBotBuilder(meepMeep)
                 // Set bot constraints: maxVel, maxAccel, maxAngVel, maxAngAccel, track width
@@ -217,15 +216,15 @@ import com.acmerobotics.roadrunner.geometry.Vector2d;
                                         .waitSeconds(0.5)
                                         .UNSTABLE_addTemporalMarkerOffset(0,() -> {})
                                         .setTangent(Math.toRadians(-180))
-                                        .splineToSplineHeading(new Pose2d(-50, 12, Math.toRadians(0)), Math.toRadians(-180))
+                                        .splineToSplineHeading(new Pose2d(-62, 12, Math.toRadians(0)), Math.toRadians(-180))
 //                                        //ia pixelul alb
                                         .waitSeconds(0.5)
                                         .setTangent(Math.toRadians(0))
                                         .splineToSplineHeading(new Pose2d(23,12, Math.toRadians(0)),Math.toRadians(0))
                                         .UNSTABLE_addTemporalMarkerOffset(0,() -> {})
-                                        .splineToSplineHeading(new Pose2d(43,35, Math.toRadians(0)),Math.toRadians(-90))
+                                        .splineToSplineHeading(new Pose2d(43,35, Math.toRadians(0)),Math.toRadians(30))
                                         .waitSeconds(0.5)
-                                        .setTangent(Math.toRadians(90))
+                                        .setTangent(Math.toRadians(-90))
                                         .splineToSplineHeading(new Pose2d(50, 12, Math.toRadians(180)),Math.toRadians(0))
                                         .build());
 
@@ -239,25 +238,24 @@ import com.acmerobotics.roadrunner.geometry.Vector2d;
                                         .splineToSplineHeading(new Pose2d(12, 35, Math.toRadians(0)), Math.toRadians(-90))
                                         .waitSeconds(0.5)//lasa pixel mov
                                         .UNSTABLE_addTemporalMarkerOffset(0,() -> {})
-                                        .setTangent(Math.toRadians(0))
-                                        .splineToSplineHeading(new Pose2d(42, 28, Math.toRadians(0)),Math.toRadians(0))
+                                        .setTangent(Math.toRadians(-15))
+                                        .splineToSplineHeading(new Pose2d(42, 28, Math.toRadians(0)),Math.toRadians(-15))
                                         .waitSeconds(0.5)//lasa pixel galben
-                                        .setTangent(Math.toRadians(90))
-                                        .splineToSplineHeading(new Pose2d(42, 57, Math.toRadians(0)),Math.toRadians(90))
-                                        .setTangent(Math.toRadians(180))
+                                        .setTangent(Math.toRadians(60))
+                                        .splineToSplineHeading(new Pose2d(12.5, 57, Math.toRadians(0)),Math.toRadians(180))
                                         .splineToSplineHeading(new Pose2d(-32, 57, Math.toRadians(0)),Math.toRadians(180))
                                         .UNSTABLE_addTemporalMarkerOffset(0,() -> {})
-                                        .splineToSplineHeading(new Pose2d(-50, 35, Math.toRadians(0)),Math.toRadians(-90))
+                                        .splineToSplineHeading(new Pose2d(-61, 35, Math.toRadians(0)),Math.toRadians(-90))
                                         .waitSeconds(0.5)//ia pixel alb
                                         .setTangent(Math.toRadians(90))
                                         .splineToSplineHeading(new Pose2d(-32, 57, Math.toRadians(0)),Math.toRadians(0))
                                         .UNSTABLE_addTemporalMarkerOffset(1,() -> {})
-                                        .splineToSplineHeading(new Pose2d(42, 57, Math.toRadians(0)),Math.toRadians(0))
-                                        .setTangent(Math.toRadians(-90))
-                                        .splineToSplineHeading(new Pose2d(42, 28, Math.toRadians(0)),Math.toRadians(-90))
+                                        .splineToSplineHeading(new Pose2d(12.5, 57, Math.toRadians(0)),Math.toRadians(0))
                                         .waitSeconds(0.5)
                                         .setTangent(Math.toRadians(90))
-                                        .splineToSplineHeading(new Pose2d(42, 57, Math.toRadians(180)),Math.toRadians(90))
+                                        .splineToSplineHeading(new Pose2d(42, 28, Math.toRadians(0)),Math.toRadians())
+//                                        .setTangent(Math.toRadians(90))
+//                                        .splineToSplineHeading(new Pose2d(42, 57, Math.toRadians(180)),Math.toRadians(90))
                                         .build());
         RoadRunnerBotEntity caz11 = new DefaultBotBuilder(meepMeep)
                 // Set bot constraints: maxVel, maxAccel, maxAngVel, maxAngAccel, track width
@@ -334,9 +332,9 @@ import com.acmerobotics.roadrunner.geometry.Vector2d;
 //                .addEntity(caz7)//stanga1 albastru
 //                .addEntity(caz8)//dreapta1 albastru
 //                .addEntity(caz9)//mijloc1 albastru
-//                .addEntity(caz10)//stanga2 albastru
+                .addEntity(caz10)//stanga2 albastru
 //                .addEntity(caz11)//dreapta2 albastru
-                .addEntity(caz12)//mijloc2 albastru
+//                .addEntity(caz12)//mijloc2 albastru
 
                 .start();
     }
