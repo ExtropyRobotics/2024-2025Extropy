@@ -253,7 +253,7 @@ import com.acmerobotics.roadrunner.geometry.Vector2d;
                                         .splineToSplineHeading(new Pose2d(12.5, 57, Math.toRadians(0)),Math.toRadians(0))
                                         .waitSeconds(0.5)
                                         .setTangent(Math.toRadians(90))
-                                        .splineToSplineHeading(new Pose2d(42, 28, Math.toRadians(0)),Math.toRadians())
+                                        .splineToSplineHeading(new Pose2d(42, 28, Math.toRadians(0)),Math.toRadians(0))
 //                                        .setTangent(Math.toRadians(90))
 //                                        .splineToSplineHeading(new Pose2d(42, 57, Math.toRadians(180)),Math.toRadians(90))
                                         .build());
@@ -323,7 +323,7 @@ import com.acmerobotics.roadrunner.geometry.Vector2d;
         meepMeep.setBackground(MeepMeep.Background.FIELD_CENTERSTAGE_JUICE_DARK)
                 .setDarkMode(true)
                 .setBackgroundAlpha(0.95f)
-                .addEntity(caz1)//stanga1 rosu
+//                .addEntity(caz1)//stanga1 rosu
 //                .addEntity(caz2)//dreapta1 rosu
 //                .addEntity(caz3)//mijloc1 rosu
 //                .addEntity(caz4)//stanga2 rosu
