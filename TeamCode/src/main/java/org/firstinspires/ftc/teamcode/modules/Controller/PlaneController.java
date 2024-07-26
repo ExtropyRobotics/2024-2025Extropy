@@ -29,7 +29,6 @@ public class PlaneController {
         }
     }
     private void setPlanePos (double pos){
-        telemetry.addData("planePos",pos);
         plane.setPosition(pos);
     }
 }

@@ -16,12 +16,8 @@ import java.util.List;
 
 public class AlbastruPipeline extends OpenCvPipeline{
 
-    Telemetry telemetry;
     int cx = 0;
     int cy = 0;
-    public AlbastruPipeline(Telemetry telemetry){
-        this.telemetry = telemetry;
-    }
 
     @Override
     public Mat processFrame(Mat input){

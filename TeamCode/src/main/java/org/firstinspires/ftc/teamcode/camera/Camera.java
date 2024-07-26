@@ -46,14 +46,14 @@ public class Camera{
 
     CazState state;
 
-    public Camera(HardwareMap hardwareMap ,Telemetry telemetry,CazState state){
+    public Camera(HardwareMap hardwareMap ,Telemetry telemetry, CazState state){
         this.state = state;
         this.telemetry = telemetry;
         int cameraMonitorViewId = hardwareMap.appContext.getResources().getIdentifier("cameraMonitorViewId", "id", hardwareMap.appContext.getPackageName());
         camera = OpenCvCameraFactory.getInstance().createWebcam(hardwareMap.get(WebcamName.class, "Webcam 1"), cameraMonitorViewId);
 
-        DetectAlbastru = new AlbastruPipeline(this.telemetry);
-        DetectRosu = new RosuPipeline(this.telemetry);
+        DetectAlbastru = new AlbastruPipeline();
+        DetectRosu = new RosuPipeline();
 
         if(state == RED)camera.setPipeline(DetectRosu);
         if(state == BLUE)camera.setPipeline(DetectAlbastru);
@@ -68,8 +68,9 @@ public class Camera{
             }
             @Override
             public void onError(int errorCode) {
-                telemetry.addLine("error");
                 isOK = false;
+                throw new RuntimeException("threw an error when opening camera\n" +
+                        "do sum else man");
             }
         });
     }

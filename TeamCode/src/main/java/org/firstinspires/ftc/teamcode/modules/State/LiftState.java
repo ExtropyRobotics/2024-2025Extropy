@@ -6,5 +6,7 @@ public enum LiftState {
     LOW,
     DEFAULT,
     HANG_UP,
-    HANG_DOWN
+    HANG_DOWN,
+    PLACE_PURPLE,
+    TAKE_WHITE,
 }

@@ -50,8 +50,12 @@ public class WristController {
                 setWristPos(CONSTANTS.wristCARRY);
                 break;
             }
-            case GET:{
-                setWristPos(CONSTANTS.wristGET);
+            case GET_LOW:{
+                setWristPos(CONSTANTS.wristGET_LOW);
+                break;
+            }
+            case GET_STACK:{
+                setWristPos(CONSTANTS.wristGET_STACK);
                 break;
             }
         }
@@ -64,7 +68,6 @@ public class WristController {
         // mid:
         // low:
         // default: 1 -> down
-        telemetry.addData("wristPos",pos);
         svWristLeft.setPosition(pos);
         svWristRight.setPosition(pos);
     }

@@ -15,12 +15,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class RosuPipeline extends OpenCvPipeline {
-    Telemetry telemetry;
     int cx = 0;
     int cy = 0;
-    public RosuPipeline(Telemetry telemetry){
-        this.telemetry = telemetry;
-    }
     @Override
     public Mat processFrame(Mat input){
         Mat start = new Mat();
