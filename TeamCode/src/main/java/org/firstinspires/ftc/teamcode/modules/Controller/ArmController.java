@@ -19,7 +19,7 @@ import org.firstinspires.ftc.teamcode.modules.State.WristState;
 public class ArmController extends Thread{
     LinearOpMode opMode;
     OpModeType opModeType;
-    Constants CONSTANTS;
+    public Constants CONSTANTS;
 
     Telemetry telemetry;
     WristController wrist;
@@ -35,8 +35,6 @@ public class ArmController extends Thread{
     LiftState givenState;
     WristState wristState;
     HandState handState;
-
-    boolean startedAuto = false;
 
     public ElapsedTime timeElapsed = new ElapsedTime(); // to get time since start of opMode
     double time = 1; // time between actions
@@ -64,7 +62,7 @@ public class ArmController extends Thread{
         this.hand = new HandController(hardwareMap, telemetry, opModeType);
 
         this.wristState = WristState.CARRY;
-        this.handState = HandState.CLOSE;
+        this.handState = HandState.BOTH_CLOSE;
 
         this.currentState = LiftState.DEFAULT;
         this.givenState = LiftState.DEFAULT;
@@ -90,11 +88,12 @@ public class ArmController extends Thread{
 
         setWristState(wristState);
         setHandState(handState);
-        setState(currentState);
+        if(opModeType != OpModeType.AUTO_OP)setState(currentState);
     }
 
+    @Override
     public void run(){
-        while(!opMode.isStopRequested()){
+        while(!opMode.isStopRequested() && this.isAlive()){
             setLiftState(givenState);
         }
     }
@@ -102,17 +101,10 @@ public class ArmController extends Thread{
         if(opModeType == OpModeType.TELE_OP)
             setLiftState(state);
         if(opModeType == OpModeType.AUTO_OP){
-            if(!startedAuto){
-                this.start();
-                startedAuto = true;
-            }
             givenState = state;
         }
     }
     public void setLiftState(LiftState state){
-        telemetry.addData("rememberedState ", currentState);
-        telemetry.addData("functionState ", state);
-        telemetry.addData("givenState ", givenState);
         if(state != currentState){ // time = 0 when first into state
             timeElapsed.reset();
         }
@@ -122,7 +114,7 @@ public class ArmController extends Thread{
                     CONSTANTS.armPos = CONSTANTS.armAVOID;
 
                     wristState = WristState.CARRY;
-                    handState = HandState.CLOSE;
+                    handState = HandState.BOTH_CLOSE;
                 } else if (timeElapsed.time() - time >= 0 || armLeft.getCurrentPosition() >= CONSTANTS.liftPos - 20) { // if time has passed go into outPosHIGH
                     CONSTANTS.armPos = CONSTANTS.armHIGH;
 
@@ -137,7 +129,7 @@ public class ArmController extends Thread{
                     CONSTANTS.armPos = CONSTANTS.armAVOID;
 
                     wristState = WristState.CARRY;
-                    handState = HandState.CLOSE;
+                    handState = HandState.BOTH_CLOSE;
                 } else if (timeElapsed.time() - time >= 0 || armLeft.getCurrentPosition() >= CONSTANTS.liftPos - 20) { // if time has passed go into outPosMID
                     CONSTANTS.armPos = CONSTANTS.armMID;
 
@@ -153,7 +145,7 @@ public class ArmController extends Thread{
                     CONSTANTS.armPos = CONSTANTS.armAVOID;
 
                     wristState = WristState.CARRY;
-                    handState = HandState.CLOSE;
+                    handState = HandState.BOTH_CLOSE;
                 } else if (timeElapsed.time() - 2 >= 0 || armLeft.getCurrentPosition() >= CONSTANTS.liftPos - 20) { // if time has passed go into outPosLow
                     CONSTANTS.armPos = CONSTANTS.armLOW;
 
@@ -168,7 +160,7 @@ public class ArmController extends Thread{
                     CONSTANTS.armPos = CONSTANTS.armAVOID;
 
                     wristState = WristState.CARRY;
-                    handState = HandState.CLOSE;
+                    handState = HandState.BOTH_CLOSE;
                 } else if (armLeft.getCurrentPosition() <= 20) {
                     CONSTANTS.armPos = CONSTANTS.armDEFAULT;
                 }
@@ -198,19 +190,32 @@ public class ArmController extends Thread{
                 currentState = LiftState.HANG_DOWN;
                 break;
             }
+            case PLACE_PURPLE:{
+                CONSTANTS.armPos = CONSTANTS.armSTACK;
+                wristState = WristState.GET_LOW;
+                handState = HandState.BOTH_CLOSE;
+
+                if(timeElapsed.time() >= 0.5)handState = HandState.LEFT_OPEN;
+                if(timeElapsed.time() >= 1)handState = HandState.BOTH_CLOSE;
+
+                break;
+            }
+            case TAKE_WHITE:{
+                wristState = WristState.GET_STACK;
+                handState = HandState.LEFT_OPEN;
+                CONSTANTS.armPos = CONSTANTS.armSTACK;
+                if(timeElapsed.time()>0.5)handState = HandState.BOTH_CLOSE;
+                if(timeElapsed.time()>0.75)wristState = WristState.CARRY;
+                if(timeElapsed.time()>1)CONSTANTS.armPos = CONSTANTS.armAVOID;
+
+                break;
+            }
         }
 
         setArmPos(CONSTANTS.armPos); // set arm servos pos
         setLiftPos(CONSTANTS.liftPos); // set lift motors pos
         setWristState(wristState); // set wrist servos pos
         setHandState(handState); // set hand servo pos
-
-        if(!this.isAlive()){
-            telemetry.addData("liftState ", currentState); // display current this.state
-            telemetry.addData("wristState ", wristState); // display current this.state
-            telemetry.addData("handState ", handState); // display current this.state
-        }
-        telemetry.update();
     }
     public void setHandState(HandState state){
         this.handState = state;
@@ -220,16 +225,17 @@ public class ArmController extends Thread{
         wristState = state;
         wrist.setState(wristState);
     }
-    private void setLiftPos(int pos){
+    public void setArmPos(double pos){
+        CONSTANTS.armPos = pos;
+        svArmLeft.setPosition(pos);
+        svArmRight.setPosition(pos);
+    }
+    public void setLiftPos(int pos){
         CONSTANTS.liftPos = pos;
         armLeft.setTargetPosition(pos);
         armRight.setTargetPosition(pos);
         armLeft.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         armRight.setMode(DcMotor.RunMode.RUN_TO_POSITION);
     }
-    private void setArmPos(double pos){
-        CONSTANTS.armPos = pos;
-        svArmLeft.setPosition(pos);
-        svArmRight.setPosition(pos);
-    }
+
 }

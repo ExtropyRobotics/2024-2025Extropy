@@ -21,7 +21,7 @@ import org.firstinspires.ftc.teamcode.modules.State.WristState;
 import org.firstinspires.ftc.teamcode.modules.Controller.PlaneController;
 import org.firstinspires.ftc.teamcode.modules.State.PlaneState;
 
-@TeleOp(name = "!!!!DejTeleOp", group = "TeleOp")
+@TeleOp(name = "!!!!!!!DejTeleOp", group = "TeleOp")
 public class DejTeleOp extends LinearOpMode {
     @Override
     public void runOpMode() throws InterruptedException {
@@ -49,10 +49,13 @@ public class DejTeleOp extends LinearOpMode {
             if(gamepad2.dpad_down)liftState = LOW;
             if(gamepad2.dpad_right)liftState = DEFAULT;
 
-            if(gamepad2.right_bumper)arm.setHandState(OPEN);
-            if(gamepad2.left_bumper)arm.setHandState(CLOSE);
+            if(gamepad2.left_bumper)arm.setHandState(LEFT_OPEN);
+            if(gamepad2.right_bumper)arm.setHandState(RIGHT_OPEN);
+            if(gamepad2.left_trigger > 0)arm.setHandState(LEFT_CLOSE);
+            if(gamepad2.right_trigger > 0)arm.setHandState(RIGHT_CLOSE);
+
             if(gamepad2.x && liftState == DEFAULT)wristState = CARRY;
-            if(gamepad2.a && liftState == DEFAULT)wristState = GET;
+            if(gamepad2.a && liftState == DEFAULT)wristState = GET_LOW;
             if(gamepad1.b)planeState = RELEASE;
             if(gamepad1.y)planeState = HOLD;
             if(liftState == DEFAULT)arm.setWristState(wristState);

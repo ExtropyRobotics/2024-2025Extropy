@@ -32,12 +32,28 @@ public class HandController {
     }
     public void setState(HandState state){
         switch(state){
-            case OPEN:{
+            case BOTH_OPEN:{
                 setHandPos(CONSTANTS.handOPEN);
                 break;
             }
-            case CLOSE: {
+            case BOTH_CLOSE:{
                 setHandPos(CONSTANTS.handCLOSE);
+                break;
+            }
+            case LEFT_OPEN:{
+                handLeft.setPosition(CONSTANTS.handOPEN);
+                break;
+            }
+            case LEFT_CLOSE: {
+                handLeft.setPosition(CONSTANTS.handCLOSE);
+                break;
+            }
+            case RIGHT_OPEN:{
+                handRight.setPosition(CONSTANTS.handOPEN);
+                break;
+            }
+            case RIGHT_CLOSE: {
+                handRight.setPosition(CONSTANTS.handCLOSE);
                 break;
             }
             default: break;
@@ -46,7 +62,6 @@ public class HandController {
     private void setHandPos(double pos){
         // 0.2 open
         //
-        telemetry.addData("handPos",pos);
         handLeft.setPosition(pos);
         handRight.setPosition(pos);
     }

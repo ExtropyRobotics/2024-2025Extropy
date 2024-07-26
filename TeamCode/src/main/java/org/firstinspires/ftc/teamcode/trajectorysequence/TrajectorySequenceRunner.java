@@ -17,6 +17,7 @@ import com.acmerobotics.roadrunner.trajectory.TrajectoryMarker;
 import com.acmerobotics.roadrunner.util.NanoClock;
 import com.qualcomm.robotcore.hardware.VoltageSensor;
 
+//import org.firstinspires.ftc.teamcode.drive.CorrectionSegment;
 import org.firstinspires.ftc.teamcode.drive.DriveConstants;
 import org.firstinspires.ftc.teamcode.trajectorysequence.sequencesegment.SequenceSegment;
 import org.firstinspires.ftc.teamcode.trajectorysequence.sequencesegment.TrajectorySegment;
@@ -188,6 +189,23 @@ public class TrajectorySequenceRunner {
                     currentSegmentIndex++;
                 }
             }
+//            else if (currentSegment instanceof CorrectionSegment) {
+//                targetPose = ((CorrectionSegment) currentSegment).getTargetPose();
+//
+//                Pose2d poseError = targetPose.minus(poseEstimate);
+//                double correction = turnController.update(poseEstimate.getHeading());
+//
+//                driveSignal = new DriveSignal(
+//                        new Pose2d(poseError.getX(), poseError.getY(), correction),
+//                        new Pose2d(0, 0, 0)
+//                );
+//
+//                lastPoseError = poseError;
+//
+//                if (poseError.epsilonEquals(new Pose2d(0.1,0.1,0.1))) {
+//                    currentSegmentIndex++;
+//                }
+//            }
 
             while (remainingMarkers.size() > 0 && deltaTime > remainingMarkers.get(0).getTime()) {
                 remainingMarkers.get(0).getCallback().onMarkerReached();
