@@ -46,7 +46,7 @@ public class RosuPipeline extends OpenCvPipeline {
             mm = Imgproc.moments(contours.get(i));
             cx = (int)(mm.m10/mm.m00);
             cy = (int)(mm.m01/mm.m00);
-            if(area>maximum && cy>70) {
+            if(area>maximum && cy>120) {
                 maximum = area;
                 maxCnt = contours.get(i);
                 idMax = i;
@@ -58,6 +58,8 @@ public class RosuPipeline extends OpenCvPipeline {
 
         Imgproc.drawContours(start , contours , idMax , new Scalar(0,0,0) , 7);
         Imgproc.line(start, new Point(230,0), new Point(230 , 240),new Scalar(255,10,10),3);
+        Imgproc.line(start, new Point(0,120), new Point(240, 120), new Scalar(255,10,10),3);
+
         hsv.release();
         edges.release();
         return start;
