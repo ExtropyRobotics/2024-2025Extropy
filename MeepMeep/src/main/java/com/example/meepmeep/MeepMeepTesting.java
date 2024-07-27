@@ -100,7 +100,7 @@ import com.acmerobotics.roadrunner.geometry.Vector2d;
                 .followTrajectorySequence(drive ->
                                 drive.trajectorySequenceBuilder(new Pose2d(12, -60,Math.toRadians(90)))
                                         .UNSTABLE_addTemporalMarkerOffset(0,() -> {})
-                                        .setTangent(Math.toRadians(90))
+//                                        .setTangent(Math.toRadians(90))
                                         .splineToSplineHeading(new Pose2d(12, -35, Math.toRadians(0)), Math.toRadians(90))
                                         .waitSeconds(0.5)//lasa pixel mov
                                         .UNSTABLE_addTemporalMarkerOffset(0,() -> {})
@@ -128,24 +128,24 @@ import com.acmerobotics.roadrunner.geometry.Vector2d;
                 .setConstraints(60, 60, Math.toRadians(180), Math.toRadians(180), 15)
                 .followTrajectorySequence(drive ->
                                 drive.trajectorySequenceBuilder(new Pose2d(12, -60,Math.toRadians(90)))
-                                        .splineToSplineHeading(new Pose2d(30, -34, Math.toRadians(0)), Math.toRadians(0))
-                                        .UNSTABLE_addTemporalMarkerOffset(0,() -> {})
-                                        .splineToSplineHeading(new Pose2d(42, -42, Math.toRadians(0)), Math.toRadians(-90))
-                                        .waitSeconds(0.5)
-                                        .setTangent(Math.toRadians(-90))
-                                        .splineToSplineHeading(new Pose2d(12.5, -57, Math.toRadians(0)),Math.toRadians(180))
-                                        .splineToSplineHeading(new Pose2d(-32, -57, Math.toRadians(0)),Math.toRadians(180))
-                                        .UNSTABLE_addTemporalMarkerOffset(0,() -> {})
-                                        .splineToSplineHeading(new Pose2d(-62, -35, Math.toRadians(0)),Math.toRadians(90))
-                                        .waitSeconds(0.5)//ia pixel alb
-                                        .setTangent(Math.toRadians(-90))
-                                        .splineToSplineHeading(new Pose2d(-32, -57, Math.toRadians(0)),Math.toRadians(0))
-                                        .UNSTABLE_addTemporalMarkerOffset(1,() -> {})
-                                        .splineToSplineHeading(new Pose2d(12.5, -57, Math.toRadians(0)),Math.toRadians(0))
-                                        .splineToSplineHeading(new Pose2d(42, -28, Math.toRadians(0)),Math.toRadians(90))
-                                        .waitSeconds(0.5)
-                                        .setTangent(Math.toRadians(-90))
-                                        .splineToSplineHeading(new Pose2d(42, -57, Math.toRadians(180)),Math.toRadians(-90))
+                                        .splineToSplineHeading(new Pose2d(12, -35, Math.toRadians(180)), Math.toRadians(90))
+//                                        .UNSTABLE_addTemporalMarkerOffset(0,() -> {})
+//                                        .splineToSplineHeading(new Pose2d(42, -42, Math.toRadians(0)), Math.toRadians(-90))
+//                                        .waitSeconds(0.5)
+//                                        .setTangent(Math.toRadians(-90))
+//                                        .splineToSplineHeading(new Pose2d(12.5, -57, Math.toRadians(0)),Math.toRadians(180))
+//                                        .splineToSplineHeading(new Pose2d(-32, -57, Math.toRadians(0)),Math.toRadians(180))
+//                                        .UNSTABLE_addTemporalMarkerOffset(0,() -> {})
+//                                        .splineToSplineHeading(new Pose2d(-62, -35, Math.toRadians(0)),Math.toRadians(90))
+//                                        .waitSeconds(0.5)//ia pixel alb
+//                                        .setTangent(Math.toRadians(-90))
+//                                        .splineToSplineHeading(new Pose2d(-32, -57, Math.toRadians(0)),Math.toRadians(0))
+//                                        .UNSTABLE_addTemporalMarkerOffset(1,() -> {})
+//                                        .splineToSplineHeading(new Pose2d(12.5, -57, Math.toRadians(0)),Math.toRadians(0))
+//                                        .splineToSplineHeading(new Pose2d(42, -28, Math.toRadians(0)),Math.toRadians(90))
+//                                        .waitSeconds(0.5)
+//                                        .setTangent(Math.toRadians(-90))
+//                                        .splineToSplineHeading(new Pose2d(42, -57, Math.toRadians(180)),Math.toRadians(-90))
                                                 .build());
         RoadRunnerBotEntity cazRM2 = new DefaultBotBuilder(meepMeep)
                 // Set bot constraints: maxVel, maxAccel, maxAngVel, maxAngAccel, track width
@@ -334,8 +334,8 @@ import com.acmerobotics.roadrunner.geometry.Vector2d;
 //                .addEntity(cazRR2)//dreapta2 rosu
 //                .addEntity(cazRM2)//mijloc2 rosu
 //                .addEntity(caz7)//dreapta1 albastru
-//                .addEntity(caz8)//stanga1 albastru
-                .addEntity(caz9)//mijloc1 albastru
+                .addEntity(caz8)//stanga1 albastru
+//                .addEntity(caz9)//mijloc1 albastru
 //                .addEntity(caz10)//stanga2 albastru
 //                .addEntity(caz11)//dreapta2 albastru
 //                .addEntity(caz12)//mijloc2 albastru
