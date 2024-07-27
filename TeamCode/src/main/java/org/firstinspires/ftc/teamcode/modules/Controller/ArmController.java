@@ -193,11 +193,9 @@ public class ArmController extends Thread{
             case PLACE_PURPLE:{
                 CONSTANTS.armPos = CONSTANTS.armSTACK;
                 wristState = WristState.GET_LOW;
-                handState = HandState.BOTH_CLOSE;
 
                 if(timeElapsed.time() >= 0.5)handState = HandState.LEFT_OPEN;
-                if(timeElapsed.time() >= 1)handState = HandState.BOTH_CLOSE;
-
+                currentState = LiftState.PLACE_PURPLE;
                 break;
             }
             case TAKE_WHITE:{
@@ -207,6 +205,8 @@ public class ArmController extends Thread{
                 if(timeElapsed.time()>0.5)handState = HandState.BOTH_CLOSE;
                 if(timeElapsed.time()>0.75)wristState = WristState.CARRY;
                 if(timeElapsed.time()>1)CONSTANTS.armPos = CONSTANTS.armAVOID;
+
+                currentState = LiftState.TAKE_WHITE;
 
                 break;
             }
