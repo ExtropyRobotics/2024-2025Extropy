@@ -4,7 +4,7 @@ public class Constants {
 
     public double armAVOID = 0.1;
     public double armSTACK = 0.12;
-    public double armDEFAULT = 0.18;
+    public double armDEFAULT = 0.14;
     public double armHIGH = 0.925;
     public double armMID = 0.875;
     public double armLOW = 0.8;
@@ -20,7 +20,7 @@ public class Constants {
     public int liftPos = liftDEFAULT;
 
     public double handCLOSE = 0.1;
-    public double handOPEN = 0.27;
+    public double handOPEN = 0.32;
 
     public double wristHIGH = 0.45;
     public double wristMID = 0.55;

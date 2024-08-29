@@ -24,7 +24,7 @@ public class AlbadtruDreapta extends LinearOpMode{
         SampleMecanumDrive drive = new SampleMecanumDrive(hardwareMap);
 
         TrajectorySequence cazStanga = drive.trajectorySequenceBuilder(startingPose)
-                .splineToSplineHeading(new Pose2d(-35, -25, Math.toRadians(0)), Math.toRadians(90))
+                .splineToSplineHeading(new Pose2d(-40, -25, Math.toRadians(0)), Math.toRadians(90))
                 .UNSTABLE_addTemporalMarkerOffset(-0.1,()->{
                     arm.setState(LiftState.PLACE_PURPLE);
                 })
@@ -88,8 +88,8 @@ public class AlbadtruDreapta extends LinearOpMode{
         waitForStart();
 
         if(detection.x == 0 && detection.y == 0)drive.followTrajectorySequence(cazStanga);
-        if(detection.x <= 240) drive.followTrajectorySequence(cazMijloc);
-        if(detection.x > 240) drive.followTrajectorySequence(cazDreapta);
+       else if(detection.x <= 240) drive.followTrajectorySequence(cazMijloc);
+       else if(detection.x > 240) drive.followTrajectorySequence(cazDreapta);
 
         sleep(500000);
     }

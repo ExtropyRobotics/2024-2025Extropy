@@ -26,23 +26,26 @@ public class AlbastruStanga extends LinearOpMode{
 
         SampleMecanumDrive drive = new SampleMecanumDrive(hardwareMap);
         TrajectorySequence cazStanga = drive.trajectorySequenceBuilder(startingPose)
-                .splineToSplineHeading(new Pose2d(-35, -30, Math.toRadians(90)), Math.toRadians(90))
-                .turn(Math.toRadians(90))
-                .splineToSplineHeading(new Pose2d(-58, -30, Math.toRadians(180)), Math.toRadians(0))
+                .splineToSplineHeading(new Pose2d(-35, -25, Math.toRadians(0)), Math.toRadians(90))
                 .UNSTABLE_addTemporalMarkerOffset(-0.1,()->{
                     arm.setState(LiftState.PLACE_PURPLE);
                 })
                 .waitSeconds(1)
-                .UNSTABLE_addTemporalMarkerOffset(0.2,()->{
-                    arm.setState(LiftState.TAKE_WHITE);
-                })
-                .UNSTABLE_addTemporalMarkerOffset(0.75,()->{
-                    arm.setState(LiftState.LOW);
-                })
-                .splineToSplineHeading(new Pose2d(-60, -30, Math.toRadians(0)), Math.toRadians(0))
-                .UNSTABLE_addTemporalMarkerOffset(0.75,()->{
-                    arm.setHandState(HandState.RIGHT_OPEN);
-                })
+//                .UNSTABLE_addTemporalMarkerOffset(0.1,()->{
+//                    arm.setHandState(HandState.BOTH_CLOSE);
+//                })
+//                .turn(Math.toRadians(180))
+//                .UNSTABLE_addTemporalMarkerOffset(0.3,()->{
+//                    arm.setWristState(WristState.CARRY);
+//                })
+//                .splineToSplineHeading(new Pose2d(-60, -25, Math.toRadians(0)), Math.toRadians(90))
+//                .UNSTABLE_addTemporalMarkerOffset(0.7,()->{
+//                    arm.setState(LiftState.LOW);
+//                })
+//                .waitSeconds(1)
+//                .UNSTABLE_addTemporalMarkerOffset(0.7,()->{
+//                    arm.setHandState(HandState.RIGHT_OPEN);
+//                })
 //                .setTangent(Math.toRadians(70))
 //                .splineToSplineHeading(new Pose2d(-61,-12, Math.toRadians(0)),Math.toRadians(180))
 //                .UNSTABLE_addTemporalMarkerOffset(-1,() -> {
@@ -102,8 +105,8 @@ public class AlbastruStanga extends LinearOpMode{
         waitForStart();
 
         if(detection.x == 0 && detection.y == 0)drive.followTrajectorySequence(cazStanga);
-        if(detection.x <= 240) drive.followTrajectorySequence(cazMijloc);
-        if(detection.x > 240) drive.followTrajectorySequence(cazDreapta);
+      else if(detection.x <= 240) drive.followTrajectorySequence(cazMijloc);
+       else if(detection.x > 240) drive.followTrajectorySequence(cazDreapta);
 
         sleep(500000);
     }

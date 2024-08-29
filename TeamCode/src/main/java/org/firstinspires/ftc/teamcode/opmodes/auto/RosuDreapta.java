@@ -1,22 +1,22 @@
-//package org.firstinspires.ftc.teamcode.opmodes.auto;
-//
-//import com.acmerobotics.roadrunner.geometry.Pose2d;
-//import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
-//import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
-//
-//import org.firstinspires.ftc.teamcode.camera.Camera;
-//import org.firstinspires.ftc.teamcode.camera.CazState;
-//import org.firstinspires.ftc.teamcode.drive.SampleMecanumDrive;
-//import org.firstinspires.ftc.teamcode.modules.Controller.ArmController;
-//import org.firstinspires.ftc.teamcode.modules.State.LiftState;
-//import org.firstinspires.ftc.teamcode.trajectorysequence.TrajectorySequence;
-//import org.opencv.core.Point;
-//
-//
-//@Autonomous(name = "!!!!!!!RosuDreapta", group = "Autonomous")
-//public class RosuDreapta extends LinearOpMode{
-//    Point detection = new Point(0,0);
-//    Pose2d startingPose = new Pose2d(-35, -59,Math.toRadians(90));
+package org.firstinspires.ftc.teamcode.opmodes.auto;
+
+import com.acmerobotics.roadrunner.geometry.Pose2d;
+import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+
+import org.firstinspires.ftc.teamcode.camera.Camera;
+import org.firstinspires.ftc.teamcode.camera.CazState;
+import org.firstinspires.ftc.teamcode.drive.SampleMecanumDrive;
+import org.firstinspires.ftc.teamcode.modules.Controller.ArmController;
+import org.firstinspires.ftc.teamcode.modules.State.LiftState;
+import org.firstinspires.ftc.teamcode.trajectorysequence.TrajectorySequence;
+import org.opencv.core.Point;
+
+
+@Autonomous(name = "!!!!!!!RosuDreapta", group = "Autonomous")
+public class RosuDreapta extends LinearOpMode{
+    Point detection = new Point(0,0);
+    Pose2d startingPose = new Pose2d(-35, -59,Math.toRadians(90));
 //
 ////    Pose2d LEFT_PLACE_PURPLE = new Pose2d(-45, -18, Math.toRadians(90));
 ////    Pose2d LEFT_TAKE_PIXEL = new Pose2d(-61,-12, Math.toRadians(0));
@@ -38,18 +38,18 @@
 ////    Pose2d RIGHT_TABLE_POS = new Pose2d(43,-35, Math.toRadians(0));
 ////    Pose2d RIGHT_PARK_POS = new Pose2d(50, -12, Math.toRadians(180));
 //
-//    @Override
-//    public void runOpMode(){
-//        ArmController arm = new ArmController(hardwareMap, telemetry, this);
-//        Camera camera = new Camera(hardwareMap, telemetry, CazState.RED);
+    @Override
+    public void runOpMode(){
+        ArmController arm = new ArmController(hardwareMap, telemetry, this);
+        Camera camera = new Camera(hardwareMap, telemetry, CazState.RED);
 //
-//        SampleMecanumDrive drive = new SampleMecanumDrive(hardwareMap);
-//        TrajectorySequence cazStanga = drive.trajectorySequenceBuilder(startingPose)
-//                .splineToSplineHeading(LEFT_PLACE_PURPLE, Math.toRadians(120))
-//                .UNSTABLE_addTemporalMarkerOffset(-0.5,()->{
-//                    arm.setState(LiftState.PLACE_PURPLE);
-//                })
-//                .waitSeconds(0.5)
+        SampleMecanumDrive drive = new SampleMecanumDrive(hardwareMap);
+        TrajectorySequence cazStanga = drive.trajectorySequenceBuilder(startingPose)
+                .splineToSplineHeading(new Pose2d(-40, -25, Math.toRadians(0)), Math.toRadians(90))
+                .UNSTABLE_addTemporalMarkerOffset(-0.1,()->{
+                    arm.setState(LiftState.PLACE_PURPLE);
+                })
+                .build();
 //                .setTangent(Math.toRadians(70))
 ////                .splineToSplineHeading(LEFT_TAKE_PIXEL,Math.toRadians(180))
 //                .splineToSplineHeading(new Pose2d(-35, -25, Math.toRadians(0)), Math.toRadians(90))
@@ -130,49 +130,47 @@
 //                .splineToSplineHeading(RIGHT_PARK_POS,Math.toRadians(0))
 //                .build();
 //
-//        TrajectorySequence cazMijloc = drive.trajectorySequenceBuilder(startingPose)
-//                .splineToSplineHeading(new Pose2d(-35, -30, Math.toRadians(90)), Math.toRadians(90))
-//                .turn(Math.toRadians(-180))
-//                .UNSTABLE_addTemporalMarkerOffset(-0.1,()->{
-//                    arm.setState(LiftState.PLACE_PURPLE);
-//                })
-//                .waitSeconds(5)
-//                .build();
-//        TrajectorySequence cazDreapta = drive.trajectorySequenceBuilder(startingPose)
-//                .splineToSplineHeading(new Pose2d(-35, -25, Math.toRadians(180)), Math.toRadians(90))
-//                .UNSTABLE_addTemporalMarkerOffset(-0.1,()->{
-//                    arm.setState(LiftState.PLACE_PURPLE);
-//                })
-//                .waitSeconds(5)
-//                .build();
+        TrajectorySequence cazMijloc = drive.trajectorySequenceBuilder(startingPose)
+                .splineToSplineHeading(new Pose2d(-35, -30, Math.toRadians(90)), Math.toRadians(90))
+                .turn(Math.toRadians(-180))
+                .UNSTABLE_addTemporalMarkerOffset(-0.1,()->{
+                    arm.setState(LiftState.PLACE_PURPLE);
+                })
+                .waitSeconds(5)
+                .build();
+        TrajectorySequence cazDreapta = drive.trajectorySequenceBuilder(startingPose)
+                .splineToSplineHeading(new Pose2d(-35, -25, Math.toRadians(180)), Math.toRadians(90))
+                .UNSTABLE_addTemporalMarkerOffset(-0.1,()->{
+                    arm.setState(LiftState.PLACE_PURPLE);
+                })
+                .waitSeconds(5)
+                .build();
 //>>>>>>> cb3980a34c5a02f0c0d488bb6407de77c8b0a7d0:TeamCode/src/main/java/org/firstinspires/ftc/teamcode/opmodes/auto/RosuDreapta.java
-//        drive.setPoseEstimate(startingPose);
-//        arm.start();
-//        sleep(500);
-//        arm.setState(LiftState.DEFAULT);
+        drive.setPoseEstimate(startingPose);
+        arm.start();
+        sleep(500);
+        arm.setState(LiftState.DEFAULT);
 //
-//        while(opModeInInit() && !isStopRequested()){
-//            telemetry.clearAll();
-//            if(camera.isOK)detection = camera.getDetectionLocation();
-//            if(detection.x == 0 && detection.y == 0)telemetry.addData("caz" , "left");
-//            if(detection.x <= 240) telemetry.addData("caz" , "mid");
-//            if(detection.x > 240) telemetry.addData("caz" , "right");
-//            telemetry.update();
-//        }
-//
-//        waitForStart();
+        while(opModeInInit() && !isStopRequested()){
+            telemetry.clearAll();
+            if(camera.isOK)detection = camera.getDetectionLocation();
+            if(detection.x == 0 && detection.y == 0)telemetry.addData("caz" , "left");
+            if(detection.x <= 240) telemetry.addData("caz" , "mid");
+            if(detection.x > 240) telemetry.addData("caz" , "right");
+            telemetry.update();
+        }
+
+        waitForStart();
 //        if(detection.x == 0 && detection.y == 0)drive.followTrajectorySequence(cazStanga);
 //        if(detection.x < 240) drive.followTrajectorySequence(cazMijloc);
 //        if(detection.x > 240) drive.followTrajectorySequence(cazDreapta);
 //        sleep(500000);
 //
-//<<<<<<< HEAD:TeamCode/src/main/java/org/firstinspires/ftc/teamcode/opmodes/auto/AutoTest.java
-//=======
-//        if(detection.x == 0 && detection.y == 0)drive.followTrajectorySequence(cazStanga);
-//        if(detection.x <= 240) drive.followTrajectorySequence(cazMijloc);
-//        if(detection.x > 240) drive.followTrajectorySequence(cazDreapta);
+
+        if(detection.x == 0 && detection.y == 0)drive.followTrajectorySequence(cazStanga);
+       else if(detection.x <= 240) drive.followTrajectorySequence(cazMijloc);
+       else if(detection.x > 240) drive.followTrajectorySequence(cazDreapta);
 //
 //        sleep(500000);
-//>>>>>>> cb3980a34c5a02f0c0d488bb6407de77c8b0a7d0:TeamCode/src/main/java/org/firstinspires/ftc/teamcode/opmodes/auto/RosuDreapta.java
-//    }
-//}
+    }
+}
