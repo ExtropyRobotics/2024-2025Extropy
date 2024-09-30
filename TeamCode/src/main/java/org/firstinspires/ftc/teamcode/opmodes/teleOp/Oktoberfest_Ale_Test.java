@@ -95,7 +95,7 @@ public class Oktoberfest_Ale_Test extends LinearOpMode {
             }
 
             if (gamepad1.dpad_right) {
-                servoJos.setPosition(0.195);
+                servoJos.setPosition(0.198  );
             }
             if (gamepad1.dpad_down) {
                 servoJos.setPosition(0);
@@ -103,7 +103,7 @@ public class Oktoberfest_Ale_Test extends LinearOpMode {
             if (gamepad1.dpad_up) {
                 if (upPressed) {
                     if (poz + stepServo < 1) {
-                        poz += stepServo;
+                        poz += 0.0097;
                     }
                     telemetry.addData("servo sus pressed", poz);
                     telemetry.update();
@@ -116,7 +116,7 @@ public class Oktoberfest_Ale_Test extends LinearOpMode {
             if (gamepad1.dpad_left) {
                 if (leftPressed) {
                     if (poz - stepServo > 0) {
-                        poz -= stepServo;
+                        poz -= 0.0095;
                     }
                     telemetry.addData("servo jos pressed", poz);
                     telemetry.update();
@@ -131,4 +131,3 @@ public class Oktoberfest_Ale_Test extends LinearOpMode {
         }
     }
 }
-//
