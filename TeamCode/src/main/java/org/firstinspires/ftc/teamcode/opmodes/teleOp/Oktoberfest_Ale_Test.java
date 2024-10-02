@@ -26,6 +26,7 @@ public class Oktoberfest_Ale_Test extends LinearOpMode {
 
     double poz = 0.065;
     double stepServo = 0.0105;
+    double stepSmallServo = stepServo/6;
     double stepMotor = 0.2;
 
     @Override
@@ -49,6 +50,8 @@ public class Oktoberfest_Ale_Test extends LinearOpMode {
         boolean leftPressed = true;
         boolean leftBump = true;
         boolean rightBump = true;
+        boolean leftSmallBump = true;
+        boolean rightSmallBump = true;
 
         waitForStart();
 
@@ -126,6 +129,29 @@ public class Oktoberfest_Ale_Test extends LinearOpMode {
             } else {
                 leftPressed = true;
             }
+            if(gamepad1.left_bumper){
+                if(leftSmallBump){
+                    if(poz - stepSmallServo > 0) poz -= stepSmallServo;
+                    telemetry.addData("servo jos small pressed", poz);
+                    telemetry.update();
+                    servoSus.setPosition(poz);
+                    leftPressed = false;
+                }
+            }else{
+                leftSmallBump = false;
+            }
+            if(gamepad1.right_bumper){
+                if(rightSmallBump){
+                    if(poz + stepSmallServo > 0) poz += stepSmallServo;
+                    telemetry.addData("servo sus small pressed", poz);
+                    telemetry.update();
+                    servoSus.setPosition(poz);
+                    rightSmallBump = false;
+                }
+            }else{
+                rightSmallBump = false;
+            }
+
 
             motorSlide.setPower(slidePower);
         }
