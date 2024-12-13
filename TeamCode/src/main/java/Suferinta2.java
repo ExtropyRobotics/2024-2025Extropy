@@ -28,19 +28,23 @@ public class Suferinta2 extends LinearOpMode {
         waitForStart();
 
         double stickleftx = 0;
-        double stickrighty = 0;
+        double stickrightx = 0;
+        double sticklefty = 0;
         motorLB.setDirection(DcMotorSimple.Direction.REVERSE);
+        motorLF.setDirection(DcMotorSimple.Direction.REVERSE);
         motorRB.setDirection(DcMotorSimple.Direction.REVERSE);
+
 
         while(opModeIsActive()){
 
-         stickleftx = -gamepad1.left_stick_x;
-         stickrighty = gamepad1.right_stick_y;
+            sticklefty = -gamepad1.left_stick_y;
+            stickleftx = gamepad1.left_stick_x;
+            stickrightx = gamepad1.right_stick_x;
 
-            motorLF.setPower(stickleftx + stickrighty);
-            motorRB.setPower(stickleftx - stickrighty);
-            motorLB.setPower(stickleftx + stickrighty);
-            motorRF.setPower(stickleftx - stickrighty);
+            motorLF.setPower(sticklefty + stickleftx + stickrightx);
+            motorRB.setPower(sticklefty + stickleftx - stickrightx);
+            motorLB.setPower(sticklefty - stickleftx + stickrightx);
+            motorRF.setPower(sticklefty - stickleftx - stickrightx);
 
         }
     }
