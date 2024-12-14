@@ -25,14 +25,14 @@ public class Anti_prosti extends LinearOpMode {
     @Override
     public void runOpMode() throws InterruptedException{
 
-        motorRF = hardwareMap.get(DcMotor.class, "Expansion2");
-        motorRB = hardwareMap.get(DcMotor.class, "Expansion3");
-        motorLB = hardwareMap.get(DcMotor.class, "Control3");
-        motorLF = hardwareMap.get(DcMotor.class, "Control2");
-        sliderFix = hardwareMap.get(DcMotor.class, "Expansion0");
-        sliderMob = hardwareMap.get(DcMotor.class, "Control0");
-        motorAx = hardwareMap.get(DcMotor.class, "Control1");
-        cleste = hardwareMap.get(Servo.class, "eservo2");
+        motorRF = hardwareMap.get(DcMotor.class, "fatadr");
+        motorRB = hardwareMap.get(DcMotor.class, "spatedr");
+        motorLB = hardwareMap.get(DcMotor.class, "spatestg");
+        motorLF = hardwareMap.get(DcMotor.class, "fatastg");
+        sliderFix = hardwareMap.get(DcMotor.class, "sliderfix");
+        sliderMob = hardwareMap.get(DcMotor.class, "slidermobil");
+        motorAx = hardwareMap.get(DcMotor.class, "motorax");
+        cleste = hardwareMap.get(Servo.class, "cleste");
 
         sliderFix.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         sliderFix.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
@@ -52,7 +52,7 @@ public class Anti_prosti extends LinearOpMode {
         double stickLeftX;
         double stickRightX;
 
-        motorRB.setDirection(DcMotorSimple.Direction.REVERSE);
+        motorLB.setDirection(DcMotorSimple.Direction.REVERSE);
         motorLF.setDirection(DcMotorSimple.Direction.REVERSE);
 
         while(opModeIsActive()){
