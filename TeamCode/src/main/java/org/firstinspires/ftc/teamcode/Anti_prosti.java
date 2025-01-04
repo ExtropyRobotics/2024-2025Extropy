@@ -9,7 +9,7 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.Servo;
 
-@TeleOp(name = "Anti_prosti")
+@TeleOp(name = "Nigga")
 public class Anti_prosti extends LinearOpMode {
 
     DcMotor motorRF;
@@ -20,15 +20,18 @@ public class Anti_prosti extends LinearOpMode {
     DcMotor sliderMob;
     DcMotor sliderFix1;
     DcMotor sliderFix2;
+
     Servo cleste;
     Servo rabatare1;
     Servo rabatare2;
     Servo aspirator;
+
     double targetPozSF1 = 0;
     double targetPozSF2 = 0;
+
     int targetPozSM = 0;
-    int targetPozMA = 0;
-    double step = 4;
+    int targetPozAX = 0;
+
 
 
     @Override
@@ -70,6 +73,12 @@ public class Anti_prosti extends LinearOpMode {
         motorAx.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         motorAx.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
+
+        sliderFix1.setTargetPosition(0);
+        sliderFix2.setTargetPosition(0);
+        sliderMob.setTargetPosition(0);
+        motorAx.setTargetPosition(0);
+
         sliderFix1.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         sliderFix2.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         sliderMob.setMode(DcMotor.RunMode.RUN_TO_POSITION);
@@ -77,24 +86,25 @@ public class Anti_prosti extends LinearOpMode {
 
         waitForStart();
 
-        double stickLeftY;
-        double stickLeftX;
-        double stickRightX;
+        double leftStickY;
+        double leftStickX;
+        double rightStickX;
 
         motorLB.setDirection(DcMotorSimple.Direction.REVERSE);
         motorLF.setDirection(DcMotorSimple.Direction.REVERSE);
 
         while (opModeIsActive()) {
 
-            stickLeftY = -gamepad1.left_stick_y;
-            stickLeftX = gamepad1.left_stick_x;
-            stickRightX = gamepad1.right_stick_x;
+            leftStickY = -gamepad1.left_stick_y;
+            leftStickX = gamepad1.left_stick_x;
+            rightStickX = gamepad1.right_stick_x;
 
-            motorLF.setPower(stickLeftY + stickLeftX + stickRightX);
-            motorRB.setPower(stickLeftY + stickLeftX - stickRightX);
-            motorLB.setPower(stickLeftY - stickLeftX + stickRightX);
-            motorRF.setPower(stickLeftY - stickLeftX - stickRightX);
+            motorLF.setPower(leftStickY + leftStickX + rightStickX);
+            motorRB.setPower(leftStickY + leftStickX - rightStickX);
+            motorLB.setPower(leftStickY - leftStickX + rightStickX);
+            motorRF.setPower(leftStickY - leftStickX - rightStickX);
 
+            // Useless
 //            if (gamepad2.left_stick_y < 0) {
 //                targetPozSF1 -= step;
 //                targetPozSF2 -= step;
@@ -103,49 +113,68 @@ public class Anti_prosti extends LinearOpMode {
 //                targetPozSF1 += step;
 //                targetPozSF2 += step;
 //            }
-//
+
 //            sliderFix1.setTargetPosition((int) targetPozSF1);
-//            sliderFix2.setTargetPosition((int) targetPozSF2);
 //            sliderFix1.setPower(0.6);
+//            sliderFix2.setTargetPosition((int) targetPozSF2);
 //            sliderFix2.setPower(0.6);
 
 
-            if (gamepad2.right_stick_y > 0)
-                targetPozSM += 2;
-            if (gamepad2.right_stick_y < 0)
-                targetPozSM -= 2;
-
-            sliderMob.setTargetPosition(targetPozSM);
-            sliderMob.setPower(0.5);
-
-            if(targetPozSM > 30)
-                targetPozSM = 30;
-            if(targetPozSM < -546)
-                targetPozSM = -546;
-
+            // Slider mobil
             if (gamepad2.left_stick_y > 0)
-                targetPozMA += 8;
+                targetPozSM += 10;
             if (gamepad2.left_stick_y < 0)
-                targetPozMA -= 6;
+                targetPozSM -= 8;
+            sliderMob.setTargetPosition(targetPozSM);
+            sliderMob.setPower(0.7);
 
-            motorAx.setTargetPosition(targetPozMA);
-            motorAx.setPower(0.7);
+            // Limita
+            if(targetPozSM > 0)
+                targetPozSM = 0;
+            if(targetPozSM < -7600)
+                targetPozSM = -7600;
 
-            if(targetPozMA > 0)
-                targetPozMA = 0;
-            if(targetPozMA < -7600)
-                targetPozMA = -7600;
 
-            if (gamepad2.dpad_left)
+            // Motor ax
+            if (gamepad2.right_stick_y > 0)
+                targetPozAX += 3 * (1 - targetPozSM / (-7600)) + 1;
+            if (gamepad2.right_stick_y < 0)
+                targetPozAX -= 3 * (1 - targetPozSM / (-7600)) + 1;
+            motorAx.setTargetPosition(targetPozAX);
+            motorAx.setPower(0.5);
+
+            // Limita
+            if(targetPozAX > 60)
+                targetPozAX = 60;
+            if(targetPozAX < -546)
+                targetPozAX = -546;
+
+
+            // Cleste
+            if (gamepad2.left_trigger > 0)
                 cleste.setPosition(0);
-            if (gamepad2.dpad_right)
+            if (gamepad2.right_trigger > 0)
                 cleste.setPosition(0.09);
 
+
+            // Butoane random
+            if(gamepad2.dpad_up)
+                targetPozSM = -7600;
+            if(gamepad2.dpad_left)
+                targetPozSM = -4000;
+            if(gamepad2.dpad_down)
+                targetPozSM = 0;
+
+            if(gamepad2.y)
+                targetPozAX = -546;
+            if(gamepad2.a)
+                targetPozAX = 0;
+
+
+            // Useless
             telemetry.addData("SliderMobil: ", targetPozSM);
-            telemetry.addData("MotorAx: ", targetPozMA);
+            telemetry.addData("MotorAx: ", targetPozAX);
             telemetry.update();
-
-
+            }
         }
     }
-}
