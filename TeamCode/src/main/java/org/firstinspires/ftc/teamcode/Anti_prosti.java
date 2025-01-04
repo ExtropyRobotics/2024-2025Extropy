@@ -104,71 +104,38 @@ public class Anti_prosti extends LinearOpMode {
             motorLB.setPower(leftStickY - leftStickX + rightStickX);
             motorRF.setPower(leftStickY - leftStickX - rightStickX);
 
-            // Useless
-//            if (gamepad2.left_stick_y < 0) {
-//                targetPozSF1 -= step;
-//                targetPozSF2 -= step;
-//            }
-//            if (gamepad2.left_stick_y > 0) {
-//                targetPozSF1 += step;
-//                targetPozSF2 += step;
-//            }
-
-//            sliderFix1.setTargetPosition((int) targetPozSF1);
-//            sliderFix1.setPower(0.6);
-//            sliderFix2.setTargetPosition((int) targetPozSF2);
-//            sliderFix2.setPower(0.6);
-
 
             // Slider mobil
-            if (gamepad2.left_stick_y > 0)
-                targetPozSM += 10;
-            if (gamepad2.left_stick_y < 0)
-                targetPozSM -= 8;
+            if (gamepad2.left_stick_y > 0) targetPozSM += 5;
+            if (gamepad2.left_stick_y < 0) targetPozSM -= 4;
             sliderMob.setTargetPosition(targetPozSM);
             sliderMob.setPower(0.7);
 
-            // Limita
-            if(targetPozSM > 0)
-                targetPozSM = 0;
-            if(targetPozSM < -7600)
-                targetPozSM = -7600;
-
-
             // Motor ax
-            if (gamepad2.right_stick_y > 0)
-                targetPozAX += 3 * (1 - targetPozSM / (-7600)) + 1;
-            if (gamepad2.right_stick_y < 0)
-                targetPozAX -= 3 * (1 - targetPozSM / (-7600)) + 1;
+            if (gamepad2.right_stick_y > 0) targetPozAX += (1 - targetPozSM / (-2500)) + 1;
+            if (gamepad2.right_stick_y < 0) targetPozAX -= (1 - targetPozSM / (-2500)) + 1;
             motorAx.setTargetPosition(targetPozAX);
             motorAx.setPower(0.5);
 
-            // Limita
-            if(targetPozAX > 60)
-                targetPozAX = 60;
-            if(targetPozAX < -546)
-                targetPozAX = -546;
+            // Limite
+            if(targetPozAX > 60) targetPozAX = 60;
+            if(targetPozAX < -546) targetPozAX = -546;
 
+            if(targetPozSM > 0) targetPozSM = 0;
+            if(targetPozSM < -2500) targetPozSM = -2500;
 
             // Cleste
-            if (gamepad2.left_trigger > 0)
-                cleste.setPosition(0);
-            if (gamepad2.right_trigger > 0)
-                cleste.setPosition(0.09);
+            if (gamepad2.left_trigger > 0) cleste.setPosition(0);
+            if (gamepad2.right_trigger > 0) cleste.setPosition(0.6);
 
 
-            // Butoane random
-            if(gamepad2.dpad_up)
-                targetPozSM = -7600;
-            if(gamepad2.dpad_left)
-                targetPozSM = -4000;
-            if(gamepad2.dpad_down)
-                targetPozSM = 0;
+            // Butoane pt fast movement
+            if(gamepad2.dpad_up) targetPozSM = -2500;
+            if(gamepad2.dpad_left) targetPozSM = -1230;
+            if(gamepad2.dpad_down) targetPozSM = 0;
 
-            if(gamepad2.y)
-                targetPozAX = -546;
-            if(gamepad2.a)
-                targetPozAX = 0;
+            if(gamepad2.y) targetPozAX = -546;
+            if(gamepad2.a) targetPozAX = 0;
 
 
             // Useless

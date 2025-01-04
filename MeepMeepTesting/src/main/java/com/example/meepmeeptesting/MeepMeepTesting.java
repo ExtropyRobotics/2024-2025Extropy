@@ -28,10 +28,12 @@ public class MeepMeepTesting {
                 .build();
         leftRed.runAction(leftRed.getDrive().actionBuilder(new Pose2d(-36, -60,Math.toRadians(90)))
                 .splineToSplineHeading(new Pose2d(-5, -36, Math.toRadians(90)), Math.toRadians(0))
+
                 .setTangent(Math.toRadians(180))
-                .splineToSplineHeading(new Pose2d(-33,-60,Math.toRadians(180)),Math.toRadians(-90))
+                .splineToSplineHeading(new Pose2d(-50, -40, Math.toRadians(90)), Math.toRadians(180))
 
-
+                .setTangent(Math.toRadians(-90))
+                .splineToSplineHeading(new Pose2d(-50,-50,Math.toRadians(235)),Math.toRadians(-90))
                 .build());
 
         rightRed.runAction(rightRed.getDrive().actionBuilder(new Pose2d(12, -60,Math.toRadians(90)))
