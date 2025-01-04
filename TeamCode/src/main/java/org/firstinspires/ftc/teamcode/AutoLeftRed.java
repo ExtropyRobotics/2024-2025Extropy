@@ -49,10 +49,16 @@ public class AutoLeftRed extends LinearOpMode {
 
 
         cleste.setPosition(0);
-        drive.setPoseEstimate(startingPose);
-        TrajectorySequence leftRed = drive.trajectorySequenceBuilder(startingPose)
-                .splineToSplineHeading(new Pose2d(-5, -33, Math.toRadians(90)), Math.toRadians(0))
 
+        drive.setPoseEstimate(startingPose);
+        TrajectorySequence test = drive.trajectorySequenceBuilder(startingPose)
+                .splineToSplineHeading(new Pose2d(-5, -36, Math.toRadians(90)), Math.toRadians(0))
+                .setTangent(Math.toRadians(180))
+                .splineToSplineHeading(new Pose2d(-33,-60,Math.toRadians(180)),Math.toRadians(-90))
+                .build();
+
+        TrajectorySequence leftRed = drive.trajectorySequenceBuilder(startingPose)
+                .splineToSplineHeading(new Pose2d(-5, -36, Math.toRadians(90)), Math.toRadians(0))
                 .UNSTABLE_addTemporalMarkerOffset(0,()->{
                     cleste.setPosition(0);
                     motorAx.setTargetPosition(-470);
@@ -61,22 +67,27 @@ public class AutoLeftRed extends LinearOpMode {
                     sliderMob.setTargetPosition(-5000);
                     sliderMob.setPower(0.7);
                     sliderMob.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                    while (sliderMob.getCurrentPosition() > -5000 + 10) sleep(1);
+
                 })
                 .waitSeconds(4)
-                .UNSTABLE_addTemporalMarkerOffset(0, ()->{
-                    while (sliderMob.getCurrentPosition() > -5000 + 10) sleep(1);
+                .UNSTABLE_addTemporalMarkerOffset(-0.20, ()->{
+                    motorAx.setTargetPosition(-440);
+                    motorAx.setPower(0.5);
+                    motorAx.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                })
+                .UNSTABLE_addTemporalMarkerOffset(0.2, ()->{
+                    cleste.setPosition(0.09);
                 })
                 .UNSTABLE_addTemporalMarkerOffset(0.1,()->{
-                    sliderMob.setTargetPosition(-3180);
-                    sliderMob.setPower(-0.1);
+                    sliderMob.setTargetPosition(0);
+                    sliderMob.setPower(0.8);
                     sliderMob.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-                    while (sliderMob.getCurrentPosition() > -3180 + 10) sleep(1);
+                    while (sliderMob.getCurrentPosition() < 10) sleep(1);
                 })
-                .waitSeconds(0.5)
-                .UNSTABLE_addTemporalMarkerOffset(0.1, ()->{
-                   cleste.setPosition(0.09);
-                })
-
+                .waitSeconds(5)
+                .setTangent(Math.toRadians(180))
+                .splineToSplineHeading(new Pose2d(-33,-60,Math.toRadians(180)),Math.toRadians(-90))
                 .build();
 
 
@@ -84,5 +95,4 @@ public class AutoLeftRed extends LinearOpMode {
         drive.followTrajectorySequence(leftRed);
 
     }
-
 }

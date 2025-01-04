@@ -27,29 +27,11 @@ public class MeepMeepTesting {
                 .setConstraints(60, 60, Math.toRadians(180), Math.toRadians(180), 10)
                 .build();
         leftRed.runAction(leftRed.getDrive().actionBuilder(new Pose2d(-36, -60,Math.toRadians(90)))
-                .splineToSplineHeading(new Pose2d(10, -34, Math.toRadians(90)), Math.toRadians(0))
-
-                .waitSeconds(1.5)
+                .splineToSplineHeading(new Pose2d(-5, -36, Math.toRadians(90)), Math.toRadians(0))
                 .setTangent(Math.toRadians(180))
-                .splineToSplineHeading(new Pose2d(-48, -34, Math.toRadians(90)), Math.toRadians(-180))
-                .waitSeconds(1.5)
-                .setTangent(Math.toRadians(-105))
-                .splineToSplineHeading(new Pose2d(-56, -58, Math.toRadians(220)), Math.toRadians(-105))
-                .waitSeconds(0.5)
-                .setTangent(Math.toRadians(90))
-                .splineToSplineHeading(new Pose2d(-56, -35, Math.toRadians(90)), Math.toRadians(90))
-                .waitSeconds(0.5)
-                .setTangent(Math.toRadians(-90))
-                .splineToSplineHeading(new Pose2d(-56, -58, Math.toRadians(220)), Math.toRadians(-90))
-                .waitSeconds(0.5)
-                .setTangent(Math.toRadians(90))
-                .splineToSplineHeading(new Pose2d(-56, -24, Math.toRadians(180)), Math.toRadians(90))
-                .waitSeconds(0.5)
-                .setTangent(Math.toRadians(-90))
-                .splineToSplineHeading(new Pose2d(-56, -58, Math.toRadians(220)), Math.toRadians(-90))
-                .waitSeconds(0.5)
-                .setTangent(Math.toRadians(90))
-                .splineToSplineHeading(new Pose2d(-56, -24, Math.toRadians(0)), Math.toRadians(90))
+                .splineToSplineHeading(new Pose2d(-33,-60,Math.toRadians(180)),Math.toRadians(-90))
+
+
                 .build());
 
         rightRed.runAction(rightRed.getDrive().actionBuilder(new Pose2d(12, -60,Math.toRadians(90)))
