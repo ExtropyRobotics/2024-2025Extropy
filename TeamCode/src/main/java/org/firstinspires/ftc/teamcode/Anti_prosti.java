@@ -9,7 +9,7 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.Servo;
 
-@TeleOp(name = "Nigga")
+@TeleOp(name = "TeleOPfirst")
 public class Anti_prosti extends LinearOpMode {
 
     DcMotor motorRF;
@@ -118,24 +118,24 @@ public class Anti_prosti extends LinearOpMode {
             motorAx.setPower(0.5);
 
             // Limite
-            if(targetPozAX > 60) targetPozAX = 60;
-            if(targetPozAX < -546) targetPozAX = -546;
-
-            if(targetPozSM > 0) targetPozSM = 0;
-            if(targetPozSM < -2500) targetPozSM = -2500;
+//            if(targetPozAX > 60) targetPozAX = 60;
+//            if(targetPozAX < -546) targetPozAX = -546;
+//
+//            if(targetPozSM > 0) targetPozSM = 0;
+//            if(targetPozSM < -2500) targetPozSM = -2500;
 
             // Cleste
             if (gamepad2.left_trigger > 0) cleste.setPosition(0);
             if (gamepad2.right_trigger > 0) cleste.setPosition(0.6);
 
 
-            // Butoane pt fast movement
-            if(gamepad2.dpad_up) targetPozSM = -2500;
-            if(gamepad2.dpad_left) targetPozSM = -1230;
-            if(gamepad2.dpad_down) targetPozSM = 0;
-
-            if(gamepad2.y) targetPozAX = -546;
-            if(gamepad2.a) targetPozAX = 0;
+//            // Butoane pt fast movement
+//            if(gamepad2.dpad_up) targetPozSM = -2500;
+//            if(gamepad2.dpad_left) targetPozSM = -1230;
+//            if(gamepad2.dpad_down) targetPozSM = 0;
+//
+//            if(gamepad2.y) targetPozAX = -546;
+//            if(gamepad2.a) targetPozAX = 0;
 
 
             // Useless

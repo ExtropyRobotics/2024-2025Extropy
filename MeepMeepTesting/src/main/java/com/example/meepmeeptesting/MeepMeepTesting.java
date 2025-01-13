@@ -16,10 +16,70 @@ public class MeepMeepTesting {
                 .build();
 
         leftRed.runAction(leftRed.getDrive().actionBuilder(new Pose2d(5, -57,Math.toRadians(90)))
-                        .splineToSplineHeading(new Pose2d(5, -36, Math.toRadians(90)), Math.toRadians(90))
-                        .setTangent(Math.toRadians(-30))
-                        .splineToSplineHeading(new Pose2d(30,-36,Math.toRadians(90)),Math.toRadians(30))
-                        .build());
+                .splineToSplineHeading(new Pose2d(5, -32, Math.toRadians(90)), Math.toRadians(90))
+                //.UNSTABLE_addTemporalMarkerOffset(0,()->{
+//                    cleste.setPosition(0);
+//                    setRotate(-470,0.5);
+//                    setSlide(-1900,0.7);
+         //       })
+                .waitSeconds(2)
+//                .UNSTABLE_addTemporalMarkerOffset(-0.20, ()->{
+//                    //setRotate(-400,0.5);
+//                })
+                .waitSeconds(1)
+//                .UNSTABLE_addTemporalMarkerOffset(-0.1,()->{
+//                    //setSlide(0,0.8);
+//                })
+                .waitSeconds(0.5)
+//                .UNSTABLE_addTemporalMarkerOffset(0.4, ()->{
+//                    //cleste.setPosition(0.6);
+//                })
+                .waitSeconds(1)
+                .setTangent(0)
+                .splineToSplineHeading(new Pose2d(50,-35,Math.toRadians(90)),Math.toRadians(30))
+//                .UNSTABLE_addTemporalMarkerOffset(0, ()->{
+//                  //  setSlide(-700, 0.8);
+//                    //setRotate(-60, 0.8);
+//                })
+//                .UNSTABLE_addTemporalMarkerOffset(0.5, ()->{
+//                    //setRotate(-60, 0);
+//                })
+                .waitSeconds(1)
+                .setTangent(Math.toRadians(180))
+                .splineToSplineHeading(new Pose2d(45,-35,Math.toRadians(90)),Math.toRadians(180))
+                .waitSeconds(0.5)
+//                .UNSTABLE_addTemporalMarkerOffset(0, ()->{
+//                    //setRotate(0, 0);
+//                })
+                .waitSeconds(0.5)
+//                .UNSTABLE_addTemporalMarkerOffset(0.4, ()->{
+//                    //cleste.setPosition(0);
+//                })
+                .waitSeconds(1)
+//                .UNSTABLE_addTemporalMarkerOffset(0, ()->{
+//                    //setRotate(-30, 0.5);
+//                    //setSlide(-2200, 0.5);
+//                })
+                .waitSeconds(0.5)
+                .splineToSplineHeading(new Pose2d(44,-35,Math.toRadians(270)),Math.toRadians(270))
+                .waitSeconds(0.5)
+//                .UNSTABLE_addTemporalMarkerOffset(0, ()->{
+//                    //cleste.setPosition(0.6);
+//                   // setSlide(0, 0.5);
+//                })
+                .waitSeconds(0.5)
+//                .UNSTABLE_addTemporalMarkerOffset(0, ()->{
+//                 //   setRotate(-200, 0.5);
+//                })
+                .waitSeconds(0.5)
+                .turn(Math.toRadians(180))
+                .setTangent(0)
+                .splineToSplineHeading(new Pose2d(54,-35,Math.toRadians(90)),Math.toRadians(0))
+                .waitSeconds(1)
+                .setTangent(Math.toRadians(-90))
+                .splineToSplineHeading(new Pose2d(54,-50,Math.toRadians(90)),Math.toRadians(-90))
+                .waitSeconds(1)
+                .build());
 
 
                 meepMeep.setBackground(MeepMeep.Background.FIELD_CENTERSTAGE_JUICE_DARK)
