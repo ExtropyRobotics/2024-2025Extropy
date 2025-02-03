@@ -1,27 +1,21 @@
 package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.hardware.bosch.BHI260IMU;
-import com.qualcomm.hardware.bosch.JustLoggingAccelerationIntegrator;
+import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.hardware.rev.RevHubOrientationOnRobot;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
-import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.robotcore.hardware.ImuOrientationOnRobot;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.Range;
 
-import org.firstinspires.ftc.robotcore.external.navigation.Acceleration;
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
-import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
-import org.firstinspires.ftc.robotcore.external.navigation.Position;
-import org.firstinspires.ftc.robotcore.external.navigation.Velocity;
-import org.firstinspires.ftc.teamcode.drive.SampleMecanumDrive;
 
-@TeleOp(name = "!!TeleOp2023 startPos-centered drive")
+@TeleOp(name = "Test IMU")
 public class Posi extends LinearOpMode {
 
     boolean toggleClaw = false;
@@ -32,15 +26,15 @@ public class Posi extends LinearOpMode {
     DcMotor backRight;
     DcMotor backLeft;
 
-    DcMotor motorAx = null;
-    DcMotor slider = null;
-    DcMotor liftRight = null;
-    DcMotor liftLeft = null;
+//    DcMotor motorAx = null;
+//    DcMotor slider = null;
+//    DcMotor liftRight = null;
+//    DcMotor liftLeft = null;
 
     Servo handLeft = null;
     Servo handRight = null;
-    Servo clawLeft = null;
-    Servo clawRight = null;
+    Servo claw = null;
+    Servo rotation = null;
 
     int targetPozAx = 0;
     int targetPozSl = 0;
@@ -48,7 +42,7 @@ public class Posi extends LinearOpMode {
     int targetPozLiftL = 0;
 
 
-    public BHI260IMU imu;
+    public BNO055IMU imu;
 
     @Override
     public void runOpMode() {
@@ -64,10 +58,18 @@ public class Posi extends LinearOpMode {
         double gamepadXControl;
         double gamepadYControl;
 
-        frontLeft = hardwareMap.dcMotor.get("motorStangaFata");
-        frontRight = hardwareMap.dcMotor.get("motorDreaptaFata");
-        backRight = hardwareMap.dcMotor.get("motorDreaptaSpate");
-        backLeft = hardwareMap.dcMotor.get("motorStangaSpate");
+        frontLeft = hardwareMap.get(DcMotor.class, "leftFront");
+        frontRight = hardwareMap.get(DcMotor.class, "rightFront");
+        backRight = hardwareMap.get(DcMotor.class, "rightBack");
+        backLeft = hardwareMap.get(DcMotor.class, "leftBack");
+
+//        motorAx = hardwareMap.get(DcMotor.class, "motorAx");
+//        slider = hardwareMap.get(DcMotor.class, "slider");
+//        liftLeft = hardwareMap.get(DcMotor.class, "liftLeft");
+//        liftRight = hardwareMap.get(DcMotor.class, "liftRight");
+
+        claw = hardwareMap.get(Servo.class, "claw");
+        rotation = hardwareMap.get(Servo.class, "rotation");
 
         frontRight.setDirection(DcMotorSimple.Direction.REVERSE);
         backRight.setDirection(DcMotorSimple.Direction.REVERSE);
@@ -79,18 +81,18 @@ public class Posi extends LinearOpMode {
 
         ImuOrientationOnRobot orientation = new RevHubOrientationOnRobot(RevHubOrientationOnRobot.LogoFacingDirection.UP, RevHubOrientationOnRobot.UsbFacingDirection.FORWARD);
 
-        BHI260IMU.Parameters parameters = new BHI260IMU.Parameters(orientation);
+        BNO055IMU.Parameters parameters = new BNO055IMU.Parameters();
 
-        imu = hardwareMap.get(BHI260IMU.class, "imu");
+        imu = hardwareMap.get(BNO055IMU.class, "imu");
         imu.initialize(parameters);
 
-        motorAx.setTargetPosition(targetPozAx);
-        slider.setTargetPosition(targetPozSl);
-        liftRight.setTargetPosition(targetPozLiftR);
-        liftLeft.setTargetPosition(targetPozLiftL);
+//        motorAx.setTargetPosition(targetPozAx);
+//        slider.setTargetPosition(targetPozSl);
+//        liftRight.setTargetPosition(targetPozLiftR);
+//        liftLeft.setTargetPosition(targetPozLiftL);
 
         waitForStart();
-        //nigger
+
         while (opModeIsActive()) {
             driveTurn = gamepad1.right_stick_x;
             // de rezolvat inacuratetea la grade gamepad
@@ -121,11 +123,9 @@ public class Posi extends LinearOpMode {
                     telemetry.addData("toggling position", 0);
                     telemetry.update();
                     if (toggleClaw) {
-                        clawLeft.setPosition(0.7);
-                        clawRight.setPosition(0.7);
+                        claw.setPosition(0.7);
                     } else {
-                        clawLeft.setPosition(1);
-                        clawRight.setPosition(1);
+                        claw.setPosition(1);
                     }
                     toggleClaw = !toggleClaw;
                     checkClawPress = false;
@@ -136,11 +136,12 @@ public class Posi extends LinearOpMode {
                 checkClawPress = true;
             }
 
-
+            if(gamepad2.dpad_up) rotation.setPosition(0);
+            if(gamepad2.dpad_down) rotation.setPosition(1);
         }
     }
 
     public double getAngle() {
-        return imu.getRobotOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES).firstAngle;
+        return imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES).firstAngle;
     }
 }
