@@ -90,7 +90,7 @@ public class Posi extends LinearOpMode {
         liftLeft.setTargetPosition(targetPozLiftL);
 
         waitForStart();
-
+        //nigger
         while (opModeIsActive()) {
             driveTurn = gamepad1.right_stick_x;
             // de rezolvat inacuratetea la grade gamepad
