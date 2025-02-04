@@ -18,23 +18,25 @@ import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
 @TeleOp(name = "Test IMU")
 public class Posi extends LinearOpMode {
 
-    boolean toggleClaw = false;
-    boolean checkClawPress = false;
+
+    int wristPos = 1;
+    boolean checkWristPress;
 
     DcMotor frontLeft;
     DcMotor frontRight;
     DcMotor backRight;
     DcMotor backLeft;
 
-//    DcMotor motorAx = null;
-//    DcMotor slider = null;
-//    DcMotor liftRight = null;
-//    DcMotor liftLeft = null;
+    DcMotor motorAx = null;
+    DcMotor slider = null;
+    DcMotor liftRight = null;
+    DcMotor liftLeft = null;
 
     Servo handLeft = null;
     Servo handRight = null;
     Servo claw = null;
     Servo rotation = null;
+    Servo tilt = null;
 
     int targetPozAx = 0;
     int targetPozSl = 0;
@@ -42,7 +44,7 @@ public class Posi extends LinearOpMode {
     int targetPozLiftL = 0;
 
 
-    public BNO055IMU imu;
+    public BHI260IMU imu;
 
     @Override
     public void runOpMode() {
@@ -63,13 +65,16 @@ public class Posi extends LinearOpMode {
         backRight = hardwareMap.get(DcMotor.class, "rightBack");
         backLeft = hardwareMap.get(DcMotor.class, "leftBack");
 
-//        motorAx = hardwareMap.get(DcMotor.class, "motorAx");
-//        slider = hardwareMap.get(DcMotor.class, "slider");
-//        liftLeft = hardwareMap.get(DcMotor.class, "liftLeft");
-//        liftRight = hardwareMap.get(DcMotor.class, "liftRight");
+        motorAx = hardwareMap.get(DcMotor.class, "motorAx");
+        slider = hardwareMap.get(DcMotor.class, "slider");
+        liftLeft = hardwareMap.get(DcMotor.class, "liftLeft");
+        liftRight = hardwareMap.get(DcMotor.class, "liftRight");
 
         claw = hardwareMap.get(Servo.class, "claw");
         rotation = hardwareMap.get(Servo.class, "rotation");
+        tilt = hardwareMap.get(Servo.class, "tilt");
+        handRight = hardwareMap.get(Servo.class, "handRight");
+        handLeft = hardwareMap.get(Servo.class, "handLeft");
 
         frontRight.setDirection(DcMotorSimple.Direction.REVERSE);
         backRight.setDirection(DcMotorSimple.Direction.REVERSE);
@@ -79,23 +84,39 @@ public class Posi extends LinearOpMode {
         backLeft.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         backRight.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
-        ImuOrientationOnRobot orientation = new RevHubOrientationOnRobot(RevHubOrientationOnRobot.LogoFacingDirection.UP, RevHubOrientationOnRobot.UsbFacingDirection.FORWARD);
+        motorAx.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        motorAx.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        motorAx.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        motorAx.setPower(1);
+        motorAx.setTargetPosition(0);
+        motorAx.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
-        BNO055IMU.Parameters parameters = new BNO055IMU.Parameters();
 
-        imu = hardwareMap.get(BNO055IMU.class, "imu");
+        slider.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        slider.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        slider.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        slider.setPower(1);
+        slider.setTargetPosition(0);
+        slider.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+
+
+
+        ImuOrientationOnRobot orientation = new RevHubOrientationOnRobot(RevHubOrientationOnRobot.LogoFacingDirection.FORWARD, RevHubOrientationOnRobot.UsbFacingDirection.DOWN);
+        BHI260IMU.Parameters parameters = new BHI260IMU.Parameters(orientation);
+
+        imu = hardwareMap.get(BHI260IMU.class, "imu");
         imu.initialize(parameters);
 
-//        motorAx.setTargetPosition(targetPozAx);
-//        slider.setTargetPosition(targetPozSl);
-//        liftRight.setTargetPosition(targetPozLiftR);
-//        liftLeft.setTargetPosition(targetPozLiftL);
+        motorAx.setTargetPosition(targetPozAx);
+        slider.setTargetPosition(targetPozSl);
+        liftRight.setTargetPosition(targetPozLiftR);
+        liftLeft.setTargetPosition(targetPozLiftL);
 
         waitForStart();
 
         while (opModeIsActive()) {
             driveTurn = gamepad1.right_stick_x;
-            // de rezolvat inacuratetea la grade gamepad
+
             gamepadXCoordinate = -gamepad1.left_stick_x; //this simply gives our x value relative to the driver
             gamepadYCoordinate = gamepad1.left_stick_y; //this simply gives our y vaue relative to the driver
 
@@ -117,31 +138,37 @@ public class Posi extends LinearOpMode {
             telemetry.addData("gamepad degree ", gamepadDegree);
             telemetry.addData("movement degree ", movementDegree);
 
-            //      Claw
-            if(gamepad2.a){
-                if(checkClawPress) {
-                    telemetry.addData("toggling position", 0);
-                    telemetry.update();
-                    if (toggleClaw) {
-                        claw.setPosition(0.7);
-                    } else {
-                        claw.setPosition(1);
-                    }
-                    toggleClaw = !toggleClaw;
-                    checkClawPress = false;
+            //      Tilt
+            if(gamepad2.a) {
+                if(!checkWristPress){
+                    telemetry.addLine("adriana");
+                    checkWristPress = true;
+                    wristPos += 1;
                 }
-            }else{
-                telemetry.addData("released button", 0);
-                telemetry.update();
-                checkClawPress = true;
-            }
+            }else  checkWristPress = false;
 
-            if(gamepad2.dpad_up) rotation.setPosition(0);
-            if(gamepad2.dpad_down) rotation.setPosition(1);
+            if(wristPos == 4) wristPos = 1;
+
+            if(wristPos == 1) tilt.setPosition(0);
+            if(wristPos == 2) tilt.setPosition(0.5);
+            if(wristPos == 3) tilt.setPosition(1);
+
+            //    brat sincron
+            if(gamepad2.left_stick_y < 0) targetPozAx += 5;
+            if(gamepad2.left_stick_y > 0) targetPozAx -= 3;
+            if(gamepad2.right_stick_y > 0) targetPozSl += 3;
+            if(gamepad2.right_stick_y < 0) targetPozSl -= 3;
+
+
+            motorAx.setTargetPosition(targetPozAx);
+            slider.setTargetPosition(targetPozSl);
+            telemetry.addData("ax ",targetPozAx);
+            telemetry.addData("slider " ,targetPozSl);
+            telemetry.update();
         }
     }
 
     public double getAngle() {
-        return imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES).firstAngle;
+        return imu.getRobotOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES).firstAngle;
     }
 }
