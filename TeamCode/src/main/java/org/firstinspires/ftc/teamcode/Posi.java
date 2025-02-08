@@ -9,12 +9,10 @@ import com.qualcomm.robotcore.hardware.Servo;
 
 import org.firstinspires.ftc.teamcode.drive.SampleMecanumDrive;
 
-@TeleOp(name = "Test IMU -- McCac")
+@TeleOp(name = "TELEOP SATU MARE")
 public class Posi extends LinearOpMode {
 
     double wristPos = 0.5;
-    boolean checkRotation = false;
-    boolean toggleRotation = false;
 
     //paralelism
     boolean toggleCheck = false;
@@ -24,33 +22,15 @@ public class Posi extends LinearOpMode {
     boolean checkClawPress = false;
     boolean toggleClaw = false;
 
-    boolean checkWristPress = false;
-    boolean toggleWrist = false;
-
     DcMotor motorAxR = null;
     DcMotor motorAxL = null;
     DcMotor slider = null;
 
-
     Servo claw = null;
-    Servo rotation = null;
     Servo tilt = null;
 
     int targetPozAx = 0;
     int targetPozSl = 0;
-
-    double a = 0.5;
-
-    boolean check = false;
-    boolean paralel = false;
-
-    double maxAX = 500;
-    double minAx = 20;
-    double maxServo = 1; //0.948
-    double minServo = 0.671; //0.598
-    double midlePoint = 120;
-    double offset = -0.20;
-    int lastAx = 0;
 
     double pos = 0.5;
     double rotateAngle = 0;
@@ -61,7 +41,6 @@ public class Posi extends LinearOpMode {
         motorAxL = hardwareMap.get(DcMotor.class, "motorAxLeft");
         motorAxR = hardwareMap.get(DcMotor.class, "motorAxRight");
         slider = hardwareMap.get(DcMotor.class, "slider");
-        rotation = hardwareMap.get(Servo.class, "rotation");
         claw = hardwareMap.get(Servo.class, "claw");
         tilt = hardwareMap.get(Servo.class, "tilt");
 
@@ -101,18 +80,17 @@ public class Posi extends LinearOpMode {
             if(gamepad2.right_stick_y < -0.1) targetPozSl -= 10;
 
             // brat paralel (pozitie ridicata)
-            if(gamepad2.right_bumper)
-                if(moneyCheck){
-                    if(toggleCheck ){
-                        paralelPos = 0.7;
+            if(gamepad2.right_bumper){
+                if(moneyCheck) {
+                    if (toggleCheck) {
+                        paralelPos = 0.55;
+                    } else {
+                        paralelPos = 0.25;
                     }
-                    else{
-                        paralelPos = 0.5;
-                    }
-                    moneyCheck = false;
                     toggleCheck = !toggleCheck;
+                    moneyCheck = false;
                 }
-            else {
+            }else{
                 moneyCheck = true;
             }
 
@@ -128,26 +106,16 @@ public class Posi extends LinearOpMode {
                     checkClawPress = false;
                 }
             }else{
-                telemetry.update();
                 checkClawPress = true;
             }
 
             // Limite
-            if(targetPozAx > 520) targetPozAx = 520;
-            if(targetPozSl < -1750) targetPozSl = -1750;
+            if(targetPozSl < -1700) targetPozSl = -1700;
+            if(targetPozAx > 540) targetPozAx = 540;
 
-            if(gamepad2.dpad_up){
-                targetPozAx = 520;
-                targetPozSl = -1000;
-            }
-            if(gamepad2.dpad_left){
-                targetPozAx = 200;
-                targetPozSl = -200;
-            }
-            if(gamepad2.dpad_down){
-                targetPozAx = 20;
-                targetPozSl = 10;
-            }
+            if(gamepad2.dpad_up) targetPozSl = -1600;
+            if(gamepad2.dpad_left) targetPozSl = -1000;
+            if(gamepad2.dpad_down) targetPozSl = -200;
 
             rotateAngle = motorAxL.getCurrentPosition()/540.0 * 360;
             pos = -rotateAngle / 480 * (0.35-1) + paralelPos;

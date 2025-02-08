@@ -1,94 +1,130 @@
 package com.example.meepmeeptesting;
 
-import com.acmerobotics.roadrunner.Pose2d;
-//import com.acmerobotics.roadrunner.Vector2d;
-import com.noahbres.meepmeep.MeepMeep;
-import com.noahbres.meepmeep.roadrunner.DefaultBotBuilder;
-import com.noahbres.meepmeep.roadrunner.entity.RoadRunnerBotEntity;
+import com.acmerobotics.roadrunner.geometry.Pose2d;
+
+import org.rowlandhall.meepmeep.MeepMeep;
+import org.rowlandhall.meepmeep.roadrunner.DefaultBotBuilder;
+import org.rowlandhall.meepmeep.roadrunner.entity.RoadRunnerBotEntity;
 
 public class MeepMeepTesting {
     public static void main(String[] args) {
-        MeepMeep meepMeep = new MeepMeep(700);
-        System.setProperty("sun.java2d.opengl", "true");
-        RoadRunnerBotEntity leftRed = new DefaultBotBuilder(meepMeep)
+        MeepMeep meepMeep = new MeepMeep(600);
+        Pose2d startingPoseLeftRed = new Pose2d(-36, -60,Math.toRadians(90));
+        Pose2d startingPoseRightBlue = new Pose2d(10, -57,Math.toRadians(90));
+
+        RoadRunnerBotEntity myBot = new DefaultBotBuilder(meepMeep)
                 // Set bot constraints: maxVel, maxAccel, maxAngVel, maxAngAccel, track width
-                .setConstraints(60, 60, Math.toRadians(180), Math.toRadians(180), 10)
-                .build();
+                .setConstraints(60, 60, Math.toRadians(180), Math.toRadians(180), 15)
+                .followTrajectorySequence(drive -> drive.trajectorySequenceBuilder(startingPoseRightBlue)
+                        .splineToSplineHeading(new Pose2d(10, -32, Math.toRadians(90)), Math.toRadians(90))
+                        .addTemporalMarkerOffset(-0.3, ()->{
+                            // lift rotate arm to pos
+                        })
+                        .addTemporalMarkerOffset(0, ()->{
+                            // lower on bar the arm
+                        })
+                        .addTemporalMarkerOffset(0.3, ()->{
+                            // retract and release
+                        })
+                        .waitSeconds(1)
+                        .addTemporalMarkerOffset(0, ()->{
+                            // set rotate to low to above next yellow
+                        })
+                        .setTangent(Math.toRadians(-10))
+                        .splineToSplineHeading(new Pose2d(55, -40, Math.toRadians(120)),Math.toRadians(-10))
+                        .addTemporalMarkerOffset(0, ()->{
+                            // lower on yellow
+                        })
+                        .addTemporalMarkerOffset(0.3, ()->{
+                            // take yellow
+                        })
+                        .addTemporalMarkerOffset(0.6, ()->{
+                            // rotate arm
+                        })
+                        .waitSeconds(1)
+                        .turn(Math.toRadians(150))
+                        .addTemporalMarkerOffset(-0.4, ()->{
+                            // lift arm to max
+                        })
+                        .addTemporalMarkerOffset(0.4 , ()->{
+                            // release
+                        })
+                        .waitSeconds(1)
+                        .turn(Math.toRadians(160))
+                        .addTemporalMarkerOffset(-0.4, ()->{
+                            // lift arm to max
+                        })
+                        .addTemporalMarkerOffset(0.4 , ()->{
+                            // catch
+                        })
+                        .waitSeconds(1)
+                        .turn(Math.toRadians(200))
+                        .addTemporalMarkerOffset(-0.4, ()->{
+                            // lift arm to max
+                        })
+                        .addTemporalMarkerOffset(0.4 , ()->{
+                            // release
+                        })
+                        .waitSeconds(1)
+                        .turn(Math.toRadians(130))
+                        .addTemporalMarkerOffset(-0.4, ()->{
+                            // lift arm to max
+                        })
+                        .addTemporalMarkerOffset(0.4 , ()->{
+                            // catch
+                        })
+                        .waitSeconds(1)
+                        .turn(Math.toRadians(230))
+                        .addTemporalMarkerOffset(-0.4, ()->{
+                            // lift arm to max
+                        })
+                        .addTemporalMarkerOffset(0.4 , ()->{
+                            // release
+                        })
+                        .waitSeconds(1)
+//                        .waitSeconds(1)
+//                        .setTangent(Math.toRadians(120))
+//                        .splineToSplineHeading(new Pose2d(-60, -40, Math.toRadians(90)), Math.toRadians(120))
+//                        .UNSTABLE_addTemporalMarkerOffset(-0.4, ()->{
+//                            // lower arm over yellow
+//                        })
+//                        .UNSTABLE_addTemporalMarkerOffset(0.4, ()->{
+//                            // close and rotate arm
+//                        })
+//                        .waitSeconds(1)
+//                        .setTangent(Math.toRadians(-30))
+//                        .splineToSplineHeading(new Pose2d(-52,-52,Math.toRadians(215)),Math.toRadians(-90))
+//                        .UNSTABLE_addTemporalMarkerOffset(-0.4, ()->{
+//                            // lift arm to max
+//                        })
+//                        .UNSTABLE_addTemporalMarkerOffset(0.4 , ()->{
+//                            // tip the servo and release
+//                        })
+//                        .waitSeconds(1)
+//                        .setTangent(Math.toRadians(110))
+//                        .splineToSplineHeading(new Pose2d(-60,-40,Math.toRadians(120)),Math.toRadians(140))
+//                        .UNSTABLE_addTemporalMarkerOffset(-0.4, ()->{
+//                            // lower arm over yellow
+//                        })
+//                        .UNSTABLE_addTemporalMarkerOffset(0.4, ()->{
+//                            // close and rotate arm
+//                        })
+//                        .waitSeconds(1)
+//                        .setTangent(Math.toRadians(-30))
+//                        .splineToSplineHeading(new Pose2d(-52,-52,Math.toRadians(215)),Math.toRadians(-90))
+//                        .UNSTABLE_addTemporalMarkerOffset(-0.4, ()->{
+//                            // lift arm to max
+//                        })
+//                        .UNSTABLE_addTemporalMarkerOffset(0.4 , ()->{
+//                            // tip the servo and release
+//                        })
+                        .build());
 
-        leftRed.runAction(leftRed.getDrive().actionBuilder(new Pose2d(5, -57,Math.toRadians(90)))
-                .splineToSplineHeading(new Pose2d(5, -32, Math.toRadians(90)), Math.toRadians(90))
-                //.UNSTABLE_addTemporalMarkerOffset(0,()->{
-//                    cleste.setPosition(0);
-//                    setRotate(-470,0.5);
-//                    setSlide(-1900,0.7);
-         //       })
-                .waitSeconds(2)
-//                .UNSTABLE_addTemporalMarkerOffset(-0.20, ()->{
-//                    //setRotate(-400,0.5);
-//                })
-                .waitSeconds(1)
-//                .UNSTABLE_addTemporalMarkerOffset(-0.1,()->{
-//                    //setSlide(0,0.8);
-//                })
-                .waitSeconds(0.5)
-//                .UNSTABLE_addTemporalMarkerOffset(0.4, ()->{
-//                    //cleste.setPosition(0.6);
-//                })
-                .waitSeconds(1)
-                .setTangent(0)
-                .splineToSplineHeading(new Pose2d(50,-35,Math.toRadians(90)),Math.toRadians(30))
-//                .UNSTABLE_addTemporalMarkerOffset(0, ()->{
-//                  //  setSlide(-700, 0.8);
-//                    //setRotate(-60, 0.8);
-//                })
-//                .UNSTABLE_addTemporalMarkerOffset(0.5, ()->{
-//                    //setRotate(-60, 0);
-//                })
-                .waitSeconds(1)
-                .setTangent(Math.toRadians(180))
-                .splineToSplineHeading(new Pose2d(45,-35,Math.toRadians(90)),Math.toRadians(180))
-                .waitSeconds(0.5)
-//                .UNSTABLE_addTemporalMarkerOffset(0, ()->{
-//                    //setRotate(0, 0);
-//                })
-                .waitSeconds(0.5)
-//                .UNSTABLE_addTemporalMarkerOffset(0.4, ()->{
-//                    //cleste.setPosition(0);
-//                })
-                .waitSeconds(1)
-//                .UNSTABLE_addTemporalMarkerOffset(0, ()->{
-//                    //setRotate(-30, 0.5);
-//                    //setSlide(-2200, 0.5);
-//                })
-                .waitSeconds(0.5)
-                .splineToSplineHeading(new Pose2d(44,-35,Math.toRadians(270)),Math.toRadians(270))
-                .waitSeconds(0.5)
-//                .UNSTABLE_addTemporalMarkerOffset(0, ()->{
-//                    //cleste.setPosition(0.6);
-//                   // setSlide(0, 0.5);
-//                })
-                .waitSeconds(0.5)
-//                .UNSTABLE_addTemporalMarkerOffset(0, ()->{
-//                 //   setRotate(-200, 0.5);
-//                })
-                .waitSeconds(0.5)
-                .turn(Math.toRadians(180))
-                .setTangent(0)
-                .splineToSplineHeading(new Pose2d(54,-35,Math.toRadians(90)),Math.toRadians(0))
-                .waitSeconds(1)
-                .setTangent(Math.toRadians(-90))
-                .splineToSplineHeading(new Pose2d(54,-50,Math.toRadians(90)),Math.toRadians(-90))
-                .waitSeconds(1)
-                .build());
 
-
-                meepMeep.setBackground(MeepMeep.Background.FIELD_CENTERSTAGE_JUICE_DARK)
+        meepMeep.setBackground(MeepMeep.Background.FIELD_INTOTHEDEEP_JUICE_DARK)
                 .setDarkMode(true)
                 .setBackgroundAlpha(0.95f)
-                        .addEntity(leftRed)
+                .addEntity(myBot)
                 .start();
     }
 }
-
-
-

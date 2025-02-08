@@ -28,7 +28,6 @@ public class AutoLeft extends LinearOpMode {
 //    Servo wristR = null;
 //    Servo wristL = null;
 
-    Point detection = new Point(0,0);
     Pose2d startingPoseLeftRed = new Pose2d(-36, -60,Math.toRadians(90));
     Pose2d startingPoseRightBlue = new Pose2d(5, -57,Math.toRadians(90));
 
@@ -36,7 +35,81 @@ public class AutoLeft extends LinearOpMode {
         SampleMecanumDrive drive = new SampleMecanumDrive(hardwareMap);
 
         TrajectorySequence leftRed = drive.trajectorySequenceBuilder(startingPoseLeftRed)
-                .splineToSplineHeading(new Pose2d(-8, -36, Math.toRadians(90)), Math.toRadians(0))
+                .setTangent(Math.toRadians(43))
+                .splineToSplineHeading(new Pose2d(-8, -36, Math.toRadians(90)), Math.toRadians(43))
+                .UNSTABLE_addTemporalMarkerOffset(-0.5 , ()->{
+                    // get high with arm
+                })
+                .UNSTABLE_addTemporalMarkerOffset(0 , ()->{
+                    // place on bar
+                })
+                .UNSTABLE_addTemporalMarkerOffset(0.3, ()->{
+                    // retract and place sample
+                })
+                .waitSeconds(1)
+                .UNSTABLE_addTemporalMarkerOffset(0, ()->{
+                    // set rotate to low to above next yellow
+                })
+                .setTangent(Math.toRadians(190))
+                .splineToSplineHeading(new Pose2d(-50, -40, Math.toRadians(90)), Math.toRadians(180))
+                .UNSTABLE_addTemporalMarkerOffset(0, ()->{
+                    // lower on yellow
+                })
+                .UNSTABLE_addTemporalMarkerOffset(0.3, ()->{
+                    // take yellow
+                })
+                .UNSTABLE_addTemporalMarkerOffset(0.6, ()->{
+                    // rotate arm
+                })
+                .waitSeconds(1)
+                .setTangent(Math.toRadians(-100))
+                .splineToSplineHeading(new Pose2d(-52,-52,Math.toRadians(215)),Math.toRadians(-100))
+                .UNSTABLE_addTemporalMarkerOffset(-0.4, ()->{
+                    // lift arm to max
+                })
+                .UNSTABLE_addTemporalMarkerOffset(0.4 , ()->{
+                    // tip the servo and release
+                })
+                .waitSeconds(1)
+                .setTangent(Math.toRadians(120))
+                .splineToSplineHeading(new Pose2d(-60, -40, Math.toRadians(90)), Math.toRadians(120))
+                .UNSTABLE_addTemporalMarkerOffset(-0.4, ()->{
+                    // lower arm over yellow
+                })
+                .UNSTABLE_addTemporalMarkerOffset(0.4, ()->{
+                    // close and rotate arm
+                })
+                .waitSeconds(1)
+                .setTangent(Math.toRadians(-30))
+                .splineToSplineHeading(new Pose2d(-52,-52,Math.toRadians(215)),Math.toRadians(-90))
+                .UNSTABLE_addTemporalMarkerOffset(-0.4, ()->{
+                    // lift arm to max
+                })
+                .UNSTABLE_addTemporalMarkerOffset(0.4 , ()->{
+                    // tip the servo and release
+                })
+                .waitSeconds(1)
+                .setTangent(Math.toRadians(110))
+                .splineToSplineHeading(new Pose2d(-60,-40,Math.toRadians(120)),Math.toRadians(140))
+                .UNSTABLE_addTemporalMarkerOffset(-0.4, ()->{
+                    // lower arm over yellow
+                })
+                .UNSTABLE_addTemporalMarkerOffset(0.4, ()->{
+                    // close and rotate arm
+                })
+                .waitSeconds(1)
+                .setTangent(Math.toRadians(-30))
+                .splineToSplineHeading(new Pose2d(-52,-52,Math.toRadians(215)),Math.toRadians(-90))
+                .UNSTABLE_addTemporalMarkerOffset(-0.4, ()->{
+                    // lift arm to max
+                })
+                .UNSTABLE_addTemporalMarkerOffset(0.4 , ()->{
+                    // tip the servo and release
+                })
+                .waitSeconds(2)
+
+
+//                .splineToSplineHeading(new Pose2d(-8, -36, Math.toRadians(90)), Math.toRadians(0))
 //                .UNSTABLE_addTemporalMarkerOffset(0,()->{
 //                    clesteL.setPosition(1);
 //                    clesteR.setPosition(1);
@@ -55,9 +128,9 @@ public class AutoLeft extends LinearOpMode {
 //                .UNSTABLE_addTemporalMarkerOffset(-0.1,()->{
 ////                    setSlide(0,0.8);
 //                })
-               .waitSeconds(1.5)
-                .setTangent(Math.toRadians(180))
-                .splineToSplineHeading(new Pose2d(-50, -40, Math.toRadians(90)), Math.toRadians(180))
+//               .waitSeconds(1.5)
+//                .setTangent(Math.toRadians(180))
+//                .splineToSplineHeading(new Pose2d(-50, -40, Math.toRadians(90)), Math.toRadians(180))
 //                .UNSTABLE_addTemporalMarkerOffset(-1.3, ()->{
 //                    setRotate(30,0.3);
 ////                    setSlide(-1250,0.8);
@@ -77,9 +150,9 @@ public class AutoLeft extends LinearOpMode {
 //                    setRotate(-460,0.5);
 ////                    setSlide(-500,0.8);
 //                })
-                .waitSeconds(0.5)
-                .setTangent(Math.toRadians(-90))
-                .splineToSplineHeading(new Pose2d(-52,-52,Math.toRadians(215)),Math.toRadians(-90))
+//                .waitSeconds(0.5)
+//                .setTangent(Math.toRadians(-90))
+//                .splineToSplineHeading(new Pose2d(-52,-52,Math.toRadians(215)),Math.toRadians(-90))
 //                .UNSTABLE_addTemporalMarkerOffset(-0.7,()->{
 ////                    setSlide(-2600,0.8);
 //                })
@@ -93,8 +166,8 @@ public class AutoLeft extends LinearOpMode {
 //                    setRotate(-460,0.5);
 ////                    setSlide(-500,0.8);
 //                })
-                .setTangent(Math.toRadians(180))
-                .turn(Math.toRadians(235))
+//                .setTangent(Math.toRadians(180))
+//                .turn(Math.toRadians(235))
 //                .UNSTABLE_addTemporalMarkerOffset(-0.8, ()->{
 //                    setRotate(0,0.3);
 ////                    setSlide(-1200,0.8);
@@ -102,8 +175,8 @@ public class AutoLeft extends LinearOpMode {
 //                .UNSTABLE_addTemporalMarkerOffset(0, ()->{
 //                    setRotate(0, 0);
 //                })
-                .setTangent(Math.toRadians(90))
-                .splineToSplineHeading(new Pose2d(-60, -40, Math.toRadians(90)), Math.toRadians(180))
+//                .setTangent(Math.toRadians(90))
+//                .splineToSplineHeading(new Pose2d(-60, -40, Math.toRadians(90)), Math.toRadians(180))
 //               .UNSTABLE_addTemporalMarkerOffset(0,()->{
 //                    setRotate(30,0);
 //                })
@@ -118,8 +191,8 @@ public class AutoLeft extends LinearOpMode {
 ////                    setSlide(-500,0.8);
 //                })
 //                .waitSeconds(0.5)
-                .setTangent(Math.toRadians(-45))
-                .splineToSplineHeading(new Pose2d(-54,-52,Math.toRadians(215)),Math.toRadians(-90))
+//                .setTangent(Math.toRadians(-45))
+//                .splineToSplineHeading(new Pose2d(-54,-52,Math.toRadians(215)),Math.toRadians(-90))
 //                .UNSTABLE_addTemporalMarkerOffset(-0.7,()->{
 ////                    setSlide(-2600,0.8);
 //                })
@@ -134,12 +207,12 @@ public class AutoLeft extends LinearOpMode {
 ////                    setSlide(-500,0.8);
 //                })
 //                .waitSeconds(0.5)
-                .setTangent(Math.toRadians(90))
-                .splineToSplineHeading(new Pose2d(-30, -5, Math.toRadians(0)), Math.toRadians(0))
+//                .setTangent(Math.toRadians(90))
+//                .splineToSplineHeading(new Pose2d(-30, -5, Math.toRadians(0)), Math.toRadians(0))
 //                .UNSTABLE_addTemporalMarkerOffset(0, ()->{
 ////                    setSlide(-2000, 0.8);
 //                })
-                .waitSeconds(5)
+//                .waitSeconds(5)
                 .build();
 
 

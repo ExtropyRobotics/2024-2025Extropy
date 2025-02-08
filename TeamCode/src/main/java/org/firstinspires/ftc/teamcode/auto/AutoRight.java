@@ -29,7 +29,7 @@ public class AutoRight extends LinearOpMode {
 //
     Point detection = new Point(0,0);
   Pose2d startingPoseLeftRed = new Pose2d(-36, -60,Math.toRadians(90));
-   Pose2d startingPoseRightBlue = new Pose2d(5, -57,Math.toRadians(90));
+    Pose2d startingPoseRightBlue = new Pose2d(5, -57,Math.toRadians(90));
 
     @Override public void runOpMode(){
         SampleMecanumDrive drive = new SampleMecanumDrive(hardwareMap);
@@ -70,8 +70,79 @@ public class AutoRight extends LinearOpMode {
 //        wristR.setPosition(0);
 //        wristL.setPosition(0);
 //
+
         TrajectorySequence rightBlue = drive.trajectorySequenceBuilder(startingPoseRightBlue)
-                .splineToSplineHeading(new Pose2d(5, -32, Math.toRadians(90)), Math.toRadians(90))
+                .splineToSplineHeading(new Pose2d(10, -32, Math.toRadians(90)), Math.toRadians(90))
+                .UNSTABLE_addTemporalMarkerOffset(-0.3, ()->{
+                    // lift rotate arm to pos
+                })
+                .UNSTABLE_addTemporalMarkerOffset(0, ()->{
+                    // lower on bar the arm
+                })
+                .UNSTABLE_addTemporalMarkerOffset(0.3, ()->{
+                    // retract and release
+                })
+                .waitSeconds(1)
+                .UNSTABLE_addTemporalMarkerOffset(0, ()->{
+                    // set rotate to low to above next yellow
+                })
+                .setTangent(Math.toRadians(-10))
+                .splineToSplineHeading(new Pose2d(55, -40, Math.toRadians(120)),Math.toRadians(-10))
+                .UNSTABLE_addTemporalMarkerOffset(0, ()->{
+                    // lower on yellow
+                })
+                .UNSTABLE_addTemporalMarkerOffset(0.3, ()->{
+                    // take yellow
+                })
+                .UNSTABLE_addTemporalMarkerOffset(0.6, ()->{
+                    // rotate arm
+                })
+                .waitSeconds(1)
+                .turn(Math.toRadians(150))
+                .UNSTABLE_addTemporalMarkerOffset(-0.4, ()->{
+                    // lift arm to max
+                })
+                .UNSTABLE_addTemporalMarkerOffset(0.4 , ()->{
+                    // release
+                })
+                .waitSeconds(1)
+                .turn(Math.toRadians(160))
+                .UNSTABLE_addTemporalMarkerOffset(-0.4, ()->{
+                    // lift arm to max
+                })
+                .UNSTABLE_addTemporalMarkerOffset(0.4 , ()->{
+                    // catch
+                })
+                .waitSeconds(1)
+                .turn(Math.toRadians(200))
+                .UNSTABLE_addTemporalMarkerOffset(-0.4, ()->{
+                    // lift arm to max
+                })
+                .UNSTABLE_addTemporalMarkerOffset(0.4 , ()->{
+                    // release
+                })
+                .waitSeconds(1)
+                .turn(Math.toRadians(130))
+                .UNSTABLE_addTemporalMarkerOffset(-0.4, ()->{
+                    // lift arm to max
+                })
+                .UNSTABLE_addTemporalMarkerOffset(0.4 , ()->{
+                    // catch
+                })
+                .waitSeconds(1)
+                .turn(Math.toRadians(230))
+                .UNSTABLE_addTemporalMarkerOffset(-0.4, ()->{
+                    // lift arm to max
+                })
+                .UNSTABLE_addTemporalMarkerOffset(0.4 , ()->{
+                    // release
+                })
+                .waitSeconds(1)
+
+
+
+
+//                .splineToSplineHeading(new Pose2d(5, -32, Math.toRadians(90)), Math.toRadians(90))
 //                .UNSTABLE_addTemporalMarkerOffset(0,()->{
 //                    clesteL.setPosition(0);
 //                    setRotate(-470,0.5);
@@ -133,7 +204,7 @@ public class AutoRight extends LinearOpMode {
 //                .waitSeconds(1)
 //                .setTangent(Math.toRadians(-90))
 //                .splineToSplineHeading(new Pose2d(54,-50,Math.toRadians(90)),Math.toRadians(-90))
-                .waitSeconds(1)
+//                .waitSeconds(1)
                 .build();
 
 
