@@ -8,14 +8,12 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.Servo;
-import com.qualcomm.robotcore.hardware.ServoControllerEx;
 
 import org.firstinspires.ftc.robotcore.external.navigation.CurrentUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.VoltageUnit;
 
 @TeleOp(name = "__TestMotors", group="_")
-public class testMotors extends LinearOpMode {
-
+public class TestMotors extends LinearOpMode {
     public void runOpMode(){
         telemetry = new MultipleTelemetry(FtcDashboard.getInstance().getTelemetry(),telemetry);
 
@@ -27,9 +25,6 @@ public class testMotors extends LinearOpMode {
         Servo servo = hardwareMap.get(Servo.class, "servo");
 
         LynxModule control = hardwareMap.get(LynxModule.class,"Control Hub");
-
-
-
 
         waitForStart();
 
