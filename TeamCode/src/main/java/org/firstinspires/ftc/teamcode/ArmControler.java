@@ -100,7 +100,6 @@ public class ArmControler {
         telemetry.addData("03. AxUp ", axUp.getCurrentPosition());
         telemetry.addData("04. AxDown ", axDown.getCurrentPosition());
         telemetry.addData("05. Slider ", slider.getCurrentPosition());
-
         telemetry.addData("06. Setted AxUp ", axPoz);
         telemetry.addData("07. Setted Slider ", sliderPoz);
 
