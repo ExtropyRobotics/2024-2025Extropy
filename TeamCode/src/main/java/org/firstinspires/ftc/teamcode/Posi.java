@@ -15,12 +15,13 @@ public class Posi extends LinearOpMode {
     double wristPos = 0.5;
 
     //paralelism
-    boolean toggleCheck = false;
+    double toggleCheck = 1;
     boolean moneyCheck = false;
     double paralelPos = 0.55;
 
     boolean checkClawPress = false;
     boolean toggleClaw = false;
+
 
     DcMotor motorAxR = null;
     DcMotor motorAxL = null;
@@ -34,6 +35,12 @@ public class Posi extends LinearOpMode {
 
     double pos = 0.5;
     double rotateAngle = 0;
+
+    boolean checkPozitieSpate = false;
+    boolean toogleSpate = false;
+
+    int something = 1;
+
     @Override
     public void runOpMode() {
         SampleMecanumDrive drive = new SampleMecanumDrive(hardwareMap);
@@ -44,7 +51,7 @@ public class Posi extends LinearOpMode {
         claw = hardwareMap.get(Servo.class, "claw");
         tilt = hardwareMap.get(Servo.class, "tilt");
 
-        motorAxR.setDirection(DcMotorSimple.Direction.REVERSE);
+        motorAxL.setDirection(DcMotorSimple.Direction.REVERSE);
 
         motorAxL.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         motorAxL.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
@@ -73,8 +80,8 @@ public class Posi extends LinearOpMode {
                     -gamepad1.right_stick_x
             ));
 
-            if(gamepad2.left_stick_y < -0.1) targetPozAx += 2;
-            if(gamepad2.left_stick_y > 0.1) targetPozAx -= 2;
+            if(gamepad2.left_stick_y < -0.1) targetPozAx += 5;
+            if(gamepad2.left_stick_y > 0.1) targetPozAx -= 5;
 
             if(gamepad2.right_stick_y > 0.1) targetPozSl += 10;
             if(gamepad2.right_stick_y < -0.1) targetPozSl -= 10;
@@ -82,23 +89,35 @@ public class Posi extends LinearOpMode {
             // brat paralel (pozitie ridicata)
             if(gamepad2.right_bumper){
                 if(moneyCheck) {
-                    if (toggleCheck) {
+                    if (toggleCheck == 1) {
                         paralelPos = 0.55;
-                    } else {
-                        paralelPos = 0.25;
+                        something = 1;
+                    } else if(toggleCheck == 2){
+                        paralelPos = 0.4;
+                        something = 0;
                     }
-                    toggleCheck = !toggleCheck;
+                    else if(toggleCheck == 3){
+                        paralelPos = 0.3;
+                        something = 1;
+                    }
+                    toggleCheck += 1;
                     moneyCheck = false;
+                }
+                if(toggleCheck == 4) {
+                    toggleCheck = 1;
                 }
             }else{
                 moneyCheck = true;
             }
 
+            pos = something*(-rotateAngle / 480 * (0.35-1)) + paralelPos;
+            tilt.setPosition(pos);
+
             // cleste
             if(gamepad2.a){
                 if(checkClawPress) {
                     if (toggleClaw) {
-                        claw.setPosition(0.5);
+                        claw.setPosition(0.45);
                     } else {
                         claw.setPosition(0.25);
                     }
@@ -108,24 +127,28 @@ public class Posi extends LinearOpMode {
             }else{
                 checkClawPress = true;
             }
+            if(gamepad2.dpad_left) {
+                motorAxL.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+                motorAxR.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+            }
+
+            // incheietura
 
             // Limite
             if(targetPozSl < -1700) targetPozSl = -1700;
-            if(targetPozAx > 540) targetPozAx = 540;
+//            if(targetPozAx > 540) targetPozAx = 540;
 
             if(gamepad2.dpad_up) targetPozSl = -1600;
             if(gamepad2.dpad_left) targetPozSl = -1000;
             if(gamepad2.dpad_down) targetPozSl = -200;
 
             rotateAngle = motorAxL.getCurrentPosition()/540.0 * 360;
-            pos = -rotateAngle / 480 * (0.35-1) + paralelPos;
-            tilt.setPosition(pos);
-
             motorAxL.setTargetPosition(targetPozAx);
             motorAxR.setTargetPosition(targetPozAx);
             slider.setTargetPosition(targetPozSl);
 
             telemetry.addData("angle ",rotateAngle);
+            telemetry.addData("toggleCheck ",toggleCheck);
             telemetry.addData("paralelPose ",paralelPos);
             telemetry.addData("wrist ",wristPos);
             telemetry.addData("servo trying angle ",pos);
