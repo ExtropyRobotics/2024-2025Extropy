@@ -11,16 +11,15 @@ import com.qualcomm.robotcore.hardware.Servo;
 import org.firstinspires.ftc.teamcode.drive.SampleMecanumDrive;
 
 import org.firstinspires.ftc.teamcode.trajectorysequence.TrajectorySequence;
-import org.opencv.core.Point;
 
 
 @Autonomous (name = "Left")
 
 
-public class AutoLeft extends LinearOpMode {
+public class AutoLeft1 extends LinearOpMode {
 
-    DcMotor motorAxL = null;
-    DcMotor motorAxR = null;
+    DcMotor axUp = null;
+    DcMotor axDown = null;
     DcMotor slider = null;
 
     Servo claw = null;
@@ -34,28 +33,26 @@ public class AutoLeft extends LinearOpMode {
         SampleMecanumDrive drive = new SampleMecanumDrive(hardwareMap);
 
 
-        motorAxL = hardwareMap.get(DcMotor.class, "motorAxLeft");
-        motorAxR = hardwareMap.get(DcMotor.class, "motorAxRight");
-        slider = hardwareMap.get(DcMotor.class, "slider");
-        claw = hardwareMap.get(Servo.class, "claw");
-        tilt = hardwareMap.get(Servo.class, "tilt");
+        axUp = hardwareMap.get(DcMotor.class, "axUp");
+        axDown = hardwareMap.get(DcMotor.class, "axDown");
+        slider = hardwareMap.get(DcMotor.class, "brat");
+//        claw = hardwareMap.get(Servo.class, "claw");
+//        tilt = hardwareMap.get(Servo.class, "tilt");
 
 
-        motorAxL.setDirection(DcMotorSimple.Direction.REVERSE);
+        axUp.setDirection(DcMotorSimple.Direction.REVERSE);
 
-        motorAxL.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        motorAxL.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        motorAxL.setPower(0.5);
-        motorAxL.setTargetPosition(0);
-        motorAxL.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        axUp.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        axUp.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        axUp.setPower(0.5);
+        axUp.setTargetPosition(0);
+        axUp.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
-        motorAxR.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        motorAxR.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        motorAxR.setPower(0.5);
-        motorAxR.setTargetPosition(0);
-        motorAxR.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-
-
+        axDown.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        axDown.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        axDown.setPower(0.5);
+        axDown.setTargetPosition(0);
+        axDown.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
 
         TrajectorySequence leftRed = drive.trajectorySequenceBuilder(startingPoseLeftRed)
@@ -63,8 +60,8 @@ public class AutoLeft extends LinearOpMode {
                 .splineToSplineHeading(new Pose2d(-8, -36, Math.toRadians(90)), Math.toRadians(43))
                 .UNSTABLE_addTemporalMarkerOffset(-0.5 , ()->{
                     // get high with arm
-                    setSlide(-550, 0.3);
-                    setRotate(250, 0.5);
+                    setSlide(-480, 0.3);
+                    setRotate(560, 0.5);
                 })
                 .waitSeconds(1)
                 .UNSTABLE_addTemporalMarkerOffset(0 , ()->{
@@ -73,7 +70,7 @@ public class AutoLeft extends LinearOpMode {
                 })
                 .waitSeconds(0.4)
                 .UNSTABLE_addTemporalMarkerOffset(-0.1,()->{
-                    claw.setPosition(0.25);
+//                    claw.setPosition(0.25);
                 })
                 .UNSTABLE_addTemporalMarkerOffset(0.3, ()->{
                     // retract and place sample
@@ -84,7 +81,7 @@ public class AutoLeft extends LinearOpMode {
                 .UNSTABLE_addTemporalMarkerOffset(0, ()->{
                     // set rotate to low to above next yellow
                     setRotate(150,0.5);
-                    tilt.setPosition(0.55);
+//                    tilt.setPosition(0.55);
                 })
                 .setTangent(Math.toRadians(190))
                 .splineToSplineHeading(new Pose2d(-50, -40, Math.toRadians(90)), Math.toRadians(180))
@@ -95,10 +92,6 @@ public class AutoLeft extends LinearOpMode {
                     // lower on yellow
                     setRotate(30, 0.5);
                 })
-                .UNSTABLE_addTemporalMarkerOffset(0.3, ()->{
-                    // take yellow
-                    claw.setPosition(0.5);
-                })
                 .UNSTABLE_addTemporalMarkerOffset(0.6, ()->{
                     setRotate(200,0.5);
                     setSlide(-400, 0.5);
@@ -107,20 +100,10 @@ public class AutoLeft extends LinearOpMode {
                 .setTangent(Math.toRadians(-100))
                 .splineToSplineHeading(new Pose2d(-56,-56,Math.toRadians(215)),Math.toRadians(-100))
                 .UNSTABLE_addTemporalMarkerOffset(-1, ()->{
-                    setRotate(520, 0.5);
+                    setRotate(899, 0.5);
                 })
                 .UNSTABLE_addTemporalMarkerOffset(-0.7, ()->{
-                    setSlide(-1900, 0.5);
-                })
-                .UNSTABLE_addTemporalMarkerOffset(0.7, ()->{
-                    setRotate(510, 0.5);
-                    tilt.setPosition(0.9);
-                })
-                .UNSTABLE_addTemporalMarkerOffset(1, ()->{
-                    claw.setPosition(0.25);
-                })
-                .UNSTABLE_addTemporalMarkerOffset(1.2, ()->{
-                    tilt.setPosition(0.55);
+                    setSlide(-2099, 0.5);
                 })
                 .waitSeconds(5)
 
@@ -314,32 +297,27 @@ public class AutoLeft extends LinearOpMode {
 
 
         drive.setPoseEstimate(startingPoseLeftRed);
-        tilt.setPosition(0.35);
-        claw.setPosition(0.5);
+//        tilt.setPosition(0.35);
+//        claw.setPosition(0.5);
         setRotate(0,0.5);
         setSlide(30,0.5);
         waitForStart();
         sleep(2000);
         drive.followTrajectorySequence(leftRed);
-
     }
 
 
-
-
-
     public void setRotate(int x,double pow){
-        motorAxL.setTargetPosition(x);
-        motorAxL.setPower(pow);
-        motorAxL.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        motorAxR.setTargetPosition(x);
-        motorAxR.setPower(pow);
-        motorAxR.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        axUp.setTargetPosition(x);
+        axUp.setPower(pow);
+        axUp.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        axDown.setTargetPosition(x);
+        axDown.setPower(pow);
+        axDown.setMode(DcMotor.RunMode.RUN_TO_POSITION);
     }
     public void setSlide(int x,double pow){
         slider.setTargetPosition(x);
         slider.setPower(pow);
         slider.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-
     }
 }

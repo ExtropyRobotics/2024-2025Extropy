@@ -68,8 +68,8 @@ public class RegioTeleOp extends LinearOpMode {
             // toggle the claw from closed to open
             if(gamepad2.a){
                 if(!clawToggle){
-                    if(clawOnce) brat.setClaw(0.5);
-                    else brat.setClaw(0.6);
+                    if(clawOnce) brat.setClaw(0.8); //0.5
+                    else brat.setClaw(1); //0.6
 
                     clawOnce = !clawOnce;
                     clawToggle = true;
