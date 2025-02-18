@@ -31,7 +31,6 @@ public class RegioLeft extends LinearOpMode {
         axDown = hardwareMap.get(DcMotor.class, "axDown");
         slider = hardwareMap.get(DcMotor.class, "brat");
 
-
         axUp.setDirection(DcMotorSimple.Direction.REVERSE);
 
         axUp.setMode(DcMotor.RunMode.RUN_USING_ENCODER);

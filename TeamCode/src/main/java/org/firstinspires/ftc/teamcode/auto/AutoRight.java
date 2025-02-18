@@ -1,6 +1,8 @@
 package org.firstinspires.ftc.teamcode.auto;
 
 
+import com.acmerobotics.roadrunner.geometry.Vector2d;
+import com.acmerobotics.roadrunner.trajectory.constraints.TranslationalVelocityConstraint;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.acmerobotics.roadrunner.geometry.Pose2d;
@@ -29,7 +31,7 @@ public class AutoRight extends LinearOpMode {
 //
     Point detection = new Point(0,0);
   Pose2d startingPoseLeftRed = new Pose2d(-36, -60,Math.toRadians(90));
-    Pose2d startingPoseRightBlue = new Pose2d(5, -57,Math.toRadians(90));
+    Pose2d startingPoseRightBlue = new Pose2d(10, -57, Math.toRadians(90));
 
     @Override public void runOpMode(){
         SampleMecanumDrive drive = new SampleMecanumDrive(hardwareMap);
@@ -72,139 +74,31 @@ public class AutoRight extends LinearOpMode {
 //
 
         TrajectorySequence rightBlue = drive.trajectorySequenceBuilder(startingPoseRightBlue)
-                .splineToSplineHeading(new Pose2d(10, -32, Math.toRadians(90)), Math.toRadians(90))
-                .UNSTABLE_addTemporalMarkerOffset(-0.3, ()->{
-                    // lift rotate arm to pos
-                })
-                .UNSTABLE_addTemporalMarkerOffset(0, ()->{
-                    // lower on bar the arm
-                })
-                .UNSTABLE_addTemporalMarkerOffset(0.3, ()->{
-                    // retract and release
-                })
-                .waitSeconds(1)
-                .UNSTABLE_addTemporalMarkerOffset(0, ()->{
-                    // set rotate to low to above next yellow
-                })
+                .splineToSplineHeading(new Pose2d(10, -36, Math.toRadians(90)), Math.toRadians(90))
+                .waitSeconds(3)
                 .setTangent(Math.toRadians(-10))
-                .splineToSplineHeading(new Pose2d(55, -40, Math.toRadians(120)),Math.toRadians(-10))
-                .UNSTABLE_addTemporalMarkerOffset(0, ()->{
-                    // lower on yellow
-                })
-                .UNSTABLE_addTemporalMarkerOffset(0.3, ()->{
-                    // take yellow
-                })
-                .UNSTABLE_addTemporalMarkerOffset(0.6, ()->{
-                    // rotate arm
-                })
-                .waitSeconds(1)
-                .turn(Math.toRadians(150))
-                .UNSTABLE_addTemporalMarkerOffset(-0.4, ()->{
-                    // lift arm to max
-                })
-                .UNSTABLE_addTemporalMarkerOffset(0.4 , ()->{
-                    // release
-                })
-                .waitSeconds(1)
-                .turn(Math.toRadians(160))
-                .UNSTABLE_addTemporalMarkerOffset(-0.4, ()->{
-                    // lift arm to max
-                })
-                .UNSTABLE_addTemporalMarkerOffset(0.4 , ()->{
-                    // catch
-                })
-                .waitSeconds(1)
-                .turn(Math.toRadians(200))
-                .UNSTABLE_addTemporalMarkerOffset(-0.4, ()->{
-                    // lift arm to max
-                })
-                .UNSTABLE_addTemporalMarkerOffset(0.4 , ()->{
-                    // release
-                })
-                .waitSeconds(1)
-                .turn(Math.toRadians(130))
-                .UNSTABLE_addTemporalMarkerOffset(-0.4, ()->{
-                    // lift arm to max
-                })
-                .UNSTABLE_addTemporalMarkerOffset(0.4 , ()->{
-                    // catch
-                })
-                .waitSeconds(1)
-                .turn(Math.toRadians(230))
-                .UNSTABLE_addTemporalMarkerOffset(-0.4, ()->{
-                    // lift arm to max
-                })
-                .UNSTABLE_addTemporalMarkerOffset(0.4 , ()->{
-                    // release
-                })
-                .waitSeconds(1)
-
-
-
-
-//                .splineToSplineHeading(new Pose2d(5, -32, Math.toRadians(90)), Math.toRadians(90))
-//                .UNSTABLE_addTemporalMarkerOffset(0,()->{
-//                    clesteL.setPosition(0);
-//                    setRotate(-470,0.5);
-//                    setSlide(-1900,0.7);
-//                })
-//                .waitSeconds(2)
-//                .UNSTABLE_addTemporalMarkerOffset(-0.20, ()->{
-//                    setRotate(-400,0.5);
-//                })
-//                .waitSeconds(1)
-//                .UNSTABLE_addTemporalMarkerOffset(-0.1,()->{
-//                    setSlide(0,0.8);
-//                })
-//                .waitSeconds(0.5)
-//                .UNSTABLE_addTemporalMarkerOffset(0.4, ()->{
-//                    clesteL.setPosition(0.6);
-//                })
-//                .waitSeconds(1)
-//                .setTangent(0)
-//                .splineToSplineHeading(new Pose2d(45,-35,Math.toRadians(90)),Math.toRadians(30))
-//                .UNSTABLE_addTemporalMarkerOffset(0, ()->{
-//                    setSlide(-700, 0.8);
-//                    setRotate(-60, 0.8);
-//                })
-//                .UNSTABLE_addTemporalMarkerOffset(0.5, ()->{
-//                    setRotate(-60, 0);
-//                })
-//                .waitSeconds(1)
-////                .setTangent(Math.toRadians(180))
-////                .splineToSplineHeading(new Pose2d(4,-35,Math.toRadians(90)),Math.toRadians(180))
-////                .waitSeconds(0.5)
-//                .UNSTABLE_addTemporalMarkerOffset(0.7, ()->{
-//                    setRotate(0, 0);
-//                })
-//                .waitSeconds(0.5)
-//                .UNSTABLE_addTemporalMarkerOffset(0.4, ()->{
-//                    clesteL.setPosition(0);
-//                })
-//                .waitSeconds(1)
-//                .UNSTABLE_addTemporalMarkerOffset(0, ()->{
-//                    setRotate(-30, 0.5);
-//                    setSlide(-2200, 0.5);
-//                })
-//                .waitSeconds(0.5)
-//                .splineToSplineHeading(new Pose2d(44,-35,Math.toRadians(270)),Math.toRadians(270))
-//                .waitSeconds(0.5)
-//                .UNSTABLE_addTemporalMarkerOffset(0, ()->{
-//                    clesteL.setPosition(0.6);
-//                    setSlide(0, 0.5);
-//                })
-//                .waitSeconds(0.5)
-//                .UNSTABLE_addTemporalMarkerOffset(0, ()->{
-//                    setRotate(-200, 0.5);
-//                })
-//                .waitSeconds(0.5)
-//                .turn(Math.toRadians(180))
-//                .setTangent(0)
-//                .splineToSplineHeading(new Pose2d(54,-35,Math.toRadians(90)),Math.toRadians(0))
-//                .waitSeconds(1)
-//                .setTangent(Math.toRadians(-90))
-//                .splineToSplineHeading(new Pose2d(54,-50,Math.toRadians(90)),Math.toRadians(-90))
-//                .waitSeconds(1)
+                .splineToSplineHeading(new Pose2d(34, -38, Math.toRadians(270)), Math.toRadians(30))
+                .setVelConstraint(new TranslationalVelocityConstraint(20))
+                .splineToConstantHeading(new Vector2d(38, -15), Math.toRadians(90))
+                .splineToConstantHeading(new Vector2d(48, -15), Math.toRadians(270))
+                .resetVelConstraint()
+                .splineToConstantHeading(new Vector2d(48, -45), Math.toRadians(270))
+                .setVelConstraint(new TranslationalVelocityConstraint(20))
+                .splineToConstantHeading(new Vector2d(48, -15), Math.toRadians(90))
+                .splineToConstantHeading(new Vector2d(59, -15), Math.toRadians(270))
+                .resetVelConstraint()
+                .splineToConstantHeading(new Vector2d(59, -45), Math.toRadians(270))
+                .setVelConstraint(new TranslationalVelocityConstraint(20))
+                .splineToConstantHeading(new Vector2d(59, -15), Math.toRadians(90))
+                .splineToConstantHeading(new Vector2d(66, -15), Math.toRadians(270))
+                .resetVelConstraint()
+                .splineToConstantHeading(new Vector2d(66, -45), Math.toRadians(270))
+                .setTangent(Math.toRadians(180))
+                .splineToConstantHeading(new Vector2d(48, -47), Math.toRadians(180))
+                .setTangent(Math.toRadians(160))
+                .splineToSplineHeading(new Pose2d(10, -36, Math.toRadians(90)), Math.toRadians(160))
+                .setTangent(Math.toRadians(-30))
+                .splineToSplineHeading(new Pose2d(48, -47, Math.toRadians(270)), Math.toRadians(-30))
                 .build();
 
 

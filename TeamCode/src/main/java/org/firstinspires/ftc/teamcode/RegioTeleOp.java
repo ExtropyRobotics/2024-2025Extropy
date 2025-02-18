@@ -7,18 +7,23 @@ import com.qualcomm.hardware.lynx.LynxModule;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
-import org.firstinspires.ftc.robotcore.external.navigation.CurrentUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.VoltageUnit;
+import org.firstinspires.ftc.teamcode.auto.RegioRight;
 import org.firstinspires.ftc.teamcode.drive.SampleMecanumDrive;
 
 @TeleOp(name = "!!! REGIONALA TELEOP")
 public class RegioTeleOp extends LinearOpMode {
+
     SampleMecanumDrive drive;
     ArmControler brat;
     LynxModule control;
 
     int targetAx;
     int targetSlider;
+    double targetWrist = 0.5;
+    double targetClaw = 0.5;
+    double parallelOffset = 0.35;
+    double clawPos = 0.4;
 
     int isRotating = 0;
     int isSliding = 0;
@@ -41,6 +46,7 @@ public class RegioTeleOp extends LinearOpMode {
             telemetry.addData("Voltage : ", control.getInputVoltage(VoltageUnit.MILLIVOLTS));
             telemetry.update();
         }
+
         waitForStart();
 
         brat.setPower(0.3);
@@ -57,24 +63,36 @@ public class RegioTeleOp extends LinearOpMode {
             // set the wrist to be parallel to ground or parallel to bar
             if(gamepad2.right_bumper){
                 if(parallelToggle) {
-                    if(parallelOnce) brat.setWristParalel(0.55, 1);
-                    else brat.setWristParalel(0.2, 1);
+                    if(parallelOnce) parallelOffset = 0.35;
+                    else parallelOffset = 0.15;
 
                     parallelOnce = !parallelOnce;
                     parallelToggle = false;
                 }
             } else parallelToggle = true;
 
+            brat.setWristParalel(parallelOffset, 1);
+
             // toggle the claw from closed to open
             if(gamepad2.a){
                 if(!clawToggle){
-                    if(clawOnce) brat.setClaw(0.8); //0.5
-                    else brat.setClaw(1); //0.6
+                    if(clawOnce) clawPos = 0.5;
+                    else clawPos = 0.4;
 
                     clawOnce = !clawOnce;
                     clawToggle = true;
                 }
             } else clawToggle = false;
+
+            brat.setClaw(clawPos);
+
+//            if(gamepad2.dpad_up) targetWrist += 0.01;
+//            if(gamepad2.dpad_down) targetWrist -= 0.01;
+//            brat.setWrist(targetWrist);
+//
+//            if(gamepad2.dpad_right) targetClaw += 0.01;
+//            if(gamepad2.dpad_left) targetClaw -= 0.01;
+//            brat.setClaw(targetClaw);
 
             if(gamepad2.left_stick_y < 0 && targetAx < 900) targetAx += 20;
             if(gamepad2.left_stick_y > 0 && targetAx > 0) targetAx -= 20;
@@ -89,6 +107,8 @@ public class RegioTeleOp extends LinearOpMode {
             isRotating = brat.setAxPoz(targetAx);
             isSliding = brat.setSliderPoz(targetSlider);
 
+            telemetry.addData("-01. targetClaw", targetClaw);
+            telemetry.addData("00. targetWrist", targetWrist);
             brat.callTelemetry();
             telemetry.update();
         }

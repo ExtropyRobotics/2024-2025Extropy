@@ -15,6 +15,8 @@ import org.firstinspires.ftc.robotcore.external.navigation.CurrentUnit;
 public class ArmControler {
     Telemetry telemetry;
 
+    double rotateAngle;
+
     private DcMotor slider;
     private DcMotor axDown;
     private DcMotor axUp;
@@ -30,6 +32,7 @@ public class ArmControler {
 
     private int maxAmps = 2000;
     private int errorMargin = 10;
+    private double openPos = 0.4;
 
     public ArmControler(HardwareMap hardwareMap, Telemetry telemetry){
         this.telemetry = telemetry;
@@ -67,6 +70,8 @@ public class ArmControler {
         axUp.setTargetPosition(axPoz);
         axDown.setTargetPosition(axPoz);
 
+        axDown.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        axUp.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         return axDirection;
     }
     public int setSliderPoz (int targetPozSlider){
@@ -80,32 +85,34 @@ public class ArmControler {
         sliderPoz = targetPozSlider;
         slider.setTargetPosition(sliderPoz);
 
+        slider.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         return sliderDirection;
     }
     public void setWrist(double pos){
         wrist.setPosition(pos);
     }
     public void setClaw(double pos){
-        claw.setPosition(pos);
+        if(getAmps(slider) > 2000) claw.setPosition(openPos);
+        else claw.setPosition(pos);
     }
     public void setWristParalel(double offset, double multiplier){
-        double rotateAngle = axUp.getCurrentPosition()/540.0 * 360;
-        double pos = -rotateAngle / 480 * (0.35-1) * multiplier + offset;
+        rotateAngle = axUp.getCurrentPosition()/900.0 * 360;
+        double pos = -rotateAngle / 500 * (0-0.61) * multiplier + offset;
         setWrist(pos);
     }
     public void callTelemetry (){
         telemetry.addData("01. Directia la ax ", axDirection == 1 ? " up " : axDirection == -1 ? " down " : " static ");
         telemetry.addData("02. Directia la slider ",  sliderDirection == 1 ? " forward " : sliderDirection == -1 ? " backward " : " static ");
-
         telemetry.addData("03. AxUp ", axUp.getCurrentPosition());
         telemetry.addData("04. AxDown ", axDown.getCurrentPosition());
         telemetry.addData("05. Slider ", slider.getCurrentPosition());
         telemetry.addData("06. Setted AxUp ", axPoz);
         telemetry.addData("07. Setted Slider ", sliderPoz);
+        telemetry.addData("08. rotateAngle", rotateAngle);
 
-        telemetry.addData("08. Load in amps up ", ((DcMotorEx)axUp).getCurrent(CurrentUnit.MILLIAMPS));
-        telemetry.addData("09. Load in amps down ", ((DcMotorEx)axDown).getCurrent(CurrentUnit.MILLIAMPS));
-        telemetry.addData("10. Load in amps slider ", ((DcMotorEx)slider).getCurrent(CurrentUnit.MILLIAMPS));
+        telemetry.addData("09. Load in amps up ", ((DcMotorEx)axUp).getCurrent(CurrentUnit.MILLIAMPS));
+        telemetry.addData("10. Load in amps down ", ((DcMotorEx)axDown).getCurrent(CurrentUnit.MILLIAMPS));
+        telemetry.addData("11. Load in amps slider ", ((DcMotorEx)slider).getCurrent(CurrentUnit.MILLIAMPS));
     }
     private double getAmps(DcMotor motor){
         return ((DcMotorEx)motor).getCurrent(CurrentUnit.MILLIAMPS);

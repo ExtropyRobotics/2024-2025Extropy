@@ -1,6 +1,8 @@
 package com.example.meepmeeptesting;
 
 import com.acmerobotics.roadrunner.geometry.Pose2d;
+import com.acmerobotics.roadrunner.geometry.Vector2d;
+import com.acmerobotics.roadrunner.trajectory.constraints.TranslationalVelocityConstraint;
 
 import org.rowlandhall.meepmeep.MeepMeep;
 import org.rowlandhall.meepmeep.roadrunner.DefaultBotBuilder;
@@ -10,10 +12,11 @@ public class MeepMeepTesting {
     public static void main(String[] args) {
         MeepMeep meepMeep = new MeepMeep(600);
         Pose2d startingPoseRegioLeft = new Pose2d(-35.5, -60, Math.toRadians(90));
+        Pose2d startingPoseRegioRight = new Pose2d(10, -57, Math.toRadians(90));
 
         RoadRunnerBotEntity RegioTestLeft = new DefaultBotBuilder(meepMeep)
                 // Set bot constraints: maxVel, maxAccel, maxAngVel, maxAngAccel, track width
-                .setConstraints(60, 60, Math.toRadians(180), Math.toRadians(180), 15)
+                .setConstraints(45, 45, Math.toRadians(180), Math.toRadians(180), 13.47)
                 .followTrajectorySequence(drive -> drive.trajectorySequenceBuilder(startingPoseRegioLeft)
 
                         .setTangent(Math.toRadians(43))
@@ -29,16 +32,57 @@ public class MeepMeepTesting {
                         .splineToSplineHeading(new Pose2d(-58, -40, Math.toRadians(90)), Math.toRadians(110))
                         .waitSeconds(1)
                         .setTangent(Math.toRadians(270))
-                        .splineToSplineHeading(new Pose2d(-56, -52, Math.toRadians(225)), Math.toRadians(180))
-
+                        .splineToSplineHeading(new Pose2d(-56, -52, Math.toRadians(225)), Math.toRadians(270))
+                        .waitSeconds(1)
+                        .setTangent(Math.toRadians(90))
+                        .splineToSplineHeading(new Pose2d(-57, -41, Math.toRadians(125)), Math.toRadians(110))
+                        .waitSeconds(1)
+                        .setTangent(Math.toRadians(270))
+                        .splineToSplineHeading(new Pose2d(-56, -52, Math.toRadians(225)), Math.toRadians(270))
+                        .waitSeconds(1)
 
                         .build());
+
+        RoadRunnerBotEntity RegioTestRight = new DefaultBotBuilder(meepMeep)
+                .setConstraints(45, 45, Math.toRadians(180), Math.toRadians(180), 13.47)
+                .followTrajectorySequence(drive -> drive.trajectorySequenceBuilder(startingPoseRegioRight)
+                        .splineToSplineHeading(new Pose2d(10, -36, Math.toRadians(90)), Math.toRadians(90))
+                        .waitSeconds(1)
+                        .setTangent(Math.toRadians(-10))
+                        .splineToSplineHeading(new Pose2d(30, -38, Math.toRadians(270)), Math.toRadians(30))
+                        .setVelConstraint(new TranslationalVelocityConstraint(30))
+                        .splineToConstantHeading(new Vector2d(36, -15), Math.toRadians(90))
+                        .splineToConstantHeading(new Vector2d(48, -15), Math.toRadians(270))
+                        .resetVelConstraint()
+                        .splineToConstantHeading(new Vector2d(48, -45), Math.toRadians(270))
+                        .setVelConstraint(new TranslationalVelocityConstraint(30))
+                        .splineToConstantHeading(new Vector2d(48, -15), Math.toRadians(90))
+                        .splineToConstantHeading(new Vector2d(59, -15), Math.toRadians(270))
+                        .resetVelConstraint()
+                        .splineToConstantHeading(new Vector2d(59, -45), Math.toRadians(270))
+                        .setVelConstraint(new TranslationalVelocityConstraint(30))
+                        .splineToConstantHeading(new Vector2d(59, -15), Math.toRadians(90))
+                        .splineToConstantHeading(new Vector2d(68, -15), Math.toRadians(270))
+                        .resetVelConstraint()
+                        .splineToConstantHeading(new Vector2d(68, -45), Math.toRadians(270))
+                        .setTangent(Math.toRadians(180))
+                        .splineToConstantHeading(new Vector2d(48, -47), Math.toRadians(180))
+                        .setTangent(Math.toRadians(160))
+                        .splineToSplineHeading(new Pose2d(10, -36, Math.toRadians(90)), Math.toRadians(160))
+                        .setTangent(Math.toRadians(-30))
+                        .splineToSplineHeading(new Pose2d(48, -47, Math.toRadians(270)), Math.toRadians(-30))
+                        .build());
+
+
+
+
 
 
                         meepMeep.setBackground(MeepMeep.Background.FIELD_INTOTHEDEEP_JUICE_DARK)
                 .setDarkMode(true)
                 .setBackgroundAlpha(0.95f)
-                .addEntity(RegioTestLeft)
+//                                .addEntity(RegioTestLeft)
+                                .addEntity(RegioTestRight)
                 .start();
     }
 }
