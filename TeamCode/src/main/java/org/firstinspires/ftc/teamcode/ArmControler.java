@@ -46,6 +46,9 @@ public class ArmControler {
         initializeMotor(axUp, DcMotorSimple.Direction.REVERSE);
         initializeMotor(axDown, DcMotorSimple.Direction.FORWARD);
         initializeMotor(slider, DcMotorSimple.Direction.REVERSE);
+
+        telemetry.addLine("initialized motors");
+        telemetry.update();
     }
     public void setPower(double pow){
         this.pow = pow;

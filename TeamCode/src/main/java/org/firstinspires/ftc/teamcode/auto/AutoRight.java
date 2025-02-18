@@ -4,6 +4,7 @@ package org.firstinspires.ftc.teamcode.auto;
 import com.acmerobotics.roadrunner.geometry.Vector2d;
 import com.acmerobotics.roadrunner.trajectory.constraints.TranslationalVelocityConstraint;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.acmerobotics.roadrunner.geometry.Pose2d;
 import com.qualcomm.robotcore.hardware.DcMotor;
@@ -16,8 +17,7 @@ import org.opencv.core.Point;
 
 
 @Autonomous (name = "Right")
-
-
+@Disabled
 public class AutoRight extends LinearOpMode {
 
 //    DcMotor motorAxL = null;
