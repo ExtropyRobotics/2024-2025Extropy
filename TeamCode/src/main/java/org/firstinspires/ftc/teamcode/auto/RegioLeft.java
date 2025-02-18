@@ -1,15 +1,13 @@
 package org.firstinspires.ftc.teamcode.auto;
 
 
+import com.acmerobotics.roadrunner.geometry.Pose2d;
+import com.acmerobotics.roadrunner.geometry.Vector2d;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
-import com.acmerobotics.roadrunner.geometry.Pose2d;
-import com.qualcomm.robotcore.hardware.DcMotor;
-import com.qualcomm.robotcore.hardware.DcMotorSimple;
-import com.qualcomm.robotcore.hardware.Servo;
 
+import org.firstinspires.ftc.teamcode.ArmControler;
 import org.firstinspires.ftc.teamcode.drive.SampleMecanumDrive;
-
 import org.firstinspires.ftc.teamcode.trajectorysequence.TrajectorySequence;
 
 
@@ -17,81 +15,143 @@ import org.firstinspires.ftc.teamcode.trajectorysequence.TrajectorySequence;
 
 public class RegioLeft extends LinearOpMode {
 
-    DcMotor axUp = null;
-    DcMotor axDown = null;
-    DcMotor slider = null;
+    public int targetAx = 0;
+    public int targetSlider = 0;
+    public double close = 0.5;
+    public double open = 0.4;
+    public double clawPoz = close;
+    public double wristPlace = 0.1;
+    public double maxVel = 25;
 
     Pose2d startingPoseRegioLeft = new Pose2d(-36, -60,Math.toRadians(90));
+
+    public class ArmThreadLeft extends Thread{
+        ArmControler brat;
+        public ArmThreadLeft(ArmControler brat){
+            this.brat = brat;
+
+            brat.setWrist(0);
+            brat.setPower(1);
+            brat.setAxPoz(targetAx);
+            brat.setSliderPoz(targetSlider);
+            brat.setClaw(close);
+            brat.setWrist(wristPlace);
+        }
+        @Override
+        public void run(){
+            while(opModeInInit()){
+                telemetry.addLine("in init");
+                telemetry.update();
+            }
+            while(opModeIsActive()){
+                brat.setAxPoz(targetAx);
+                brat.setSliderPoz(targetSlider);
+                brat.setClaw(clawPoz);
+                brat.setWrist(wristPlace);
+
+                brat.callTelemetry();
+                telemetry.update();
+            }
+        }
+    }
 
     @Override
     public void runOpMode(){
         SampleMecanumDrive drive = new SampleMecanumDrive(hardwareMap);
-
-        axUp = hardwareMap.get(DcMotor.class, "axUp");
-        axDown = hardwareMap.get(DcMotor.class, "axDown");
-        slider = hardwareMap.get(DcMotor.class, "brat");
-
-        axUp.setDirection(DcMotorSimple.Direction.REVERSE);
-
-        axUp.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        axUp.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        axUp.setPower(0.5);
-        axUp.setTargetPosition(0);
-        axUp.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-
-        axDown.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        axDown.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        axDown.setPower(0.5);
-        axDown.setTargetPosition(0);
-        axDown.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        RegioLeft.ArmThreadLeft thread = new RegioLeft.ArmThreadLeft(new ArmControler(hardwareMap,telemetry));
 
         TrajectorySequence RegioLeft = drive.trajectorySequenceBuilder(startingPoseRegioLeft)
 
-                .UNSTABLE_addTemporalMarkerOffset(0, ()->{
-                    setSlide(-670, 0.3);
-                    setRotate(650, 0.3);
+                .UNSTABLE_addTemporalMarkerOffset(1, ()->{
+                    targetAx = 430;
+                    targetSlider = 1400;
+                    wristPlace = 0.4;
                 })
                 .setTangent(Math.toRadians(43))
                 .splineToSplineHeading(new Pose2d(-8, -33, Math.toRadians(90)), Math.toRadians(43))
-
-                .waitSeconds(3)
-                .UNSTABLE_addTemporalMarkerOffset(0, ()->{
-                    setSlide(0, 0.3);
-                    setRotate(0, 0.3);
+                .waitSeconds(2)
+                .UNSTABLE_addTemporalMarkerOffset(-1, ()->{
+                    clawPoz = 0.4;
+                })
+                .splineToConstantHeading(new Vector2d(-8, -40), Math.toRadians(270))
+                .UNSTABLE_addTemporalMarkerOffset(-1, ()->{
+                    targetAx = 390;
+                    targetSlider = 0;
+                })
+                .waitSeconds(0.5)
+                .UNSTABLE_addTemporalMarkerOffset(-0.3, ()->{
+                    targetSlider = 800;
+                })
+                .UNSTABLE_addTemporalMarkerOffset(-0.1, ()->{
+                    targetAx = 150;
+                    wristPlace = 0.61;
                 })
                 .setTangent(Math.toRadians(190))
-                .splineToSplineHeading(new Pose2d(-48, -40, Math.toRadians(90)), Math.toRadians(180))
+                .splineToConstantHeading(new Vector2d(-48, -40), Math.toRadians(180))
+                .UNSTABLE_addTemporalMarkerOffset(2.5, ()->{
+                    clawPoz = 0.5;
+                })
+                .UNSTABLE_addTemporalMarkerOffset(0, ()->{
+                    targetAx = 830;
+                    targetSlider = 2099;
+                    wristPlace = 0.4;
+                })
                 .waitSeconds(1)
                 .setTangent(Math.toRadians(225))
-                .splineToSplineHeading(new Pose2d(-54, -54, Math.toRadians(225)), Math.toRadians(-100))
+                .splineToSplineHeading(new Pose2d(-57, -57, Math.toRadians(225)), Math.toRadians(-100))
+                .UNSTABLE_addTemporalMarkerOffset(0.5, ()->{
+                    wristPlace = 0.61;
+                })
+                .UNSTABLE_addTemporalMarkerOffset(0.1, ()->{
+                    clawPoz = 0.4;
+                })
+                .waitSeconds(1)
+                .UNSTABLE_addTemporalMarkerOffset(0, ()->{
+                    targetSlider = 800;
+                    wristPlace = 0.4;
+                })
+                .UNSTABLE_addTemporalMarkerOffset(3, ()->{
+                    targetAx = 150;
+                })
                 .waitSeconds(1)
                 .setTangent(Math.toRadians(90))
                 .splineToSplineHeading(new Pose2d(-58, -40, Math.toRadians(90)), Math.toRadians(110))
                 .waitSeconds(1)
+                .UNSTABLE_addTemporalMarkerOffset(-0.1, ()->{
+                    wristPlace = 0.61;
+                })
+                .UNSTABLE_addTemporalMarkerOffset(0.1, ()->{
+                    clawPoz = 0.5;
+                })
+                .UNSTABLE_addTemporalMarkerOffset(1, ()->{
+                    targetAx = 830;
+                    targetSlider = 2099;
+                    wristPlace = 0.4;
+                })
+                .waitSeconds(1)
                 .setTangent(Math.toRadians(270))
-                .splineToSplineHeading(new Pose2d(-56, -52, Math.toRadians(225)), Math.toRadians(180))
+                .splineToSplineHeading(new Pose2d(-57, -57, Math.toRadians(225)), Math.toRadians(180))
+                .UNSTABLE_addTemporalMarkerOffset(0.5, ()->{
+                    wristPlace = 0.61;
+                })
+                .UNSTABLE_addTemporalMarkerOffset(0.1, ()->{
+                    clawPoz = 0.4;
+                })
+                .waitSeconds(1)
+                .setTangent(90)
+                .splineToSplineHeading(new Pose2d(-20, -20, Math.toRadians(0)), Math.toRadians(0))
+                .UNSTABLE_addTemporalMarkerOffset(-2, ()->{
+                    targetAx = 550;
+                    targetSlider = 1600;
+                })
+                .waitSeconds(1)
                 .build();
 
         drive.setPoseEstimate(startingPoseRegioLeft);
+        thread.start();
         waitForStart();
         sleep(500);
         drive.followTrajectorySequence(RegioLeft);
 
         }
-
-
-    public void setRotate(int x,double pow){
-        axUp.setTargetPosition(x);
-        axUp.setPower(pow);
-        axUp.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        axDown.setTargetPosition(x);
-        axDown.setPower(pow);
-        axDown.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-    }
-
-    public void setSlide(int x,double pow){
-        slider.setTargetPosition(x);
-        slider.setPower(pow);
-        slider.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-    }
 }
