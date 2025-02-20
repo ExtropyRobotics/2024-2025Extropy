@@ -1,6 +1,8 @@
 package org.firstinspires.ftc.teamcode.auto;
 
 
+import com.acmerobotics.dashboard.FtcDashboard;
+import com.acmerobotics.dashboard.telemetry.MultipleTelemetry;
 import com.acmerobotics.roadrunner.geometry.Pose2d;
 import com.acmerobotics.roadrunner.geometry.Vector2d;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
@@ -20,8 +22,9 @@ public class RegioLeft extends LinearOpMode {
     public double close = 0.5;
     public double open = 0.4;
     public double clawPoz = close;
-    public double wristPlace = 0.1;
+    public double wristPlace = 0;
     public double maxVel = 25;
+    public double power = 0.4;
 
     Pose2d startingPoseRegioLeft = new Pose2d(-36, -60,Math.toRadians(90));
 
@@ -30,8 +33,8 @@ public class RegioLeft extends LinearOpMode {
         public ArmThreadLeft(ArmControler brat){
             this.brat = brat;
 
-            brat.setWrist(0);
-            brat.setPower(1);
+            brat.setPowerSlider(1);
+            brat.setPower(power);
             brat.setAxPoz(targetAx);
             brat.setSliderPoz(targetSlider);
             brat.setClaw(close);
@@ -57,15 +60,17 @@ public class RegioLeft extends LinearOpMode {
 
     @Override
     public void runOpMode(){
+        telemetry = new MultipleTelemetry(FtcDashboard.getInstance().getTelemetry(),telemetry);
+
         SampleMecanumDrive drive = new SampleMecanumDrive(hardwareMap);
-        RegioLeft.ArmThreadLeft thread = new RegioLeft.ArmThreadLeft(new ArmControler(hardwareMap,telemetry));
+        ArmThreadLeft thread = new ArmThreadLeft(new ArmControler(hardwareMap,telemetry));
 
         TrajectorySequence RegioLeft = drive.trajectorySequenceBuilder(startingPoseRegioLeft)
 
-                .UNSTABLE_addTemporalMarkerOffset(1, ()->{
-                    targetAx = 430;
-                    targetSlider = 1400;
-                    wristPlace = 0.4;
+                .UNSTABLE_addTemporalMarkerOffset(0.5, ()->{
+                    targetAx = 440;
+                    targetSlider = 1600;
+                    wristPlace = 0;
                 })
                 .setTangent(Math.toRadians(43))
                 .splineToSplineHeading(new Pose2d(-8, -33, Math.toRadians(90)), Math.toRadians(43))
@@ -81,70 +86,100 @@ public class RegioLeft extends LinearOpMode {
                 .waitSeconds(0.5)
                 .UNSTABLE_addTemporalMarkerOffset(-0.3, ()->{
                     targetSlider = 800;
+                    targetAx = 200;
                 })
-                .UNSTABLE_addTemporalMarkerOffset(-0.1, ()->{
-                    targetAx = 150;
-                    wristPlace = 0.61;
+                .UNSTABLE_addTemporalMarkerOffset(-0.2, ()->{
+                    targetAx = 300;
                 })
                 .setTangent(Math.toRadians(190))
-                .splineToConstantHeading(new Vector2d(-48, -40), Math.toRadians(180))
-                .UNSTABLE_addTemporalMarkerOffset(2.5, ()->{
-                    clawPoz = 0.5;
+                .splineToConstantHeading(new Vector2d(-53, -40), Math.toRadians(180))
+                .UNSTABLE_addTemporalMarkerOffset(-0.3, ()->{
+                    wristPlace = 0.61;
                 })
                 .UNSTABLE_addTemporalMarkerOffset(0, ()->{
-                    targetAx = 830;
-                    targetSlider = 2099;
-                    wristPlace = 0.4;
+                    power = 0.2;
+                    targetAx = 90;
                 })
-                .waitSeconds(1)
-                .setTangent(Math.toRadians(225))
-                .splineToSplineHeading(new Pose2d(-57, -57, Math.toRadians(225)), Math.toRadians(-100))
                 .UNSTABLE_addTemporalMarkerOffset(0.5, ()->{
-                    wristPlace = 0.61;
-                })
-                .UNSTABLE_addTemporalMarkerOffset(0.1, ()->{
-                    clawPoz = 0.4;
-                })
-                .waitSeconds(1)
-                .UNSTABLE_addTemporalMarkerOffset(0, ()->{
-                    targetSlider = 800;
-                    wristPlace = 0.4;
-                })
-                .UNSTABLE_addTemporalMarkerOffset(3, ()->{
-                    targetAx = 150;
-                })
-                .waitSeconds(1)
-                .setTangent(Math.toRadians(90))
-                .splineToSplineHeading(new Pose2d(-58, -40, Math.toRadians(90)), Math.toRadians(110))
-                .waitSeconds(1)
-                .UNSTABLE_addTemporalMarkerOffset(-0.1, ()->{
-                    wristPlace = 0.61;
-                })
-                .UNSTABLE_addTemporalMarkerOffset(0.1, ()->{
+                    power = 0.4;
                     clawPoz = 0.5;
+                    targetSlider = 0;
                 })
                 .UNSTABLE_addTemporalMarkerOffset(1, ()->{
                     targetAx = 830;
-                    targetSlider = 2099;
                     wristPlace = 0.4;
                 })
-                .waitSeconds(1)
-                .setTangent(Math.toRadians(270))
-                .splineToSplineHeading(new Pose2d(-57, -57, Math.toRadians(225)), Math.toRadians(180))
+                .waitSeconds(1.5)
+                .setTangent(Math.toRadians(225))
+                .splineToSplineHeading(new Pose2d(-57, -57, Math.toRadians(225)), Math.toRadians(-100))
+                .UNSTABLE_addTemporalMarkerOffset(-1, ()->{
+                    power = 0.2;
+                    targetSlider = 2099;
+                })
                 .UNSTABLE_addTemporalMarkerOffset(0.5, ()->{
+                    power = 0.4;
+                    wristPlace = 0.8;
+                })
+                .waitSeconds(1)
+                .UNSTABLE_addTemporalMarkerOffset(0, ()->{
+                    targetAx = 810;
+                })
+                .UNSTABLE_addTemporalMarkerOffset(0.8, ()->{
+                    clawPoz = 0.4;
+                })
+                .UNSTABLE_addTemporalMarkerOffset(1.1, ()->{
+                    wristPlace = 0.4;
+                })
+                .UNSTABLE_addTemporalMarkerOffset(1.5, ()->{
+                    targetSlider = 0;
+                })
+                .waitSeconds(1)
+                .setTangent(Math.toRadians(90))
+                .splineToSplineHeading(new Pose2d(-62, -40, Math.toRadians(90)), Math.toRadians(110))
+                .UNSTABLE_addTemporalMarkerOffset(-0.1, ()->{
                     wristPlace = 0.61;
                 })
                 .UNSTABLE_addTemporalMarkerOffset(0.1, ()->{
+                    targetSlider = 800;
+                    targetAx = 200;
+                })
+                .UNSTABLE_addTemporalMarkerOffset(0.2, ()->{
+                    targetAx = 90;
+                })
+                .UNSTABLE_addTemporalMarkerOffset(1, ()->{
+                    power = 0.4;
+                    clawPoz = 0.5;
+                    targetSlider = 0;
+                })
+                .UNSTABLE_addTemporalMarkerOffset(1.5, ()->{
+                    targetAx = 830;
+                    wristPlace = 0.4;
+                })
+                .waitSeconds(1.5)
+                .setTangent(Math.toRadians(-45))
+                .splineToSplineHeading(new Pose2d(-57, -57, Math.toRadians(225)), Math.toRadians(180))
+                .UNSTABLE_addTemporalMarkerOffset(-1, ()->{
+                    power = 0.2;
+                    targetSlider = 2099;
+                })
+                .UNSTABLE_addTemporalMarkerOffset(0.5, ()->{
+                    power = 0.4;
+                    wristPlace = 0.8;
+                })
+                .waitSeconds(1)
+                .UNSTABLE_addTemporalMarkerOffset(0, ()->{
+                    targetAx = 810;
+                })
+                .UNSTABLE_addTemporalMarkerOffset(0.8, ()->{
                     clawPoz = 0.4;
                 })
-                .waitSeconds(1)
-                .setTangent(90)
-                .splineToSplineHeading(new Pose2d(-20, -20, Math.toRadians(0)), Math.toRadians(0))
-                .UNSTABLE_addTemporalMarkerOffset(-2, ()->{
-                    targetAx = 550;
-                    targetSlider = 1600;
+                .UNSTABLE_addTemporalMarkerOffset(1.1, ()->{
+                    wristPlace = 0.4;
                 })
-                .waitSeconds(1)
+                .UNSTABLE_addTemporalMarkerOffset(1.5, ()->{
+                    targetSlider = 0;
+                })
+                .waitSeconds(20000)
                 .build();
 
         drive.setPoseEstimate(startingPoseRegioLeft);

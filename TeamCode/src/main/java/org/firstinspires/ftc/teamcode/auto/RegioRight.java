@@ -27,8 +27,9 @@ public class RegioRight extends LinearOpMode {
         public ArmThreadRight(ArmControler brat){
             this.brat = brat;
 
-            brat.setWrist(0);
-            brat.setPower(1);
+            brat.setWrist(1);
+            brat.setPower(0.3);
+            brat.setPowerSlider(1);
             brat.setAxPoz(targetAx);
             brat.setSliderPoz(targetSlider);
             brat.setClaw(close);
@@ -59,9 +60,9 @@ public class RegioRight extends LinearOpMode {
 
         TrajectorySequence regioRight = drive.trajectorySequenceBuilder(startingPoseRegioRight)
                 .UNSTABLE_addTemporalMarkerOffset(0, ()->{
-                    targetAx = 400;
+                    targetAx = 430;
                     targetSlider = 1400;
-                    wristPlace = 0.4;
+                    wristPlace = 0;
                 })
                 .waitSeconds(0.8)
                 .splineToSplineHeading(new Pose2d(10, -26, Math.toRadians(90)), Math.toRadians(90))

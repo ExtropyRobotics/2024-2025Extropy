@@ -49,6 +49,7 @@ public class RegioTeleOp extends LinearOpMode {
         waitForStart();
 
         brat.setPower(0.3);
+        brat.setPowerSlider(0.3);
 
         while (opModeIsActive()) {
             telemetry.addData("Battery Voltage ",control.getInputVoltage(VoltageUnit.MILLIVOLTS));

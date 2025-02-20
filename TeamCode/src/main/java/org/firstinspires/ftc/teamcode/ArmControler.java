@@ -1,11 +1,8 @@
 package org.firstinspires.ftc.teamcode;
 
-import static org.firstinspires.ftc.robotcore.external.BlocksOpModeCompanion.gamepad2;
-
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
-import com.qualcomm.robotcore.hardware.Gamepad;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
 
@@ -54,6 +51,9 @@ public class ArmControler {
         this.pow = pow;
         axUp.setPower(pow);
         axDown.setPower(pow);
+    }
+    public void setPowerSlider(double pow){
+        this. pow = pow;
         slider.setPower(pow);
     }
     public int setAxPoz (int targetPozAx){
@@ -95,7 +95,7 @@ public class ArmControler {
         wrist.setPosition(pos);
     }
     public void setClaw(double pos){
-        if(getAmps(slider) > 2000) claw.setPosition(openPos);
+        if(getAmps(slider) > 3000) claw.setPosition(openPos);   //2000
         else claw.setPosition(pos);
     }
     public void setWristParalel(double offset, double multiplier){
