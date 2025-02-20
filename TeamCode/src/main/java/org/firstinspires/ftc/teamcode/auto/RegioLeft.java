@@ -22,7 +22,7 @@ public class RegioLeft extends LinearOpMode {
     public double close = 0.5;
     public double open = 0.4;
     public double clawPoz = close;
-    public double wristPlace = 0;
+    public double wristPlace = 0.1;
     public double maxVel = 25;
     public double power = 0.4;
 
