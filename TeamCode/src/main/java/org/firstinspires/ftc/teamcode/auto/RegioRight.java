@@ -20,7 +20,7 @@ public class RegioRight extends LinearOpMode {
     public double open = 0.4;
     public double clawPoz = close;
     public double wristPlace = 0.1;
-    public double maxVel = 25;
+    public double maxVel = 40;
 
     public class ArmThreadRight extends Thread{
         ArmControler brat;
@@ -66,69 +66,68 @@ public class RegioRight extends LinearOpMode {
                 })
                 .waitSeconds(1.5)
                 .splineToSplineHeading(new Pose2d(8, -26, Math.toRadians(90)), Math.toRadians(90))
-                .waitSeconds(1)
+                .waitSeconds(0.6)
                 .UNSTABLE_addTemporalMarkerOffset(-1, ()->{
                     clawPoz = 0.4;
                 })
-                .UNSTABLE_addTemporalMarkerOffset(0, ()->{
+                .UNSTABLE_addTemporalMarkerOffset(-0.5, ()->{
                     targetAx = 320;
                     targetSlider = 0;
                 })
-                .waitSeconds(0.5)
+                .waitSeconds(0.3)
                 .setTangent(Math.toRadians(-40))
                 .splineToSplineHeading(new Pose2d(34, -38, Math.toRadians(270)), Math.toRadians(30))
                 .setVelConstraint(new TranslationalVelocityConstraint(maxVel - 5))
-                .splineToConstantHeading(new Vector2d(38, -13), Math.toRadians(90))
-                .splineToConstantHeading(new Vector2d(48, -13), Math.toRadians(270))
+                .splineToConstantHeading(new Vector2d(38, -10), Math.toRadians(90))
+                .splineToConstantHeading(new Vector2d(53, -10), Math.toRadians(270))
                 .resetVelConstraint()
-                .splineToConstantHeading(new Vector2d(48, -45), Math.toRadians(270))
+                .splineToConstantHeading(new Vector2d(48, -43), Math.toRadians(270))
                 .setVelConstraint(new TranslationalVelocityConstraint(maxVel - 5))
-                .splineToConstantHeading(new Vector2d(48, -13), Math.toRadians(90))
-                .splineToConstantHeading(new Vector2d(59, -13), Math.toRadians(270))
+                .splineToConstantHeading(new Vector2d(48, -10), Math.toRadians(90))
+                .splineToConstantHeading(new Vector2d(64, -10), Math.toRadians(270))
                 .resetVelConstraint()
-                .splineToConstantHeading(new Vector2d(59, -45), Math.toRadians(270))
-                .setVelConstraint(new TranslationalVelocityConstraint(maxVel - 5))
-                .splineToConstantHeading(new Vector2d(59, -13), Math.toRadians(90))
-                .splineToConstantHeading(new Vector2d(68, -13), Math.toRadians(270))
-                .resetVelConstraint()
-                .splineToConstantHeading(new Vector2d(68, -45), Math.toRadians(270))
-                .UNSTABLE_addTemporalMarkerOffset(-1, ()->{
+                .splineToConstantHeading(new Vector2d(59, -43), Math.toRadians(270))
+//                .setVelConstraint(new TranslationalVelocityConstraint(maxVel - 5))
+//                .splineToConstantHeading(new Vector2d(59, -13), Math.toRadians(90))
+//                .splineToConstantHeading(new Vector2d(68, -13), Math.toRadians(270))
+//                .resetVelConstraint()
+//                .splineToConstantHeading(new Vector2d(68, -45), Math.toRadians(270))
+                .UNSTABLE_addTemporalMarkerOffset(-3, ()->{
                     targetAx = 130;
                     targetSlider = 200;
                 })
-                .waitSeconds(0.5)
+                .waitSeconds(0.1)
                 .setTangent(Math.toRadians(180))
                 .splineToConstantHeading(new Vector2d(47, -49), Math.toRadians(180))
-                .waitSeconds(0.5)
-                .UNSTABLE_addTemporalMarkerOffset(0.2, ()->{
+                .waitSeconds(0.2)
+                .UNSTABLE_addTemporalMarkerOffset(-0.2, ()->{
                     wristPlace = 0.2;
                 })
                 .splineToConstantHeading(new Vector2d(47, -51.5), Math.toRadians(270))
-                .UNSTABLE_addTemporalMarkerOffset(0.7, ()->{
+                .UNSTABLE_addTemporalMarkerOffset(0.2, ()->{
                     clawPoz = 0.5;
                 })
-                .UNSTABLE_addTemporalMarkerOffset(3, ()->{
-                    targetAx = 430;
+                .UNSTABLE_addTemporalMarkerOffset(0.4, ()->{
+                    targetAx = 440;
                     targetSlider = 0;
                     wristPlace = 0;
 
                 })
-                .waitSeconds(3)
+                .waitSeconds(1)
                 .setTangent(Math.toRadians(150))
                 .splineToSplineHeading(new Pose2d(12, -49, Math.toRadians(90)), Math.toRadians(180))
-                .waitSeconds(0.5)
-                .UNSTABLE_addTemporalMarkerOffset(0, ()->{
+                .UNSTABLE_addTemporalMarkerOffset(-1.3, ()->{
                     targetSlider = 1400;
                 })
                 .waitSeconds(1)
-                .splineToConstantHeading(new Vector2d(6, -26), Math.toRadians(91))
-                .waitSeconds(2)
+                .splineToConstantHeading(new Vector2d(5, -26), Math.toRadians(91))
+                .waitSeconds(1)
                 .UNSTABLE_addTemporalMarkerOffset(-1, ()->{
                     clawPoz = 0.4;
                 })
                 .waitSeconds(0.3)
                 .splineToConstantHeading(new Vector2d(10, -30), Math.toRadians(270))
-                .UNSTABLE_addTemporalMarkerOffset(-0.5, ()->{
+                .UNSTABLE_addTemporalMarkerOffset(-1, ()->{
                     targetAx = 390;
                     targetSlider = 0;
                 })
@@ -141,7 +140,7 @@ public class RegioRight extends LinearOpMode {
                     wristPlace = 0;
                     clawPoz = 0.5;
                 })
-                .waitSeconds(1)
+                .waitSeconds(0.7)
                 .setTangent(Math.toRadians(-30))
                 .splineToSplineHeading(new Pose2d(48, -47, Math.toRadians(270)), Math.toRadians(-30))
                 .waitSeconds(1)

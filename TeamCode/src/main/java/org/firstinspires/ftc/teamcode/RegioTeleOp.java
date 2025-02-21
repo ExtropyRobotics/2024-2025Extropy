@@ -21,7 +21,7 @@ public class RegioTeleOp extends LinearOpMode {
     int targetSlider;
     double targetWrist = 0.5;
     double targetClaw = 0.5;
-    double parallelOffset = 0.35;
+    double parallelOffset = 0.55;
     double clawPos = 0.4;
 
     int isRotating = 0;
@@ -63,7 +63,7 @@ public class RegioTeleOp extends LinearOpMode {
             // set the wrist to be parallel to ground or parallel to bar
             if(gamepad2.right_bumper){
                 if(parallelToggle) {
-                    if(parallelOnce) parallelOffset = 0.35;
+                    if(parallelOnce) parallelOffset = 0.55;
                     else parallelOffset = 0.15;
 
                     parallelOnce = !parallelOnce;
