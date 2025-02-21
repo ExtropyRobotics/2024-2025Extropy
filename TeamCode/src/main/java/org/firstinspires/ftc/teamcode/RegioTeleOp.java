@@ -27,11 +27,11 @@ public class RegioTeleOp extends LinearOpMode {
     int isRotating = 0;
     int isSliding = 0;
 
-    boolean parallelToggle = false;
-    boolean parallelOnce = false;
+    boolean parallelToggle = true;
+    boolean parallelOnce = true;
 
     boolean clawToggle = false;
-    boolean clawOnce = false;
+    boolean clawOnce = true;
 
     @Override
     public void runOpMode() {
@@ -44,6 +44,7 @@ public class RegioTeleOp extends LinearOpMode {
         while(opModeInInit()){
             telemetry.addData("Voltage : ", control.getInputVoltage(VoltageUnit.MILLIVOLTS));
             telemetry.update();
+            parallelOffset = 0.15;
         }
 
         waitForStart();
