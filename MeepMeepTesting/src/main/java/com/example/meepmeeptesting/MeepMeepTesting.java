@@ -39,6 +39,12 @@ public class MeepMeepTesting {
                         .waitSeconds(1)
                         .setTangent(Math.toRadians(270))
                         .splineToSplineHeading(new Pose2d(-56, -52, Math.toRadians(225)), Math.toRadians(270))
+                        .waitSeconds(25)
+                        .setTangent(Math.toRadians(90))
+                                .splineToSplineHeading(new Pose2d(-66, 5, Math.toRadians(180)), Math.toRadians(90))
+                                .setVelConstraint(new TranslationalVelocityConstraint(15))
+                                .setTangent(Math.toRadians(270))
+                                .splineToConstantHeading(new Vector2d(-66, -56), Math.toRadians(270))
                         .waitSeconds(1)
 
                         .build());
