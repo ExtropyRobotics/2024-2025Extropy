@@ -125,7 +125,7 @@ public class RegioRight extends LinearOpMode {
                 .UNSTABLE_addTemporalMarkerOffset(-1, ()->{
                     clawPoz = 0.4;
                 })
-                .waitSeconds(0.3)
+                .waitSeconds(0.1)
                 .splineToConstantHeading(new Vector2d(10, -30), Math.toRadians(270))
                 .UNSTABLE_addTemporalMarkerOffset(-1, ()->{
                     targetAx = 400;
@@ -140,12 +140,11 @@ public class RegioRight extends LinearOpMode {
                     wristPlace = 0;
                     clawPoz = 0.5;
                 })
-                .waitSeconds(0.7)
+                .waitSeconds(0.5)
                 .setTangent(Math.toRadians(-30))
-                .splineToSplineHeading(new Pose2d(48, -47, Math.toRadians(270)), Math.toRadians(-30))
+                .splineToSplineHeading(new Pose2d(51, -49, Math.toRadians(270)), Math.toRadians(-30))
                 .waitSeconds(1)
                 .build();
-
         drive.setPoseEstimate(startingPoseRegioRight);
         thread.start();
         telemetry.addLine("inside initialization");
