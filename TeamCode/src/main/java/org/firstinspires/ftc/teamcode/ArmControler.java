@@ -95,8 +95,9 @@ public class ArmControler {
         wrist.setPosition(pos);
     }
     public void setClaw(double pos){
-        if(getAmps(slider) > 3000) claw.setPosition(openPos);   //2000
-        else claw.setPosition(pos);
+//        if(getAmps(slider) > 3000) claw.setPosition(openPos);   //2000
+//        else claw.setPosition(pos);
+        claw.setPosition(pos);
     }
     public void setWristParalel(double offset, double multiplier){
         rotateAngle = axUp.getCurrentPosition()/900.0 * 360;

@@ -20,7 +20,7 @@ public class RegioRight extends LinearOpMode {
     public double open = 0.4;
     public double clawPoz = close;
     public double wristPlace = 0.1;
-    public double maxVel = 40;
+    public double maxVel = 25;
 
     public class ArmThreadRight extends Thread{
         ArmControler brat;
@@ -77,23 +77,23 @@ public class RegioRight extends LinearOpMode {
                 .waitSeconds(0.3)
                 .setTangent(Math.toRadians(-40))
                 .splineToSplineHeading(new Pose2d(34, -38, Math.toRadians(270)), Math.toRadians(30))
-                .setVelConstraint(new TranslationalVelocityConstraint(maxVel - 5))
-                .splineToConstantHeading(new Vector2d(38, -10), Math.toRadians(90))
-                .splineToConstantHeading(new Vector2d(53, -10), Math.toRadians(270))
+                .splineToConstantHeading(new Vector2d(38, -15), Math.toRadians(90))
+                .setVelConstraint(new TranslationalVelocityConstraint(maxVel))
+                .splineToConstantHeading(new Vector2d(53, -15), Math.toRadians(270))
                 .resetVelConstraint()
-                .splineToConstantHeading(new Vector2d(48, -43), Math.toRadians(270))
-                .setVelConstraint(new TranslationalVelocityConstraint(maxVel - 5))
-                .splineToConstantHeading(new Vector2d(48, -10), Math.toRadians(90))
-                .splineToConstantHeading(new Vector2d(64, -10), Math.toRadians(270))
+                .splineToConstantHeading(new Vector2d(48, -41.5), Math.toRadians(270))
+                .splineToConstantHeading(new Vector2d(50, -15), Math.toRadians(90))
+                .setVelConstraint(new TranslationalVelocityConstraint(maxVel))
+                .splineToConstantHeading(new Vector2d(66, -15), Math.toRadians(270))
                 .resetVelConstraint()
-                .splineToConstantHeading(new Vector2d(59, -43), Math.toRadians(270))
+                .splineToConstantHeading(new Vector2d(65, -41.5), Math.toRadians(270))
 //                .setVelConstraint(new TranslationalVelocityConstraint(maxVel - 5))
 //                .splineToConstantHeading(new Vector2d(59, -13), Math.toRadians(90))
 //                .splineToConstantHeading(new Vector2d(68, -13), Math.toRadians(270))
 //                .resetVelConstraint()
 //                .splineToConstantHeading(new Vector2d(68, -45), Math.toRadians(270))
                 .UNSTABLE_addTemporalMarkerOffset(-3, ()->{
-                    targetAx = 130;
+                    targetAx = 125;
                     targetSlider = 200;
                 })
                 .waitSeconds(0.1)
@@ -128,7 +128,7 @@ public class RegioRight extends LinearOpMode {
                 .waitSeconds(0.3)
                 .splineToConstantHeading(new Vector2d(10, -30), Math.toRadians(270))
                 .UNSTABLE_addTemporalMarkerOffset(-1, ()->{
-                    targetAx = 390;
+                    targetAx = 400;
                     targetSlider = 0;
                 })
                 .waitSeconds(0.5)
