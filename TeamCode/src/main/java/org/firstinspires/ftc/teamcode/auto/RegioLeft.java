@@ -20,8 +20,8 @@ public class RegioLeft extends LinearOpMode {
 
     public int targetAx = 0;
     public int targetSlider = 0;
-    public double close = 0.5;
-    public double open = 0.4;
+    public double close = 0.4;
+    public double open = 0;
     public double clawPoz = close;
     public double wristPlace = 0.1;
     public double maxVel = 25;
@@ -77,7 +77,7 @@ public class RegioLeft extends LinearOpMode {
                 .splineToSplineHeading(new Pose2d(-8, -33, Math.toRadians(90)), Math.toRadians(43))
                 .waitSeconds(2)
                 .UNSTABLE_addTemporalMarkerOffset(-1, ()->{
-                    clawPoz = 0.4;
+                    clawPoz = 0;
                 })
                 .splineToConstantHeading(new Vector2d(-8, -40), Math.toRadians(270))
                 .UNSTABLE_addTemporalMarkerOffset(-1, ()->{
@@ -100,7 +100,7 @@ public class RegioLeft extends LinearOpMode {
                 })
                 .UNSTABLE_addTemporalMarkerOffset(0.5, ()->{
                     power = 0.4;
-                    clawPoz = 0.5;
+                    clawPoz = 0.4;
                     targetSlider = 0;
                 })
                 .UNSTABLE_addTemporalMarkerOffset(1, ()->{
@@ -121,7 +121,7 @@ public class RegioLeft extends LinearOpMode {
                     targetAx = 800;
                 })
                 .UNSTABLE_addTemporalMarkerOffset(0.8, ()->{
-                    clawPoz = 0.4;
+                    clawPoz = 0;
                 })
                 .UNSTABLE_addTemporalMarkerOffset(1.1, ()->{
                     wristPlace = 0.4;
@@ -143,7 +143,7 @@ public class RegioLeft extends LinearOpMode {
                     targetAx = 90;
                 })
                 .UNSTABLE_addTemporalMarkerOffset(1, ()->{
-                    clawPoz = 0.5;
+                    clawPoz = 0.4;
                     targetSlider = 0;
                 })
                 .UNSTABLE_addTemporalMarkerOffset(1.5, ()->{
@@ -164,7 +164,7 @@ public class RegioLeft extends LinearOpMode {
                     targetAx = 805;
                 })
                 .UNSTABLE_addTemporalMarkerOffset(0.8, ()->{
-                    clawPoz = 0.4;
+                    clawPoz = 0;
                 })
                 .UNSTABLE_addTemporalMarkerOffset(1.1, ()->{
                     wristPlace = 0.4;

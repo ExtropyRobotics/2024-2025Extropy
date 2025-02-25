@@ -30,6 +30,7 @@ public class ArmControler {
     private int maxAmps = 2000;
     private int errorMargin = 10;
     private double openPos = 0.4;
+    private double clawPos = 0;
 
     public ArmControler(HardwareMap hardwareMap, Telemetry telemetry){
         this.telemetry = telemetry;
@@ -95,9 +96,9 @@ public class ArmControler {
         wrist.setPosition(pos);
     }
     public void setClaw(double pos){
-//        if(getAmps(slider) > 3000) claw.setPosition(openPos);   //2000
-//        else claw.setPosition(pos);
         claw.setPosition(pos);
+        clawPos = pos;
+
     }
     public void setWristParalel(double offset, double multiplier){
         rotateAngle = axUp.getCurrentPosition()/900.0 * 360;
@@ -117,6 +118,7 @@ public class ArmControler {
         telemetry.addData("09. Load in amps up ", ((DcMotorEx)axUp).getCurrent(CurrentUnit.MILLIAMPS));
         telemetry.addData("10. Load in amps down ", ((DcMotorEx)axDown).getCurrent(CurrentUnit.MILLIAMPS));
         telemetry.addData("11. Load in amps slider ", ((DcMotorEx)slider).getCurrent(CurrentUnit.MILLIAMPS));
+        telemetry.addData("12. ClawPos ", clawPos);
     }
     private double getAmps(DcMotor motor){
         return ((DcMotorEx)motor).getCurrent(CurrentUnit.MILLIAMPS);
