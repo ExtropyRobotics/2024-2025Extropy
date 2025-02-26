@@ -40,11 +40,6 @@ public class MeepMeepTesting {
                         .setTangent(Math.toRadians(270))
                         .splineToSplineHeading(new Pose2d(-56, -52, Math.toRadians(225)), Math.toRadians(270))
                         .waitSeconds(25)
-                        .setTangent(Math.toRadians(90))
-                                .splineToSplineHeading(new Pose2d(-66, 5, Math.toRadians(180)), Math.toRadians(90))
-                                .setVelConstraint(new TranslationalVelocityConstraint(15))
-                                .setTangent(Math.toRadians(270))
-                                .splineToConstantHeading(new Vector2d(-66, -56), Math.toRadians(270))
                         .waitSeconds(1)
 
                         .build());
@@ -77,16 +72,18 @@ public class MeepMeepTesting {
                         .setTangent(Math.toRadians(160))
                         .splineToSplineHeading(new Pose2d(10, -26, Math.toRadians(90)), Math.toRadians(160))
                         .waitSeconds(2)
-                        .waitSeconds(0.5)
                         .setTangent(Math.toRadians(-30))
-                        .splineToSplineHeading(new Pose2d(48, -47, Math.toRadians(270)), Math.toRadians(-30))
+                        .splineToConstantHeading(new Vector2d(3, -35), Math.toRadians(270))
+                        .waitSeconds(25)
+                        .setTangent(Math.toRadians(0))
+                        .splineToConstantHeading(new Vector2d(55, -50), Math.toRadians(0))
                         .build());
 
                         meepMeep.setBackground(MeepMeep.Background.FIELD_INTOTHEDEEP_JUICE_DARK)
                 .setDarkMode(true)
                 .setBackgroundAlpha(0.95f)
-                                .addEntity(RegioTestLeft)
-//                                .addEntity(RegioTestRight)
+//                                .addEntity(RegioTestLeft)
+                                .addEntity(RegioTestRight)
                 .start();
     }
 }
