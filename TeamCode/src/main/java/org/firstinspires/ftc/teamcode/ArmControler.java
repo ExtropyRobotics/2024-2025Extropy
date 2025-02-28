@@ -132,5 +132,9 @@ public class ArmControler {
         motor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         ((DcMotorEx)axUp).setCurrentAlert(maxAmps, CurrentUnit.MILLIAMPS);
     }
-
+    public void reset(){
+        axDown.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        axUp.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        slider.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+    }
 }

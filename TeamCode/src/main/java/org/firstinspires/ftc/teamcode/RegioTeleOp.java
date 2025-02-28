@@ -108,6 +108,13 @@ public class RegioTeleOp extends LinearOpMode {
             if(gamepad2.dpad_left && targetSlider < 2100) targetSlider += 5;
             if(gamepad2.dpad_right && targetSlider > 0) targetSlider -= 5;
 
+            //in caz de dezastru
+            if(gamepad2.x) brat.reset();
+            if(gamepad2.left_bumper) targetAx += 5;
+            if(gamepad2.left_trigger > 0.1) targetAx -= 5;
+            if(gamepad2.right_trigger > 0.1) targetSlider -= 5;
+
+
             isRotating = brat.setAxPoz(targetAx);
             isSliding = brat.setSliderPoz(targetSlider);
 
