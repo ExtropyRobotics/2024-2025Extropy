@@ -20,7 +20,7 @@ public class RegioRight extends LinearOpMode {
     public double open = 0;
     public double clawPoz = close;
     public double wristPlace = 0.1;
-    public double maxVel = 25;
+    public double maxVel = 20;
 
     public class ArmThreadRight extends Thread{
         ArmControler brat;

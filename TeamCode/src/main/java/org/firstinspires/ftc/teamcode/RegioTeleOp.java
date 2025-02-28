@@ -76,7 +76,7 @@ public class RegioTeleOp extends LinearOpMode {
             if(gamepad2.a){
                 if(!clawToggle){
                     if(clawOnce)  clawPos = 0;
-                    else clawPos = 0.4;
+                    else clawPos = 0.17;
 
 
                     clawOnce = !clawOnce;

@@ -29,7 +29,7 @@ public class ArmControler {
 
     private int maxAmps = 2000;
     private int errorMargin = 10;
-    private double openPos = 0.4;
+    //private double openPos = 0.4;
     private double clawPos = 0;
 
     public ArmControler(HardwareMap hardwareMap, Telemetry telemetry){
