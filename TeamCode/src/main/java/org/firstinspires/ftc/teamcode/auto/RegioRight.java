@@ -60,7 +60,7 @@ public class RegioRight extends LinearOpMode {
 
         TrajectorySequence regioRight = drive.trajectorySequenceBuilder(startingPoseRegioRight)
                 .UNSTABLE_addTemporalMarkerOffset(0, ()->{
-                    targetAx = 440;
+                    targetAx = 443;
                     targetSlider = 1300;
                     wristPlace = 0;
                 })
@@ -75,13 +75,15 @@ public class RegioRight extends LinearOpMode {
                 })
                 .waitSeconds(0.3)
                 .setTangent(Math.toRadians(-40))
-                .splineToSplineHeading(new Pose2d(34, -38, Math.toRadians(270)), Math.toRadians(30))
-                .splineToConstantHeading(new Vector2d(38, -15), Math.toRadians(90))
+                .splineToSplineHeading(new Pose2d(34, -38, Math.toRadians(270)), Math.toRadians(60))
+                .splineToSplineHeading(new Pose2d(33, -26, Math.toRadians(270)), Math.toRadians(0))
+                .splineToSplineHeading(new Pose2d(38, -15, Math.toRadians(270)), Math.toRadians(270))
                 .setVelConstraint(new TranslationalVelocityConstraint(maxVel))
                 .splineToSplineHeading(new Pose2d(51, -15, Math.toRadians(270)), Math.toRadians(270))
                 .resetVelConstraint()
-                .splineToSplineHeading(new Pose2d(44, -40.5, Math.toRadians(270)), Math.toRadians(270))
-                .splineToSplineHeading(new Pose2d(42, -12, Math.toRadians(270)), Math.toRadians(110))
+                .splineToSplineHeading(new Pose2d(44, -40.5, Math.toRadians(270)), Math.toRadians(90))
+                .splineToSplineHeading(new Pose2d(38, -26, Math.toRadians(270)), Math.toRadians(0))
+                .splineToSplineHeading(new Pose2d(42, -12, Math.toRadians(270)), Math.toRadians(270))
                 .setVelConstraint(new TranslationalVelocityConstraint(maxVel))
                 .splineToSplineHeading(new Pose2d(64, -12, Math.toRadians(270)), Math.toRadians(270))
                 .resetVelConstraint()
