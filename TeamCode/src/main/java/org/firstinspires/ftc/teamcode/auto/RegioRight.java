@@ -75,7 +75,7 @@ public class RegioRight extends LinearOpMode {
                 })
                 .waitSeconds(0.3)
                 .setTangent(Math.toRadians(-40))
-                .splineToSplineHeading(new Pose2d(34, -38, Math.toRadians(270)), Math.toRadians(60))
+                .splineToSplineHeading(new Pose2d(34, -38, Math.toRadians(270)), Math.toRadians(30))
                 .splineToSplineHeading(new Pose2d(33, -26, Math.toRadians(270)), Math.toRadians(0))
                 .splineToSplineHeading(new Pose2d(38, -15, Math.toRadians(270)), Math.toRadians(270))
                 .setVelConstraint(new TranslationalVelocityConstraint(maxVel))
