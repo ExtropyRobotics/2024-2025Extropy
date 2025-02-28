@@ -109,7 +109,7 @@ public class RegioLeft extends LinearOpMode {
                 })
                 .waitSeconds(1.5)
                 .setTangent(Math.toRadians(225))
-                .splineToSplineHeading(new Pose2d(-61, -58, Math.toRadians(225)), Math.toRadians(-100))
+                .splineToSplineHeading(new Pose2d(-60, -57, Math.toRadians(225)), Math.toRadians(-100))
                 .UNSTABLE_addTemporalMarkerOffset(-1, ()->{
                     targetSlider = 2099;
                 })
@@ -136,7 +136,7 @@ public class RegioLeft extends LinearOpMode {
                     wristPlace = 0.61;
                 })
                 .UNSTABLE_addTemporalMarkerOffset(0.1, ()->{
-                    targetSlider = 800;
+                    targetSlider = 850;
                     targetAx = 170;
                 })
                 .UNSTABLE_addTemporalMarkerOffset(0.3, ()->{
@@ -152,7 +152,7 @@ public class RegioLeft extends LinearOpMode {
                 })
                 .waitSeconds(1.5)
                 .setTangent(Math.toRadians(-45))
-                .splineToSplineHeading(new Pose2d(-61, -58, Math.toRadians(225)), Math.toRadians(180))
+                .splineToSplineHeading(new Pose2d(-60, -57, Math.toRadians(225)), Math.toRadians(180))
                 .UNSTABLE_addTemporalMarkerOffset(-0.8, ()->{
                     targetSlider = 2099;
                 })
@@ -176,9 +176,9 @@ public class RegioLeft extends LinearOpMode {
                 .waitSeconds(3)
                 .setTangent(Math.toRadians(90))
                 .setVelConstraint(new TranslationalVelocityConstraint(40))
-                .splineToSplineHeading(new Pose2d(-64, 5, Math.toRadians(0)), Math.toRadians(90))
+                .splineToSplineHeading(new Pose2d(-63, 5, Math.toRadians(0)), Math.toRadians(90))
                 .setTangent(Math.toRadians(270))
-                .splineToSplineHeading(new Pose2d(-64, -52, Math.toRadians(80)), Math.toRadians(270))
+                .splineToSplineHeading(new Pose2d(-63, -52, Math.toRadians(80)), Math.toRadians(270))
                 .UNSTABLE_addTemporalMarkerOffset(-1.2, ()->{
                     targetAx = 0;
                 })
