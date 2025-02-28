@@ -79,19 +79,15 @@ public class RegioRight extends LinearOpMode {
                 .splineToSplineHeading(new Pose2d(34, -38, Math.toRadians(270)), Math.toRadians(30))
                 .splineToConstantHeading(new Vector2d(38, -15), Math.toRadians(90))
                 .setVelConstraint(new TranslationalVelocityConstraint(maxVel))
-                .splineToConstantHeading(new Vector2d(53, -15), Math.toRadians(270))
+                .splineToConstantHeading(new Vector2d(55, -15), Math.toRadians(270))
                 .resetVelConstraint()
-                .splineToConstantHeading(new Vector2d(48, -40.5), Math.toRadians(270))
-                .splineToConstantHeading(new Vector2d(50, -15), Math.toRadians(90))
+                .waitSeconds(0.01)
+                .splineToConstantHeading(new Vector2d(46, -40.5), Math.toRadians(270))
+                .splineToConstantHeading(new Vector2d(52, -15), Math.toRadians(90))
                 .setVelConstraint(new TranslationalVelocityConstraint(maxVel))
                 .splineToConstantHeading(new Vector2d(66, -15), Math.toRadians(270))
                 .resetVelConstraint()
-                .splineToConstantHeading(new Vector2d(47, -51.5), Math.toRadians(270))
-//                .setVelConstraint(new TranslationalVelocityConstraint(maxVel - 5))
-//                .splineToConstantHeading(new Vector2d(59, -13), Math.toRadians(90))
-//                .splineToConstantHeading(new Vector2d(68, -13), Math.toRadians(270))
-//                .resetVelConstraint()
-//                .splineToConstantHeading(new Vector2d(68, -45), Math.toRadians(270))
+                .splineToConstantHeading(new Vector2d(47, -51), Math.toRadians(270))
                 .UNSTABLE_addTemporalMarkerOffset(-3, ()->{
                     targetAx = 125;
                     targetSlider = 200;
@@ -131,7 +127,7 @@ public class RegioRight extends LinearOpMode {
                 })
                 .waitSeconds(0.2)
                 .setTangent(Math.toRadians(-30))
-                .splineToSplineHeading(new Pose2d(47, -52.1, Math.toRadians(270)), Math.toRadians(-30))
+                .splineToSplineHeading(new Pose2d(47, -52.3, Math.toRadians(270)), Math.toRadians(-30))
                 .UNSTABLE_addTemporalMarkerOffset(0.1, ()->{
                     clawPoz = 0.4;
                 })

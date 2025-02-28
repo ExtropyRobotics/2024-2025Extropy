@@ -69,7 +69,7 @@ public class RegioLeft extends LinearOpMode {
         TrajectorySequence RegioLeft = drive.trajectorySequenceBuilder(startingPoseRegioLeft)
 
                 .UNSTABLE_addTemporalMarkerOffset(0.5, ()->{
-                    targetAx = 440;
+                    targetAx = 445;
                     targetSlider = 1600;
                     wristPlace = 0;
                 })
@@ -90,7 +90,7 @@ public class RegioLeft extends LinearOpMode {
                     targetAx = 200;
                 })
                 .setTangent(Math.toRadians(190))
-                .splineToConstantHeading(new Vector2d(-53, -40), Math.toRadians(180))
+                .splineToConstantHeading(new Vector2d(-52, -40), Math.toRadians(180))
                 .UNSTABLE_addTemporalMarkerOffset(-0.3, ()->{
                     wristPlace = 0.61;
                 })
@@ -131,7 +131,7 @@ public class RegioLeft extends LinearOpMode {
                 })
                 .waitSeconds(1)
                 .setTangent(Math.toRadians(90))
-                .splineToSplineHeading(new Pose2d(-62, -40, Math.toRadians(90)), Math.toRadians(110))
+                .splineToSplineHeading(new Pose2d(-63, -40, Math.toRadians(90)), Math.toRadians(110))
                 .UNSTABLE_addTemporalMarkerOffset(-0.1, ()->{
                     wristPlace = 0.61;
                 })
@@ -153,7 +153,7 @@ public class RegioLeft extends LinearOpMode {
                 .waitSeconds(1.5)
                 .setTangent(Math.toRadians(-45))
                 .splineToSplineHeading(new Pose2d(-61, -58, Math.toRadians(225)), Math.toRadians(180))
-                .UNSTABLE_addTemporalMarkerOffset(-1, ()->{
+                .UNSTABLE_addTemporalMarkerOffset(-0.8, ()->{
                     targetSlider = 2099;
                 })
                 .UNSTABLE_addTemporalMarkerOffset(0.5, ()->{
