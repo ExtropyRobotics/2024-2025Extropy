@@ -21,7 +21,7 @@ public class RegioTeleOp extends LinearOpMode {
     int targetSlider;
 //    double targetWrist = 0.5;
 //    double targetClaw = 0.5;
-    double parallelOffset = 0.11;
+    double parallelOffset = 0.1;
     double clawPos = 0.06;
 
     int isRotating = 0;
@@ -44,7 +44,7 @@ public class RegioTeleOp extends LinearOpMode {
         while(opModeInInit()){
             telemetry.addData("Voltage : ", control.getInputVoltage(VoltageUnit.MILLIVOLTS));
             telemetry.update();
-            parallelOffset = 0.03;
+            parallelOffset = 0.04;
         }
 
         waitForStart();
@@ -64,8 +64,8 @@ public class RegioTeleOp extends LinearOpMode {
             // set the wrist to be parallel to ground or parallel to bar
             if(gamepad2.right_bumper){
                 if(parallelToggle) {
-                    if(parallelOnce) parallelOffset = 0.11;
-                    else parallelOffset = 0.03;
+                    if(parallelOnce) parallelOffset = 0.1;
+                    else parallelOffset = 0.04;
 
                     parallelOnce = !parallelOnce;
                     parallelToggle = false;
@@ -110,7 +110,7 @@ public class RegioTeleOp extends LinearOpMode {
 
 //            telemetry.addData("-01. targetClaw", targetClaw);
 //            telemetry.addData("00. targetWrist", targetWrist);
-              telemetry.addData("00. ClawPos: ", clawPos);
+//              telemetry.addData("00. ClawPos: ", clawPos);
 
             brat.callTelemetry();
             telemetry.update();
