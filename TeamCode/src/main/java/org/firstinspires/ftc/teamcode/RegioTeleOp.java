@@ -12,15 +12,18 @@ import org.firstinspires.ftc.teamcode.drive.SampleMecanumDrive;
 
 @TeleOp(name = "!!! REGIONALA TELEOP")
 public class RegioTeleOp extends LinearOpMode {
-
+                    // De la adriana
     SampleMecanumDrive drive;
     ArmControler brat;
     LynxModule control;
 
     int targetAx;
     int targetSlider;
-    double parallelOffset = 0.55;
-    double clawPos = 0;
+//    double targetWrist = 0.5;
+//    double targetClaw = 0.5;
+    double parallelOffset = 0.11;
+    double clawPos = 0.06;
+
     int isRotating = 0;
     int isSliding = 0;
 
@@ -29,11 +32,10 @@ public class RegioTeleOp extends LinearOpMode {
 
     boolean clawToggle = false;
     boolean clawOnce = true;
-    boolean yPressed = false;
 
     @Override
     public void runOpMode() {
-        telemetry = new MultipleTelemetry(FtcDashboard.getInstance().getTelemetry(), telemetry);
+        telemetry = new MultipleTelemetry(FtcDashboard.getInstance().getTelemetry(),telemetry);
         drive = new SampleMecanumDrive(hardwareMap);
         brat = new ArmControler(hardwareMap, telemetry);
 
@@ -42,7 +44,7 @@ public class RegioTeleOp extends LinearOpMode {
         while(opModeInInit()){
             telemetry.addData("Voltage : ", control.getInputVoltage(VoltageUnit.MILLIVOLTS));
             telemetry.update();
-            parallelOffset = 0.15;
+            parallelOffset = 0.03;
         }
 
         waitForStart();
@@ -59,11 +61,11 @@ public class RegioTeleOp extends LinearOpMode {
                     -gamepad1.right_stick_x
             ));
 
-            // sets the wrist to be parallel to ground or parallel to bar
+            // set the wrist to be parallel to ground or parallel to bar
             if(gamepad2.right_bumper){
                 if(parallelToggle) {
-                    if(parallelOnce) parallelOffset = 0.55;
-                    else parallelOffset = 0.15;
+                    if(parallelOnce) parallelOffset = 0.11;
+                    else parallelOffset = 0.03;
 
                     parallelOnce = !parallelOnce;
                     parallelToggle = false;
@@ -75,9 +77,8 @@ public class RegioTeleOp extends LinearOpMode {
             // toggle the claw from closed to open
             if(gamepad2.a){
                 if(!clawToggle){
-                    if(clawOnce)  clawPos = 0;
-                    else clawPos = 0.17;
-
+                    if(clawOnce) clawPos = 0;
+                    else clawPos = 0.06;
 
                     clawOnce = !clawOnce;
                     clawToggle = true;
@@ -86,17 +87,13 @@ public class RegioTeleOp extends LinearOpMode {
 
             brat.setClaw(clawPos);
 
-
-            if(gamepad2.y){
-                if(!yPressed){
-                    parallelToggle = false;
-                    targetAx = 440;
-                    targetSlider = 500;
-                    brat.setWrist(0);
-                    yPressed = true;
-                }
-            } else yPressed = false;
-
+//            if(gamepad2.dpad_up) targetWrist += 0.01;
+//            if(gamepad2.dpad_down) targetWrist -= 0.01;
+//            brat.setWrist(targetWrist);
+//
+//            if(gamepad2.dpad_right) targetClaw += 0.01;
+//            if(gamepad2.dpad_left) targetClaw -= 0.01;
+//            brat.setClaw(targetClaw);
 
             if(gamepad2.left_stick_y < 0 && targetAx < 900) targetAx += 20;
             if(gamepad2.left_stick_y > 0 && targetAx > 0) targetAx -= 20;
@@ -108,15 +105,12 @@ public class RegioTeleOp extends LinearOpMode {
             if(gamepad2.dpad_left && targetSlider < 2100) targetSlider += 5;
             if(gamepad2.dpad_right && targetSlider > 0) targetSlider -= 5;
 
-            //in caz de dezastru
-            if(gamepad2.x) brat.reset();
-            if(gamepad2.left_bumper) targetAx += 5;
-            if(gamepad2.left_trigger > 0.1) targetAx -= 5;
-            if(gamepad2.right_trigger > 0.1) targetSlider -= 5;
-
-
             isRotating = brat.setAxPoz(targetAx);
             isSliding = brat.setSliderPoz(targetSlider);
+
+//            telemetry.addData("-01. targetClaw", targetClaw);
+//            telemetry.addData("00. targetWrist", targetWrist);
+              telemetry.addData("00. ClawPos: ", clawPos);
 
             brat.callTelemetry();
             telemetry.update();
