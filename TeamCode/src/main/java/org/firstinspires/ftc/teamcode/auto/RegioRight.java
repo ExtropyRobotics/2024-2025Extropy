@@ -68,7 +68,7 @@ public class RegioRight extends LinearOpMode {
                 .splineToSplineHeading(new Pose2d(8, -26, Math.toRadians(90)), Math.toRadians(90))
                 .waitSeconds(0.6)
                 .UNSTABLE_addTemporalMarkerOffset(-1, ()->{
-                    clawPoz = 0.4;
+                    clawPoz = 0;
                 })
                 .UNSTABLE_addTemporalMarkerOffset(-0.5, ()->{
                     targetAx = 320;
@@ -101,11 +101,11 @@ public class RegioRight extends LinearOpMode {
                 .splineToConstantHeading(new Vector2d(47, -49), Math.toRadians(180))
                 .waitSeconds(0.2)
                 .UNSTABLE_addTemporalMarkerOffset(-0.2, ()->{
-                    wristPlace = 0.2;
+                    wristPlace = 0.04;
                 })
                 .splineToConstantHeading(new Vector2d(47, -51.5), Math.toRadians(270))
                 .UNSTABLE_addTemporalMarkerOffset(0.2, ()->{
-                    clawPoz = 0.5;
+                    clawPoz = 0.3;
                 })
                 .UNSTABLE_addTemporalMarkerOffset(0.4, ()->{
                     targetAx = 440;
@@ -123,7 +123,7 @@ public class RegioRight extends LinearOpMode {
                 .splineToConstantHeading(new Vector2d(5, -26), Math.toRadians(91))
                 .waitSeconds(1)
                 .UNSTABLE_addTemporalMarkerOffset(-1, ()->{
-                    clawPoz = 0.4;
+                    clawPoz = 0;
                 })
                 .waitSeconds(0.1)
                 .splineToConstantHeading(new Vector2d(10, -30), Math.toRadians(270))
@@ -138,7 +138,7 @@ public class RegioRight extends LinearOpMode {
                 .UNSTABLE_addTemporalMarkerOffset(-0.1, ()->{
                     targetAx = 0;
                     wristPlace = 0;
-                    clawPoz = 0.5;
+                    clawPoz = 0.3;
                 })
                 .waitSeconds(0.5)
                 .setTangent(Math.toRadians(-30))

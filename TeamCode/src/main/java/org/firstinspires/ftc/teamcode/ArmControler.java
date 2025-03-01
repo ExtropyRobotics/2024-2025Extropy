@@ -89,6 +89,7 @@ public class ArmControler {
         slider.setTargetPosition(sliderPoz);
 
         slider.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+
         return sliderDirection;
     }
     public void setWrist(double pos){
@@ -101,7 +102,7 @@ public class ArmControler {
     }
     public void setWristParalel(double offset, double multiplier){
         rotateAngle = axUp.getCurrentPosition()/900.0 * 360;
-        double pos = -rotateAngle / 500 * (0-0.61) * multiplier + offset;
+        double pos = -rotateAngle / 500 * (0-0.12) * multiplier + offset;
         setWrist(pos);
     }
     public void callTelemetry (){

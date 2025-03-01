@@ -85,8 +85,8 @@ public class MeepMeepTesting {
                         meepMeep.setBackground(MeepMeep.Background.FIELD_INTOTHEDEEP_JUICE_DARK)
                 .setDarkMode(true)
                 .setBackgroundAlpha(0.95f)
-                                .addEntity(RegioTestLeft)
-//                                .addEntity(RegioTestRight)
+//                                .addEntity(RegioTestLeft)
+                                .addEntity(RegioTestRight)
                 .start();
     }
 }
