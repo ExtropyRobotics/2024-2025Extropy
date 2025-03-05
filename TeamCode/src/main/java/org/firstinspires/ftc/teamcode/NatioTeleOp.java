@@ -93,7 +93,7 @@ public class NatioTeleOp extends LinearOpMode {
                 parallelOnce = true;
                 parallelOffset = 0.497;
                 multiplier = 0;
-                targetAx = 447;
+                targetAx = 450;
                 clawOnce = true;
                 clawToggle = false;
             }
@@ -119,10 +119,10 @@ public class NatioTeleOp extends LinearOpMode {
             if(gamepad2.right_stick_y < 0 && targetSlider < 2100) targetSlider += 40;
             if(gamepad2.right_stick_y > 0 && targetSlider > 0) targetSlider -= 40;
 
-//            if(gamepad2.dpad_up && targetAx < 900) targetAx += 5;
-//            if(gamepad2.dpad_down && targetAx > 0) targetAx -= 5;
-//            if(gamepad2.dpad_left && targetSlider < 2100) targetSlider += 5;
-//            if(gamepad2.dpad_right && targetSlider > 0) targetSlider -= 5;
+            if(gamepad2.dpad_up && targetAx < 900) targetAx += 5;
+            if(gamepad2.dpad_down && targetAx > 0) targetAx -= 5;
+            if(gamepad2.dpad_left && targetSlider < 2100) targetSlider += 5;
+            if(gamepad2.dpad_right && targetSlider > 0) targetSlider -= 5;
 
 
             isRotating = brat.setAxPoz(targetAx);
