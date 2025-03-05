@@ -64,10 +64,10 @@ public class RegioLeft extends LinearOpMode {
         SampleMecanumDrive drive = new SampleMecanumDrive(hardwareMap);
         ArmThreadLeft thread = new ArmThreadLeft(new ArmControler(hardwareMap,telemetry));
 
-        TrajectorySequence RegioLeft = drive.trajectorySequenceBuilder(startingPoseRegioLeft)
+        TrajectorySequence RegioLeft= drive.trajectorySequenceBuilder(startingPoseRegioLeft)
 
                 .UNSTABLE_addTemporalMarkerOffset(0.5, ()->{
-                    targetAx = 447;
+                    targetAx = 445;
                     targetSlider = 1600;
                     wristPlace = 0;
                 })
@@ -123,6 +123,7 @@ public class RegioLeft extends LinearOpMode {
                 })
                 .UNSTABLE_addTemporalMarkerOffset(1.1, ()->{
                     wristPlace = 0.08;
+                    targetAx = 850;
                 })
                 .UNSTABLE_addTemporalMarkerOffset(1.5, ()->{
                     targetSlider = 0;
