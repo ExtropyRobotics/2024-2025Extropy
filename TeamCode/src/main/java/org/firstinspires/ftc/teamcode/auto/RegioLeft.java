@@ -8,6 +8,7 @@ import com.acmerobotics.roadrunner.geometry.Vector2d;
 import com.acmerobotics.roadrunner.trajectory.constraints.TranslationalVelocityConstraint;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+import com.qualcomm.robotcore.hardware.DcMotor;
 
 import org.firstinspires.ftc.teamcode.ArmControler;
 import org.firstinspires.ftc.teamcode.drive.SampleMecanumDrive;
@@ -20,8 +21,13 @@ public class RegioLeft extends LinearOpMode {
 
     public int targetAx = 0;
     public int targetSlider = 0;
-    public double clawPoz = 0.06;
-    public double wristPlace = 0;
+    public double clawClose = 0.15;
+    public double clawOpen = 0;
+    public double clawPoz = clawClose;
+    public double wristBack = 0.497;
+    public double wristParallel = 0.6;
+    public double wristWall = 0.5178;
+    public double wristPoz = wristBack;
     public double maxVel = 25;
     public double power = 0.4;
 
@@ -37,7 +43,7 @@ public class RegioLeft extends LinearOpMode {
             brat.setAxPoz(targetAx);
             brat.setSliderPoz(targetSlider);
             brat.setClaw(clawPoz);
-            brat.setWrist(wristPlace);
+            brat.setWrist(wristPoz);
         }
         @Override
         public void run(){
@@ -49,7 +55,7 @@ public class RegioLeft extends LinearOpMode {
                 brat.setAxPoz(targetAx);
                 brat.setSliderPoz(targetSlider);
                 brat.setClaw(clawPoz);
-                brat.setWrist(wristPlace);
+                brat.setWrist(wristPoz);
 
                 brat.callTelemetry();
                 telemetry.update();
@@ -66,123 +72,39 @@ public class RegioLeft extends LinearOpMode {
 
         TrajectorySequence RegioLeft= drive.trajectorySequenceBuilder(startingPoseRegioLeft)
 
-                .UNSTABLE_addTemporalMarkerOffset(0.5, ()->{
-                    targetAx = 445;
-                    targetSlider = 1600;
-                    wristPlace = 0;
-                })
-                .setTangent(Math.toRadians(43))
-                .splineToSplineHeading(new Pose2d(-8, -33, Math.toRadians(90)), Math.toRadians(43))
-                .waitSeconds(2)
-                .UNSTABLE_addTemporalMarkerOffset(-1, ()->{
-                    clawPoz = 0;
-                })
-                .splineToConstantHeading(new Vector2d(-8, -40), Math.toRadians(270))
-                .UNSTABLE_addTemporalMarkerOffset(-1, ()->{
-                    targetAx = 390;
-                    targetSlider = 0;
-                })
-                .waitSeconds(0.5)
-                .UNSTABLE_addTemporalMarkerOffset(-0.3, ()->{
-                    targetSlider = 800;
-                    targetAx = 200;
-                })
-                .setTangent(Math.toRadians(190))
-                .splineToConstantHeading(new Vector2d(-53, -39), Math.toRadians(180))
-                .UNSTABLE_addTemporalMarkerOffset(-0.3, ()->{
-                    wristPlace = 0.125;
-                })
                 .UNSTABLE_addTemporalMarkerOffset(0, ()->{
-                    power = 0.2;
-                    targetAx = 90;
+                    targetAx = 438;
+                    targetSlider = 1400;
+                    wristPoz = wristBack;
                 })
-                .UNSTABLE_addTemporalMarkerOffset(0.5, ()->{
-                    power = 0.4;
-                    clawPoz = 0.06;
-                    targetSlider = 0;
-                })
-                .UNSTABLE_addTemporalMarkerOffset(1, ()->{
-                    targetAx = 820;
-                    wristPlace = 0.08;
-                })
-                .waitSeconds(1.5)
-                .setTangent(Math.toRadians(225))
-                .splineToSplineHeading(new Pose2d(-61, -58, Math.toRadians(225)), Math.toRadians(-100))
-                .UNSTABLE_addTemporalMarkerOffset(-1, ()->{
-                    targetSlider = 2099;
-                })
-                .UNSTABLE_addTemporalMarkerOffset(0.5, ()->{
-                    wristPlace = 0.16;
-                })
-                .waitSeconds(1)
+                .waitSeconds(0.3)
+                .splineToConstantHeading(new Vector2d(-10, -33), Math.toRadians(90))
+                .waitSeconds(0.05)
                 .UNSTABLE_addTemporalMarkerOffset(0, ()->{
-                    targetAx = 800;
+                    clawPoz = clawOpen;
                 })
-                .UNSTABLE_addTemporalMarkerOffset(0.8, ()->{
-                    clawPoz = 0;
-                })
-                .UNSTABLE_addTemporalMarkerOffset(1.1, ()->{
-                    wristPlace = 0.08;
-                    targetAx = 850;
-                })
-                .UNSTABLE_addTemporalMarkerOffset(1.5, ()->{
+                .waitSeconds(0.1)
+                .UNSTABLE_addTemporalMarkerOffset(0, ()->{
                     targetSlider = 0;
                 })
-                .waitSeconds(1)
-                .setTangent(Math.toRadians(90))
-                .splineToSplineHeading(new Pose2d(-62, -39, Math.toRadians(90)), Math.toRadians(110))
-                .UNSTABLE_addTemporalMarkerOffset(-0.1, ()->{
-                    wristPlace = 0.12;
-                })
-                .UNSTABLE_addTemporalMarkerOffset(0.1, ()->{
-                    targetSlider = 800;
-                    targetAx = 170;
-                })
-                .UNSTABLE_addTemporalMarkerOffset(0.3, ()->{
-                    targetAx = 90;
-                })
-                .UNSTABLE_addTemporalMarkerOffset(1, ()->{
-                    clawPoz = 0.06;
-                    targetSlider = 0;
-                })
-                .UNSTABLE_addTemporalMarkerOffset(1.5, ()->{
-                    targetAx = 820;
-                    wristPlace = 0.08;
-                })
-                .waitSeconds(1.5)
-                .setTangent(Math.toRadians(-45))
-                .splineToSplineHeading(new Pose2d(-61, -58, Math.toRadians(225)), Math.toRadians(180))
-                .UNSTABLE_addTemporalMarkerOffset(-1, ()->{
-                    targetSlider = 2099;
-                })
-                .UNSTABLE_addTemporalMarkerOffset(0.5, ()->{
-                    wristPlace = 0.13;
-                })
-                .waitSeconds(1)
-                .UNSTABLE_addTemporalMarkerOffset(-0.2, ()->{
-                    targetAx = 805;
-                })
-                .UNSTABLE_addTemporalMarkerOffset(0.8, ()->{
-                    clawPoz = 0;
-                })
-                .UNSTABLE_addTemporalMarkerOffset(1.1, ()->{
-                    targetAx = 850;
-                    wristPlace = 0.08;
-                })
-                .UNSTABLE_addTemporalMarkerOffset(1.5, ()->{
-                    targetSlider = 0;
-                    wristPlace = 0;
-                })
-                .waitSeconds(3)
-                .setTangent(Math.toRadians(90))
-                .setVelConstraint(new TranslationalVelocityConstraint(40))
-                .splineToSplineHeading(new Pose2d(-64, 5, Math.toRadians(0)), Math.toRadians(90))
                 .setTangent(Math.toRadians(270))
-                .splineToSplineHeading(new Pose2d(-64, -52, Math.toRadians(80)), Math.toRadians(270))
-                .UNSTABLE_addTemporalMarkerOffset(-1.2, ()->{
+                .setVelConstraint(new TranslationalVelocityConstraint(maxVel))
+                .splineToConstantHeading(new Vector2d(-10, -37), Math.toRadians(270))
+                .splineToConstantHeading(new Vector2d(-50.5, -40), Math.toRadians(90))
+                .resetVelConstraint()
+                .UNSTABLE_addTemporalMarkerOffset(0.5, ()->{
+                    targetSlider = 100;
+                    wristPoz = wristParallel;
+                })
+                .UNSTABLE_addTemporalMarkerOffset(0.7, ()->{
+                    clawPoz = clawClose;
+                })
+                .waitSeconds(5)
+                .UNSTABLE_addTemporalMarkerOffset(0, ()->{
+                    targetSlider = 1;
                     targetAx = 0;
                 })
-                .waitSeconds(1)
+                .waitSeconds(20)
                 .build();
 
         drive.setPoseEstimate(startingPoseRegioLeft);
