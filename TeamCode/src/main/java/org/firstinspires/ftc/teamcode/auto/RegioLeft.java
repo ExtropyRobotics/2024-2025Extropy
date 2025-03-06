@@ -24,9 +24,9 @@ public class RegioLeft extends LinearOpMode {
     public double clawClose = 0.15;
     public double clawOpen = 0;
     public double clawPoz = clawClose;
-    public double wristBack = 0.497;
-    public double wristParallel = 0.6;
-    public double wristWall = 0.5178;
+    public double wristBack = 0;
+    public double wristParallel = 0.4;
+    public double wristWall = 0.1691;
     public double wristPoz = wristBack;
     public double maxVel = 25;
     public double power = 0.4;
@@ -85,18 +85,19 @@ public class RegioLeft extends LinearOpMode {
                 })
                 .waitSeconds(0.1)
                 .UNSTABLE_addTemporalMarkerOffset(0, ()->{
-                    targetSlider = 0;
+                    targetSlider = 200;
                 })
                 .setTangent(Math.toRadians(270))
                 .setVelConstraint(new TranslationalVelocityConstraint(maxVel))
                 .splineToConstantHeading(new Vector2d(-10, -37), Math.toRadians(270))
-                .splineToConstantHeading(new Vector2d(-50.5, -40), Math.toRadians(90))
+                .splineToConstantHeading(new Vector2d(-50.7, -32.3), Math.toRadians(90))
                 .resetVelConstraint()
-                .UNSTABLE_addTemporalMarkerOffset(0.5, ()->{
-                    targetSlider = 100;
+                .UNSTABLE_addTemporalMarkerOffset(-0.2, ()->{
+                    targetSlider = 511;
+                    targetAx = 81;
                     wristPoz = wristParallel;
                 })
-                .UNSTABLE_addTemporalMarkerOffset(0.7, ()->{
+                .UNSTABLE_addTemporalMarkerOffset(0.1, ()->{
                     clawPoz = clawClose;
                 })
                 .waitSeconds(5)

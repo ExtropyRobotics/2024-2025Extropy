@@ -6,6 +6,8 @@ import com.acmerobotics.roadrunner.geometry.Pose2d;
 import com.qualcomm.hardware.lynx.LynxModule;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+import com.qualcomm.robotcore.hardware.AnalogInput;
+import com.qualcomm.robotcore.hardware.Servo;
 
 import org.firstinspires.ftc.robotcore.external.navigation.VoltageUnit;
 import org.firstinspires.ftc.teamcode.auto.RegioLeft;
@@ -18,9 +20,10 @@ public class NatioTeleOp extends LinearOpMode {
     ArmControler brat;
     LynxModule control;
 
+
     int targetAx;
     int targetSlider;
-    double parallelOffset = 0.497;
+    double parallelOffset = 0;
     double clawPos = 0.15;
     double multiplier = 1;
 
@@ -33,7 +36,6 @@ public class NatioTeleOp extends LinearOpMode {
 
     boolean clawToggle = false;
     boolean clawOnce = false;
-
     @Override
     public void runOpMode() throws InterruptedException {
         telemetry = new MultipleTelemetry(FtcDashboard.getInstance().getTelemetry(),telemetry);
@@ -45,7 +47,7 @@ public class NatioTeleOp extends LinearOpMode {
         while(opModeInInit()){
             telemetry.addData("Voltage : ", control.getInputVoltage(VoltageUnit.MILLIVOLTS));
             telemetry.update();
-            parallelOffset = 0.497;
+            parallelOffset = 0;
         }
 
         waitForStart();
@@ -66,11 +68,11 @@ public class NatioTeleOp extends LinearOpMode {
             if(gamepad2.right_bumper){
                 if(parallelToggle) {
                     if(parallelOnce) {
-                        parallelOffset = 0.5672;
+                        parallelOffset = 0.4;
                         multiplier = 1;
                     }
                     else{
-                        parallelOffset = 0.497;
+                        parallelOffset = 0;
                         multiplier = 0;
                     }
                     parallelOnce = !parallelOnce;
@@ -83,15 +85,15 @@ public class NatioTeleOp extends LinearOpMode {
                 clawOnce = false;
                 clawToggle = false;
                 parallelOnce = false;
-                parallelOffset = 0.5178;
+                parallelOffset = 0.1391;
                 multiplier = 1;
-                targetAx = 100;
+                targetAx = 120;
             }
 
             if(gamepad2.x){
                 clawPos = 0.15;
                 parallelOnce = true;
-                parallelOffset = 0.497;
+                parallelOffset = 0;
                 multiplier = 0;
                 targetAx = 450;
                 clawOnce = true;
