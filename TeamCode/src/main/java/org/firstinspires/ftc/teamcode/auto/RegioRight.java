@@ -17,8 +17,8 @@ public class RegioRight extends LinearOpMode {
     public int targetAx = 0;
     public int targetSlider = 0;
     public double open = 0.4;
-    public double clawPoz = 0.06;
-    public double wristPlace = 0.1;
+    public double clawPoz = 0.15;
+    public double wristPlace = 0;
     public double maxVel = 25;
 
     public class ArmThreadRight extends Thread{
@@ -107,11 +107,11 @@ public class RegioRight extends LinearOpMode {
                 .splineToConstantHeading(new Vector2d(47, -49), Math.toRadians(180))
                 .waitSeconds(0.2)
                 .UNSTABLE_addTemporalMarkerOffset(-0.2, ()->{
-                    wristPlace = 0.04;
+                    wristPlace = 0.2;
                 })
                 .splineToConstantHeading(new Vector2d(47, -51.5), Math.toRadians(270))
                 .UNSTABLE_addTemporalMarkerOffset(0.2, ()->{
-                    clawPoz = 0.06;
+                    clawPoz = 0.15;
                 })
                 .UNSTABLE_addTemporalMarkerOffset(0.4, ()->{
                     targetAx = 440;
@@ -144,7 +144,7 @@ public class RegioRight extends LinearOpMode {
                 .UNSTABLE_addTemporalMarkerOffset(-0.1, ()->{
                     targetAx = 0;
                     wristPlace = 0;
-                    clawPoz = 0.06;
+                    clawPoz = 0.15;
                 })
                 .waitSeconds(0.5)
                 .setTangent(Math.toRadians(-30))
