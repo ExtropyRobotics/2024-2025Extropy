@@ -14,9 +14,9 @@ import org.firstinspires.ftc.teamcode.drive.SampleMecanumDrive;
 import org.firstinspires.ftc.teamcode.trajectorysequence.TrajectorySequence;
 
 
-@Autonomous (name = "NatioLeft")
+@Autonomous (name = "!NatioLeftSpecimen")
 
-public class NatioLeft extends LinearOpMode {
+public class NatioLeftSpecimen extends LinearOpMode {
 
     public int targetAx = 0;
     public int targetSlider = 0;
@@ -89,7 +89,7 @@ public class NatioLeft extends LinearOpMode {
                 .setTangent(Math.toRadians(270))
                 .setVelConstraint(new TranslationalVelocityConstraint(maxVel))
                 .splineToConstantHeading(new Vector2d(-10, -37), Math.toRadians(270))
-                .splineToConstantHeading(new Vector2d(-50.5, -32.2), Math.toRadians(90))
+                .splineToConstantHeading(new Vector2d(-50.5, -37.2), Math.toRadians(90))
                 .UNSTABLE_addTemporalMarkerOffset(-0.6, ()->{
                     targetAx = 100;
                 })
@@ -105,7 +105,7 @@ public class NatioLeft extends LinearOpMode {
                     targetSlider = 1;
                 })
                 .UNSTABLE_addTemporalMarkerOffset(0.8, ()->{
-                    targetAx = 880;
+                    targetAx = 890;
                     wristPoz = wristStraight;
                 })
                 .waitSeconds(0.5)
@@ -129,7 +129,7 @@ public class NatioLeft extends LinearOpMode {
                 })
                 .waitSeconds(3.9)
                 .setTangent(Math.toRadians(75))
-                .splineToSplineHeading(new Pose2d(-61, -33.6, Math.toRadians(90)), Math.toRadians(90))
+                .splineToSplineHeading(new Pose2d(-61, -38.6, Math.toRadians(90)), Math.toRadians(90))
                 .UNSTABLE_addTemporalMarkerOffset(-0.4, ()->{
                     targetAx = 100;
                 })
@@ -143,7 +143,7 @@ public class NatioLeft extends LinearOpMode {
                     targetSlider = 1;
                 })
                 .UNSTABLE_addTemporalMarkerOffset(1.3, ()->{
-                    targetAx = 880;
+                    targetAx = 890;
                     wristPoz = wristStraight;
                 })
                 .waitSeconds(1.2)
@@ -171,9 +171,9 @@ public class NatioLeft extends LinearOpMode {
                 })
                 .waitSeconds(5.1)
                 .setTangent(Math.toRadians(45))
-                .splineToSplineHeading(new Pose2d(-56, -10, Math.toRadians(90)), Math.toRadians(180))
-                .splineToConstantHeading(new Vector2d(-57, -10), Math.toRadians(180))
-                .splineToConstantHeading(new Vector2d(-57, -58), Math.toRadians(270))
+                .splineToSplineHeading(new Pose2d(-55, -10, Math.toRadians(90)), Math.toRadians(180))
+                .splineToConstantHeading(new Vector2d(-56.5, -10), Math.toRadians(180))
+                .splineToConstantHeading(new Vector2d(-56.5, -58), Math.toRadians(270))
                 .waitSeconds(200)
                 .build();
 

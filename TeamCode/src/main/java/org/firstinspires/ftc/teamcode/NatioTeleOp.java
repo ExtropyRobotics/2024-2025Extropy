@@ -81,7 +81,7 @@ public class NatioTeleOp extends LinearOpMode {
                 clawOnce = false;
                 clawToggle = false;
                 parallelOnce = false;
-                parallelOffset = 0.1391;
+                parallelOffset = 0.14; //before: 13.91
                 multiplier = 1;
                 targetAx = 120;
             }
