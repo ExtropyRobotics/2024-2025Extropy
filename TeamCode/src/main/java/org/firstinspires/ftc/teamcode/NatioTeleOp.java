@@ -76,18 +76,19 @@ public class NatioTeleOp extends LinearOpMode {
                 }
             } else parallelToggle = true;
 
+
             if(gamepad2.y){
                 clawPos = 0;
                 clawOnce = false;
                 clawToggle = false;
                 parallelOnce = false;
-                parallelOffset = 0.14; //before: 13.91
-                multiplier = 1;
+                parallelOffset = 0.1485;
+                multiplier = 0;
                 targetAx = 120;
             }
 
             if(gamepad2.x){
-                clawPos = 0.15;
+                clawPos = 0.116;
                 parallelOnce = true;
                 parallelOffset = 0;
                 multiplier = 0;
@@ -102,7 +103,7 @@ public class NatioTeleOp extends LinearOpMode {
             if(gamepad2.a){
                 if(!clawToggle){
                     if(clawOnce) clawPos = 0;
-                    else clawPos = 0.15;
+                    else clawPos = 0.116;
 
                     clawOnce = !clawOnce;
                     clawToggle = true;

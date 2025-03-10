@@ -14,9 +14,9 @@ import org.firstinspires.ftc.teamcode.drive.SampleMecanumDrive;
 import org.firstinspires.ftc.teamcode.trajectorysequence.TrajectorySequence;
 
 
-@Autonomous (name = "!NatioLeftSPECIMEN")
+@Autonomous (name = "!NatioLeftSAMPLE")
 
-public class NatioLeftSpecimen extends LinearOpMode {
+public class NatioLeftSample extends LinearOpMode {
 
     public int targetAx = 0;
     public int targetSlider = 0;
@@ -71,25 +71,35 @@ public class NatioLeftSpecimen extends LinearOpMode {
         ArmThreadLeft thread = new ArmThreadLeft(new ArmControler(hardwareMap,telemetry));
 
         TrajectorySequence NatioLeft= drive.trajectorySequenceBuilder(startingPoseNatioLeft)
-
+                .setVelConstraint(new TranslationalVelocityConstraint(maxVel))
                 .UNSTABLE_addTemporalMarkerOffset(0, ()->{
-                    targetAx = 433;
-                    targetSlider = 1400;
+                    targetAx = 850;
+                    wristPoz = wristParallel;
+                })
+                .setTangent(Math.toRadians(160))
+                .splineToSplineHeading(new Pose2d(-59, -56, Math.toRadians(45)), Math.toRadians(180))
+                .UNSTABLE_addTemporalMarkerOffset(0.4, ()->{
+                    targetSlider = 2099;
+                })
+                .UNSTABLE_addTemporalMarkerOffset(2.8, ()->{
+                    targetAx = 890;
+                })
+                .UNSTABLE_addTemporalMarkerOffset(3, ()->{
                     wristPoz = wristBack;
                 })
-                .waitSeconds(0.3)
-                .splineToConstantHeading(new Vector2d(-10, -33), Math.toRadians(90))
-                .waitSeconds(0.05)
-                .UNSTABLE_addTemporalMarkerOffset(-0.1, ()->{
+                .UNSTABLE_addTemporalMarkerOffset(3.5, ()->{
                     clawPoz = clawOpen;
                 })
-                .UNSTABLE_addTemporalMarkerOffset(0, ()->{
-                    targetSlider = 200;
+                .UNSTABLE_addTemporalMarkerOffset(3.8, ()->{
+                    wristPoz = wristParallel;
+                    targetAx = 850;
                 })
-                .setTangent(Math.toRadians(270))
-                .setVelConstraint(new TranslationalVelocityConstraint(maxVel))
-                .splineToConstantHeading(new Vector2d(-10, -37), Math.toRadians(270))
-                .splineToConstantHeading(new Vector2d(-50.5, -37.2), Math.toRadians(90))
+                .UNSTABLE_addTemporalMarkerOffset(3.9, ()->{
+                    targetSlider = 511;
+                })
+                .waitSeconds(4)
+                .setTangent(Math.toRadians(-90))
+                .splineToSplineHeading(new Pose2d(-50.5, -37.2, Math.toRadians(90)), Math.toRadians(90))
                 .UNSTABLE_addTemporalMarkerOffset(-0.6, ()->{
                     targetAx = 100;
                 })
@@ -110,10 +120,10 @@ public class NatioLeftSpecimen extends LinearOpMode {
                 })
                 .waitSeconds(0.5)
                 .setTangent(Math.toRadians(-90))
-                .splineToSplineHeading(new Pose2d(-58, -56.5, Math.toRadians(45)), Math.toRadians(-135))
+                .splineToSplineHeading(new Pose2d(-59, -56, Math.toRadians(45)), Math.toRadians(-135))
                 .UNSTABLE_addTemporalMarkerOffset(0.3, ()->{
                     targetSlider = 2099;
-               })
+                })
                 .UNSTABLE_addTemporalMarkerOffset(2.9, ()->{
                     wristPoz = wristBack;
                 })
@@ -148,7 +158,7 @@ public class NatioLeftSpecimen extends LinearOpMode {
                 })
                 .waitSeconds(1.2)
                 .setTangent(Math.toRadians(-45))
-                .splineToSplineHeading(new Pose2d(-58, -56.5, Math.toRadians(45)), Math.toRadians(-135))
+                .splineToSplineHeading(new Pose2d(-59, -56, Math.toRadians(45)), Math.toRadians(-135))
                 .UNSTABLE_addTemporalMarkerOffset(0.3, ()->{
                     targetSlider = 2099;
                 })
@@ -173,6 +183,7 @@ public class NatioLeftSpecimen extends LinearOpMode {
                 .setTangent(Math.toRadians(45))
                 .splineToSplineHeading(new Pose2d(-55, -10, Math.toRadians(90)), Math.toRadians(180))
                 .splineToConstantHeading(new Vector2d(-56.5, -10), Math.toRadians(180))
+                .resetVelConstraint()
                 .splineToConstantHeading(new Vector2d(-56.5, -58), Math.toRadians(270))
                 .waitSeconds(200)
                 .build();
@@ -183,5 +194,5 @@ public class NatioLeftSpecimen extends LinearOpMode {
         sleep(500);
         drive.followTrajectorySequence(NatioLeft);
 
-        }
+    }
 }
