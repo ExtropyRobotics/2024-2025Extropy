@@ -22,7 +22,7 @@ public class NatioRight extends LinearOpMode {
     public double clawPoz = clawClose;
     public double wristBack = 0;
     public double wristParallel = 0.4;
-    public double wristWall = 0.127;
+    public double wristWall = 0.117;
     public double wristStraight = 0.6;
     public double wristPoz = wristBack;
     public double maxVel = 24;
@@ -65,11 +65,11 @@ public class NatioRight extends LinearOpMode {
 
         TrajectorySequence natioRight = drive.trajectorySequenceBuilder(startingPoseNatioRight)
                 .UNSTABLE_addTemporalMarkerOffset(0, ()->{
-                    targetAx = 434;
+                    targetAx = 430;
                     targetSlider = 1500;
                     wristPoz = wristBack;
                 })
-                .waitSeconds(0.6)
+                .waitSeconds(0.5)
                 .setVelConstraint(new TranslationalVelocityConstraint(16))
                 .setTangent(Math.toRadians(170))
                 .splineToConstantHeading(new Vector2d(5, -33), Math.toRadians(90))
@@ -92,22 +92,27 @@ public class NatioRight extends LinearOpMode {
                 .splineToConstantHeading(new Vector2d(35, -25), Math.toRadians(90))
                 .splineToConstantHeading(new Vector2d(40, -5), Math.toRadians(0))
                 .splineToConstantHeading(new Vector2d(45, -5), Math.toRadians(-90))
-                .splineToConstantHeading(new Vector2d(45, -47), Math.toRadians(90))
+                .resetVelConstraint()
+                .splineToConstantHeading(new Vector2d(45, -47), Math.toRadians(-90))
+                .setVelConstraint(new TranslationalVelocityConstraint(maxVel))
                 .splineToConstantHeading(new Vector2d(45, -15), Math.toRadians(90))
                 .splineToConstantHeading(new Vector2d(55, -5), Math.toRadians(0))
                 .splineToConstantHeading(new Vector2d(55, -6), Math.toRadians(-90))
-                .splineToConstantHeading(new Vector2d(50, -57), Math.toRadians(-90))
+                .resetVelConstraint()
+                .splineToConstantHeading(new Vector2d(50, -40), Math.toRadians(-90))
+                .setVelConstraint(new TranslationalVelocityConstraint(18))
+                .splineToConstantHeading(new Vector2d(50, -57.2), Math.toRadians(-90))
                 .resetVelConstraint()
                 .UNSTABLE_addTemporalMarkerOffset(0.3, ()->{
                     clawPoz = clawChamber;
                 })
-                .UNSTABLE_addTemporalMarkerOffset(0.8, ()->{
+                .UNSTABLE_addTemporalMarkerOffset(0.5, ()->{
                     wristPoz = wristBack;
                 })
-                .UNSTABLE_addDisplacementMarkerOffset(0.7, ()->{
+                .UNSTABLE_addDisplacementMarkerOffset(0.4, ()->{
                     targetAx = 900;
                 })
-                .waitSeconds(0.9)
+                .waitSeconds(0.6)
                 .setTangent(Math.toRadians(90))
                 .splineToConstantHeading(new Vector2d(0, -28), Math.toRadians(90))
                 .UNSTABLE_addTemporalMarkerOffset(0, ()->{
@@ -125,36 +130,39 @@ public class NatioRight extends LinearOpMode {
                 })
                 .waitSeconds(0.9)
                 .setTangent(Math.toRadians(-135))
-                .splineToConstantHeading(new Vector2d(50, -56.7), Math.toRadians(-90))
-                .UNSTABLE_addTemporalMarkerOffset(0.7, ()->{
+                .splineToConstantHeading(new Vector2d(50, -40), Math.toRadians(0))
+                .setVelConstraint(new TranslationalVelocityConstraint(18))
+                .setTangent(Math.toRadians(-90))
+                .splineToConstantHeading(new Vector2d(50, -57), Math.toRadians(-90))
+                .resetVelConstraint()
+                .UNSTABLE_addTemporalMarkerOffset(0.2, ()->{
                     clawPoz = clawChamber;
                 })
-                .UNSTABLE_addTemporalMarkerOffset(1.5, ()->{
+                .UNSTABLE_addTemporalMarkerOffset(0.4, ()->{
                     wristPoz = wristBack;
                 })
-                .UNSTABLE_addTemporalMarkerOffset(1.3, ()->{
+                .UNSTABLE_addTemporalMarkerOffset(0.3, ()->{
                     targetAx = 900;
                 })
-                .waitSeconds(1.5)
+                .waitSeconds(0.6)
                 .setTangent(Math.toRadians(90))
                 .splineToConstantHeading(new Vector2d(2, -28), Math.toRadians(90))
-                .UNSTABLE_addTemporalMarkerOffset(0.5, ()->{
+                .UNSTABLE_addTemporalMarkerOffset(0.4, ()->{
                     targetSlider = 550;
                 })
-                .UNSTABLE_addTemporalMarkerOffset(0.9, ()->{
+                .UNSTABLE_addTemporalMarkerOffset(0.8, ()->{
                     clawPoz = clawOpen;
                 })
-                .UNSTABLE_addTemporalMarkerOffset(1.1, ()->{
+                .UNSTABLE_addTemporalMarkerOffset(1, ()->{
                     targetSlider = 0;
                 })
-                .UNSTABLE_addTemporalMarkerOffset(1.3, ()->{
+                .UNSTABLE_addTemporalMarkerOffset(1.2, ()->{
                     targetAx = 0;
                     wristPoz = wristBack;
                 })
-                .waitSeconds(0.9)
+                .waitSeconds(0.5)
                 .setTangent(Math.toRadians(-135))
                 .splineToConstantHeading(new Vector2d(55, -55), Math.toRadians(-90))
-                .waitSeconds(200)
                 .build();
         drive.setPoseEstimate(startingPoseNatioRight);
         thread.start();
