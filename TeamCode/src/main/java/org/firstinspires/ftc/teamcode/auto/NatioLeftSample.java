@@ -99,7 +99,7 @@ public class NatioLeftSample extends LinearOpMode {
                 })
                 .waitSeconds(4)
                 .setTangent(Math.toRadians(-90))
-                .splineToSplineHeading(new Pose2d(-50.5, -37.2, Math.toRadians(90)), Math.toRadians(90))
+                .splineToSplineHeading(new Pose2d(-51, -37.2, Math.toRadians(90)), Math.toRadians(90))
                 .UNSTABLE_addTemporalMarkerOffset(-0.6, ()->{
                     targetAx = 100;
                 })

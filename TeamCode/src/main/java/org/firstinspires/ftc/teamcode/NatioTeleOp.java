@@ -48,11 +48,11 @@ public class NatioTeleOp extends LinearOpMode {
 
         waitForStart();
 
-        brat.setPower(0.3);
-        brat.setPowerSlider(0.3);
+        brat.setPower(1);
+        brat.setPowerSlider(1);
 
         while (opModeIsActive()) {
-            telemetry.addData("Battery Voltage ",control.getInputVoltage(VoltageUnit.MILLIVOLTS));
+//            telemetry.addData("Battery Voltage ",control.getInputVoltage(VoltageUnit.MILLIVOLTS));
 
             drive.setWeightedDrivePower(new Pose2d(
                     -gamepad1.left_stick_y,
@@ -88,11 +88,11 @@ public class NatioTeleOp extends LinearOpMode {
             }
 
             if(gamepad2.x){
-                clawPos = 0.116;
+                clawPos = 0.15;
                 parallelOnce = true;
                 parallelOffset = 0;
                 multiplier = 0;
-                targetAx = 450;
+                targetAx = 460;
                 clawOnce = true;
                 clawToggle = false;
             }
@@ -103,7 +103,7 @@ public class NatioTeleOp extends LinearOpMode {
             if(gamepad2.a){
                 if(!clawToggle){
                     if(clawOnce) clawPos = 0;
-                    else clawPos = 0.116;
+                    else clawPos = 0.15;
 
                     clawOnce = !clawOnce;
                     clawToggle = true;
@@ -120,15 +120,13 @@ public class NatioTeleOp extends LinearOpMode {
 
             if(gamepad2.dpad_up && targetAx < 900) targetAx += 5;
             if(gamepad2.dpad_down && targetAx > 0) targetAx -= 5;
-            if(gamepad2.dpad_left && targetSlider < 2100) targetSlider += 5;
-            if(gamepad2.dpad_right && targetSlider > 0) targetSlider -= 5;
 
 
             isRotating = brat.setAxPoz(targetAx);
             isSliding = brat.setSliderPoz(targetSlider);
 
-            brat.callTelemetry();
-            telemetry.update();
+//            brat.callTelemetry();
+//            telemetry.update();
         }
     }
 }

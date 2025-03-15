@@ -104,15 +104,18 @@ public class NatioRight extends LinearOpMode {
                 .splineToConstantHeading(new Vector2d(50, -57.2), Math.toRadians(-90))
                 .resetVelConstraint()
                 .UNSTABLE_addTemporalMarkerOffset(0.3, ()->{
-                    clawPoz = clawChamber;
+                    clawPoz = clawClose;
                 })
-                .UNSTABLE_addTemporalMarkerOffset(0.5, ()->{
+                .UNSTABLE_addTemporalMarkerOffset(0.6, ()->{
                     wristPoz = wristBack;
                 })
-                .UNSTABLE_addDisplacementMarkerOffset(0.4, ()->{
+                .UNSTABLE_addDisplacementMarkerOffset(0.5, ()->{
                     targetAx = 900;
                 })
-                .waitSeconds(0.6)
+                .UNSTABLE_addTemporalMarkerOffset(0.7, ()->{
+                    clawPoz = clawChamber;
+                })
+                .waitSeconds(0.7)
                 .setTangent(Math.toRadians(90))
                 .splineToConstantHeading(new Vector2d(0, -28), Math.toRadians(90))
                 .UNSTABLE_addTemporalMarkerOffset(0, ()->{
@@ -136,15 +139,18 @@ public class NatioRight extends LinearOpMode {
                 .splineToConstantHeading(new Vector2d(50, -57), Math.toRadians(-90))
                 .resetVelConstraint()
                 .UNSTABLE_addTemporalMarkerOffset(0.2, ()->{
-                    clawPoz = clawChamber;
+                    clawPoz = clawClose;
                 })
-                .UNSTABLE_addTemporalMarkerOffset(0.4, ()->{
+                .UNSTABLE_addTemporalMarkerOffset(0.5, ()->{
                     wristPoz = wristBack;
                 })
-                .UNSTABLE_addTemporalMarkerOffset(0.3, ()->{
+                .UNSTABLE_addTemporalMarkerOffset(0.4, ()->{
                     targetAx = 900;
                 })
-                .waitSeconds(0.6)
+                .UNSTABLE_addTemporalMarkerOffset(0.8, ()->{
+                    clawPoz = clawChamber;
+                })
+                .waitSeconds(0.7)
                 .setTangent(Math.toRadians(90))
                 .splineToConstantHeading(new Vector2d(2, -28), Math.toRadians(90))
                 .UNSTABLE_addTemporalMarkerOffset(0.4, ()->{
