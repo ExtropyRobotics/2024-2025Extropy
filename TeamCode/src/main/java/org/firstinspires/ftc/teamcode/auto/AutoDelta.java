@@ -15,7 +15,7 @@ import org.firstinspires.ftc.teamcode.drive.SampleMecanumDrive;
 import org.firstinspires.ftc.teamcode.trajectorysequence.TrajectorySequence;
 
 
-@Disabledg
+@Disabled
 @Autonomous (name = "!DELTA FORCE AUTO")
 
 public class AutoDelta extends LinearOpMode {
