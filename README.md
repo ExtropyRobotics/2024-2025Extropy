@@ -1,4 +1,3 @@
-# Road Runner Quickstart
+# Done using Road Runner Quickstart
 
-Check out the [docs](https://rr.brott.dev/docs/v1-0/tuning/).
-
+- Extropy codes for 2023-2024 season.
