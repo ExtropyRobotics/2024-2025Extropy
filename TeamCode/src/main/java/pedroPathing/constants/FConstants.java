@@ -2,8 +2,6 @@ package pedroPathing.constants;
 
 import com.pedropathing.localization.Localizers;
 import com.pedropathing.follower.FollowerConstants;
-import com.pedropathing.util.CustomFilteredPIDFCoefficients;
-import com.pedropathing.util.CustomPIDFCoefficients;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 
 public class FConstants {
@@ -23,7 +21,7 @@ public class FConstants {
         FollowerConstants.mass = 4.7;
 
         FollowerConstants.xMovement = 56.708716923784706;
-        FollowerConstants.yMovement = 43.2867979536244;
+        FollowerConstants.yMovement = 43.3067979536244;
 
         FollowerConstants.forwardZeroPowerAcceleration = -61.75;
         FollowerConstants.lateralZeroPowerAcceleration = -72.76885760695573;
@@ -36,11 +34,11 @@ public class FConstants {
         FollowerConstants.useSecondaryHeadingPID = false;
         FollowerConstants.secondaryHeadingPIDFCoefficients.setCoefficients(2,0,0.1,0); // Not being used, @see useSecondaryHeadingPID
 
-        FollowerConstants.drivePIDFCoefficients.setCoefficients(0.01,0,0.001,0.6,0);
+        FollowerConstants.drivePIDFCoefficients.setCoefficients(0.0001,0.02,0.00005,0,0.1);
         FollowerConstants.useSecondaryDrivePID = false;
         FollowerConstants.secondaryDrivePIDFCoefficients.setCoefficients(0.1,0,0,0.6,0); // Not being used, @see useSecondaryDrivePID
 
-        FollowerConstants.zeroPowerAccelerationMultiplier = 1;
+        FollowerConstants.zeroPowerAccelerationMultiplier = 0.001;
         FollowerConstants.centripetalScaling = 0.0005;
 
         FollowerConstants.pathEndTimeoutConstraint = 500;
